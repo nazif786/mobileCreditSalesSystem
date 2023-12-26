@@ -1,0 +1,1273 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "8d10593d-3739-4efb-80eb-f8444233c340",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "company": {
+      "name": "company",
+      "columns": {
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "comp_name": {
+          "name": "comp_name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "comp_mobile": {
+          "name": "comp_mobile",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "comp_email": {
+          "name": "comp_email",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comp_address": {
+          "name": "comp_address",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "company_comp_id": {
+          "name": "company_comp_id",
+          "columns": [
+            "comp_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "comp_email"
+          ]
+        },
+        "mobile_UNIQUE": {
+          "name": "mobile_UNIQUE",
+          "columns": [
+            "comp_mobile"
+          ]
+        }
+      }
+    },
+    "company_contacts": {
+      "name": "company_contacts",
+      "columns": {
+        "cont_id": {
+          "name": "cont_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cont_name": {
+          "name": "cont_name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cont_mobile": {
+          "name": "cont_mobile",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cont_email": {
+          "name": "cont_email",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "comp_id": {
+          "name": "comp_id",
+          "columns": [
+            "comp_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "company_contacts_comp_id_company_comp_id_fk": {
+          "name": "company_contacts_comp_id_company_comp_id_fk",
+          "tableFrom": "company_contacts",
+          "tableTo": "company",
+          "columnsFrom": [
+            "comp_id"
+          ],
+          "columnsTo": [
+            "comp_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "company_contacts_cont_id": {
+          "name": "company_contacts_cont_id",
+          "columns": [
+            "cont_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "cont_email"
+          ]
+        },
+        "mobile_UNIQUE": {
+          "name": "mobile_UNIQUE",
+          "columns": [
+            "cont_mobile"
+          ]
+        }
+      }
+    },
+    "customer_sales": {
+      "name": "customer_sales",
+      "columns": {
+        "sale_id": {
+          "name": "sale_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "cust_id": {
+          "name": "cust_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sale_date": {
+          "name": "sale_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "payment": {
+          "name": "payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "reciept_no": {
+          "name": "reciept_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "remarks": {
+          "name": "remarks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "balance": {
+          "name": "balance",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "cust_id": {
+          "name": "cust_id",
+          "columns": [
+            "cust_id"
+          ],
+          "isUnique": false
+        },
+        "customer_sales_ibfk_2_idx": {
+          "name": "customer_sales_ibfk_2_idx",
+          "columns": [
+            "comp_id"
+          ],
+          "isUnique": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "columns": [
+            "trans_type_id"
+          ],
+          "isUnique": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "customer_sales_cust_id_customers_cust_id_fk": {
+          "name": "customer_sales_cust_id_customers_cust_id_fk",
+          "tableFrom": "customer_sales",
+          "tableTo": "customers",
+          "columnsFrom": [
+            "cust_id"
+          ],
+          "columnsTo": [
+            "cust_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_sales_comp_id_company_comp_id_fk": {
+          "name": "customer_sales_comp_id_company_comp_id_fk",
+          "tableFrom": "customer_sales",
+          "tableTo": "company",
+          "columnsFrom": [
+            "comp_id"
+          ],
+          "columnsTo": [
+            "comp_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_sales_user_id_users_user_id_fk": {
+          "name": "customer_sales_user_id_users_user_id_fk",
+          "tableFrom": "customer_sales",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "user_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_sales_trans_type_id_transaction_type_type_id_fk": {
+          "name": "customer_sales_trans_type_id_transaction_type_type_id_fk",
+          "tableFrom": "customer_sales",
+          "tableTo": "transaction_type",
+          "columnsFrom": [
+            "trans_type_id"
+          ],
+          "columnsTo": [
+            "type_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "customer_sales_sale_id": {
+          "name": "customer_sales_sale_id",
+          "columns": [
+            "sale_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "customers": {
+      "name": "customers",
+      "columns": {
+        "cust_id": {
+          "name": "cust_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "cust_u_id": {
+          "name": "cust_u_id",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cust_fname": {
+          "name": "cust_fname",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cust_lname": {
+          "name": "cust_lname",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cust_comi": {
+          "name": "cust_comi",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cust_mobile": {
+          "name": "cust_mobile",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cust_email": {
+          "name": "cust_email",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cust_address": {
+          "name": "cust_address",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cust_reg_date": {
+          "name": "cust_reg_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "customers_cust_id": {
+          "name": "customers_cust_id",
+          "columns": [
+            "cust_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "cust_u_id_UNIQUE": {
+          "name": "cust_u_id_UNIQUE",
+          "columns": [
+            "cust_u_id"
+          ]
+        },
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "cust_email"
+          ]
+        },
+        "mobile_UNIQUE": {
+          "name": "mobile_UNIQUE",
+          "columns": [
+            "cust_mobile"
+          ]
+        }
+      }
+    },
+    "employees": {
+      "name": "employees",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "tazkira_id": {
+          "name": "tazkira_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "fname": {
+          "name": "fname",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lname": {
+          "name": "lname",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "father_name": {
+          "name": "father_name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "mobile": {
+          "name": "mobile",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "reg_date": {
+          "name": "reg_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "employees_id": {
+          "name": "employees_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "email"
+          ]
+        },
+        "mobile_UNIQUE": {
+          "name": "mobile_UNIQUE",
+          "columns": [
+            "mobile"
+          ]
+        },
+        "tazkira_id_UNIQUE": {
+          "name": "tazkira_id_UNIQUE",
+          "columns": [
+            "tazkira_id"
+          ]
+        }
+      }
+    },
+    "invoice_pictures": {
+      "name": "invoice_pictures",
+      "columns": {
+        "pic_id": {
+          "name": "pic_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "p_id": {
+          "name": "p_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pic_date": {
+          "name": "pic_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "pic_invoice_date": {
+          "name": "pic_invoice_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "pic_invoice_no": {
+          "name": "pic_invoice_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pic_image": {
+          "name": "pic_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "remarks": {
+          "name": "remarks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "invoice_picture_company_fk_idx": {
+          "name": "invoice_picture_company_fk_idx",
+          "columns": [
+            "comp_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "invoice_pictures_p_id_purchases_p_id_fk": {
+          "name": "invoice_pictures_p_id_purchases_p_id_fk",
+          "tableFrom": "invoice_pictures",
+          "tableTo": "purchases",
+          "columnsFrom": [
+            "p_id"
+          ],
+          "columnsTo": [
+            "p_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "invoice_pictures_comp_id_company_comp_id_fk": {
+          "name": "invoice_pictures_comp_id_company_comp_id_fk",
+          "tableFrom": "invoice_pictures",
+          "tableTo": "company",
+          "columnsFrom": [
+            "comp_id"
+          ],
+          "columnsTo": [
+            "comp_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "invoice_pictures_pic_id": {
+          "name": "invoice_pictures_pic_id",
+          "columns": [
+            "pic_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "purchasechanges": {
+      "name": "purchasechanges",
+      "columns": {
+        "p_change_id": {
+          "name": "p_change_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "p_id": {
+          "name": "p_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "before_p_amount": {
+          "name": "before_p_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "after_P_amount": {
+          "name": "after_P_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "before_p_payment": {
+          "name": "before_p_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "after_p_payment": {
+          "name": "after_p_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_reciept_no": {
+          "name": "p_reciept_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "changedAt": {
+          "name": "changedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "purchasechanges_p_change_id": {
+          "name": "purchasechanges_p_change_id",
+          "columns": [
+            "p_change_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "purchasedelete": {
+      "name": "purchasedelete",
+      "columns": {
+        "delete_id": {
+          "name": "delete_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "p_id": {
+          "name": "p_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_amount": {
+          "name": "p_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_payment": {
+          "name": "p_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_reciept_no": {
+          "name": "p_reciept_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_com": {
+          "name": "p_com",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_date": {
+          "name": "p_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "deletedAt": {
+          "name": "deletedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "purchasedelete_delete_id": {
+          "name": "purchasedelete_delete_id",
+          "columns": [
+            "delete_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "purchases": {
+      "name": "purchases",
+      "columns": {
+        "p_id": {
+          "name": "p_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "p_amount": {
+          "name": "p_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "p_payment": {
+          "name": "p_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "p_reciept_no": {
+          "name": "p_reciept_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "p_com": {
+          "name": "p_com",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "p_date": {
+          "name": "p_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "remarks": {
+          "name": "remarks",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "comp_id": {
+          "name": "comp_id",
+          "columns": [
+            "comp_id"
+          ],
+          "isUnique": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "columns": [
+            "trans_type_id"
+          ],
+          "isUnique": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "purchases_comp_id_company_comp_id_fk": {
+          "name": "purchases_comp_id_company_comp_id_fk",
+          "tableFrom": "purchases",
+          "tableTo": "company",
+          "columnsFrom": [
+            "comp_id"
+          ],
+          "columnsTo": [
+            "comp_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "purchases_user_id_users_user_id_fk": {
+          "name": "purchases_user_id_users_user_id_fk",
+          "tableFrom": "purchases",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "user_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "purchases_trans_type_id_transaction_type_type_id_fk": {
+          "name": "purchases_trans_type_id_transaction_type_type_id_fk",
+          "tableFrom": "purchases",
+          "tableTo": "transaction_type",
+          "columnsFrom": [
+            "trans_type_id"
+          ],
+          "columnsTo": [
+            "type_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "purchases_p_id": {
+          "name": "purchases_p_id",
+          "columns": [
+            "p_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "p_reciept_no_UNIQUE": {
+          "name": "p_reciept_no_UNIQUE",
+          "columns": [
+            "p_reciept_no"
+          ]
+        }
+      }
+    },
+    "saleschanges": {
+      "name": "saleschanges",
+      "columns": {
+        "change_id": {
+          "name": "change_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "sale_id": {
+          "name": "sale_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "before_amount": {
+          "name": "before_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "after_amount": {
+          "name": "after_amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "before_payment": {
+          "name": "before_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "after_payment": {
+          "name": "after_payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "changedAt": {
+          "name": "changedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "saleschanges_change_id": {
+          "name": "saleschanges_change_id",
+          "columns": [
+            "change_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "salesdelete": {
+      "name": "salesdelete",
+      "columns": {
+        "sale_delete_id": {
+          "name": "sale_delete_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "sale_id": {
+          "name": "sale_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cust_id": {
+          "name": "cust_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "comp_id": {
+          "name": "comp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sale_date": {
+          "name": "sale_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "payment": {
+          "name": "payment",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "reciept_no": {
+          "name": "reciept_no",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "deletedAt": {
+          "name": "deletedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "salesdelete_sale_delete_id": {
+          "name": "salesdelete_sale_delete_id",
+          "columns": [
+            "sale_delete_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "transaction_type": {
+      "name": "transaction_type",
+      "columns": {
+        "type_id": {
+          "name": "type_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "type_name": {
+          "name": "type_name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "transaction_type_type_id": {
+          "name": "transaction_type_type_id",
+          "columns": [
+            "type_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "type_name_UNIQUE": {
+          "name": "type_name_UNIQUE",
+          "columns": [
+            "type_name"
+          ]
+        }
+      }
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "emp_id": {
+          "name": "emp_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_name": {
+          "name": "user_name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_admin": {
+          "name": "is_admin",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "user_reg_date": {
+          "name": "user_reg_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_login": {
+          "name": "last_login",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_emp_id_employees_id_fk": {
+          "name": "users_emp_id_employees_id_fk",
+          "tableFrom": "users",
+          "tableTo": "employees",
+          "columnsFrom": [
+            "emp_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_user_id": {
+          "name": "users_user_id",
+          "columns": [
+            "user_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "user_name_UNIQUE": {
+          "name": "user_name_UNIQUE",
+          "columns": [
+            "user_name"
+          ]
+        }
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
