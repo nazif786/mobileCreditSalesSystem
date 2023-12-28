@@ -3,6 +3,7 @@ import {nextui} from "@nextui-org/react";
 
 /** @type {import('tailwindcss').Config} */
 
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -15,6 +16,10 @@ module.exports = {
     extend: { },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [
+    nextui(), 
+    require('@tailwindcss/typography'),
+
+  ],
 }
 // export default config

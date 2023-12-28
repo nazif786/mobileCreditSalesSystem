@@ -14,10 +14,7 @@ const Navbar = () => {
   ];
   return (
     <>
-      <nav className="flex space-x-6 px-5 items-center w-full border-b-2">
-        <Link href="/">
-          <Image src={logo} alt="logo" width="60" height="60"></Image>
-        </Link>
+      <nav className="flex ml-60 space-x-6 px-5 items-center max-w-full bg-slate-50 py-7">
         <ul className="flex justify-between w-full px-6">
           {links.map((link) => (
             <Link
