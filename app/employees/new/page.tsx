@@ -6,19 +6,25 @@ import { UserIcon } from "../../components/ui/UserIcon";
 
 const page = () => {
   return (
-    <div className="px-unit-4xl">
+    <div className="">
       <div className="mb-12">
         <h2 className="prose md:prose-lg lg:prose-2xl font-sans font-bold  text-zinc-500">
           New Emplyee Form
         </h2>
       </div>
 
-      <div className="mt-7 bg-white shadow-md p-10 rounded-md relative">
-        <div className="bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 shadow-slate-400 py-7 px-3 mx-auto rounded-lg absolute shadow-md -top-5">
+      <div
+        className="mt-7 lg:p-10 md:relative
+       bg-white shadow-md rounded-md "
+      >
+        <div
+          className=" mx-auto p-5 px-3 md:absolute -top-5 
+        bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 shadow-slate-400  rounded-lg  shadow-md "
+        >
           <h2 className="prose md:prose-lg lg:prose-2xl font-sans text-zinc-50">
             Register New Emplyee
           </h2>
-          <p className="text-zinc-300">
+          <p className="text-zinc-300 ">
             To Register new emplyee fill the required fields. Tazkira (ID)
             number, first Name and moblie number fields are mendatory.
           </p>

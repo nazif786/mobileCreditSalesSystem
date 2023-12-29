@@ -8,19 +8,48 @@ import { usePathname } from "next/navigation";
 import { SIDENAV_ITEMS } from "@/app/components/lib/SideNavItem";
 import { SideNavItem } from "@/app/components/types/SideItemsTypes";
 import { Icon } from "@iconify/react";
+import logo from "@/public/Logo/logo-png.png";
+import Image from "next/image";
 
 const SideNav = () => {
+  const [isCollapse, setCollapse] = useState<boolean>(false);
+  const toggleSidebarcollapse = () => {
+    setCollapse((prevState) => !prevState);
+  };
   return (
     <div className="w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 md:flex top-0">
       <div className="flex flex-col space-y-6 w-full">
-        <Link
-          href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
-        >
-          <span className="h-7 w-7 bg-zinc-300 rounded-lg" />
-          <span className="font-bold text-xl hidden md:flex">Logo</span>
-        </Link>
-
+        <div className="flex flex-row justify-between relative">
+          <Link
+            href="/"
+            className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-16 w-full"
+          >
+            <Image src={logo} width="60" height="50" alt="logo" />
+            <span className="font-serif font-bold hidden md:flex text-zinc-400 text-3xl">
+              CSMS
+            </span>
+          </Link>
+          <div className="absolute -right-5 top-4 bg-zinc-200 rounded-md">
+            <button onClick={() => toggleSidebarcollapse()}>
+              {isCollapse ? (
+                <Icon
+                  icon="material-symbols-light:menu-open"
+                  color="darkgray"
+                  width="36"
+                  height="36"
+                />
+              ) : (
+                <Icon
+                  icon="material-symbols-light:menu-open"
+                  color="darkblue"
+                  width="36"
+                  height="36"
+                  hFlip={true}
+                />
+              )}
+            </button>
+          </div>
+        </div>
         <div className="flex flex-col space-y-2  md:px-6 ">
           {SIDENAV_ITEMS.map((item, idx) => {
             return <MenuItem key={idx} item={item} />;
