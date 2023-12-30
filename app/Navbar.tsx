@@ -1,8 +1,6 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "@/public/Logo/logo-png.png";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 
@@ -14,7 +12,7 @@ const Navbar = () => {
   ];
   return (
     <>
-      <nav className="flex ml-60 space-x-6 px-5 items-center max-w-full bg-slate-50 py-7">
+      <nav className="flex space-x-6 px-5 items-center max-w-full bg-slate-50 py-7">
         <ul className="flex justify-between w-full px-6">
           {links.map((link) => (
             <Link

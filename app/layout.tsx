@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
-import SideNav from "./SideNav";
-// import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,20 +21,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <header>
-            <Navbar />
-          </header>
-          <main>
-            <div className="flex flex-row">
-              <div className=" relative w-1/6">
-                <aside className=" sticky top-0 left-0">
-                  <SideNav />
-                </aside>
-              </div>
-            </div>
-            <div className="ml-60 pl-5 bg-slate-50">{children}</div>
-          </main>
-          <footer></footer>
+          <div className="flex h-screen overflow-hidden bg-zinc-50">
+            <aside className="flex h-screen overflow-hidden">
+              <Sidebar />
+            </aside>
+            <main className="flex-1 overflow-x-hidden overflow-y-auto">
+              <header className="">
+                <Navbar />
+              </header>
+              <div className="pl-5">{children}</div>
+            </main>
+          </div>
+          <footer>{/* Add your footer content here */}</footer>
         </Providers>
       </body>
     </html>
