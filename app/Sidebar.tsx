@@ -1,203 +1,234 @@
 "use client";
-
 // components/Sidebar.tsx
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
-  FaHome,
-  FaInfoCircle,
-  FaFileAlt,
-  FaEnvelope,
-  FaTh,
-} from "react-icons/fa";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+  AiOutlineHome,
+  AiOutlineSetting,
+  AiOutlineFolder,
+  AiOutlineUser,
+  AiOutlineClockCircle,
+  AiOutlineCalendar,
+  AiOutlineBars,
+} from "react-icons/ai";
 
-interface SidebarItem {
-  href: string;
+interface MenuItem {
   label: string;
-  icon: React.ElementType;
-  subItems?: SidebarItem[];
+  path: string;
+  icon?: React.ReactNode;
+  subItems?: MenuItem[];
 }
 
+interface SidebarItemProps {
+  item: MenuItem;
+  collapsed: boolean;
+  isFirstChild: boolean;
+  expanded: boolean;
+  onItemClick: (path: string) => void;
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  item,
+  collapsed,
+  isFirstChild,
+  expanded,
+  onItemClick,
+}) => {
+  const hasSubItems = item.subItems && item.subItems.length > 0;
+
+  return (
+    <li>
+      <div
+        className={`flex items-center py-2 px-4 cursor-pointer space-x-4 ${
+          collapsed && "justify-center"
+        } ${collapsed && isFirstChild ? "mt-14" : ""}`}
+        onClick={() => onItemClick(item.path)}
+      >
+        <div className="mr-2">
+          <Link href={item.path}>{item.icon}</Link>
+        </div>
+        {!collapsed && (
+          <div onClick={() => onItemClick(item.path)}>
+            <Link href={item.path}>{item.label}</Link>
+          </div>
+        )}
+      </div>
+      {!collapsed && hasSubItems && (
+        <ul
+          className={`transition-all duration-500 ease-out ${
+            expanded ? "max-h-96" : "max-h-0 overflow-hidden"
+          }`}
+        >
+          {item.subItems?.map((subItem) => (
+            <SidebarItem
+              key={subItem.label}
+              item={subItem}
+              collapsed={collapsed}
+              isFirstChild={false}
+              expanded={expanded}
+              onItemClick={onItemClick}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+};
+
 const Sidebar: React.FC = () => {
-  const pathname = usePathname();
+  const currentPath = usePathname();
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [collapsed, setCollapsed] = useState(false);
 
-  const isActive = (href: string | undefined): boolean => {
-    return pathname === href;
+  const toggleItem = (path: string) => {
+    setExpandedItems((prevExpanded) => {
+      if (prevExpanded.includes(path)) {
+        return prevExpanded.filter((item) => item !== path);
+      }
+      return [path];
+    });
   };
 
-  const [openServices, setOpenServices] = useState(false);
-  const [openDashboard, setOpenDashboard] = useState(false);
-
-  const handleServicesToggle = (): void => {
-    setOpenServices((prev) => !prev);
-    setOpenDashboard(false);
+  const toggleCollapse = () => {
+    setCollapsed((prevCollapsed) => !prevCollapsed);
   };
 
-  const handleDashboardToggle = (): void => {
-    setOpenDashboard((prev) => !prev);
-    setOpenServices(false);
+  const shouldExpandItem = (item: MenuItem): boolean => {
+    if (currentPath.startsWith(item.path)) {
+      return true;
+    }
+
+    if (item.subItems) {
+      return item.subItems.some((subItem) =>
+        currentPath.startsWith(subItem.path),
+      );
+    }
+
+    return false;
   };
 
   useEffect(() => {
-    const currentServices = sidebarItems.find(
-      (item) => item.label === "Services",
+    setExpandedItems((prevExpanded) =>
+      menuItems.reduce((acc, menuItem) => {
+        return shouldExpandItem(menuItem) ? [...acc, menuItem.path] : acc;
+      }, [] as string[]),
     );
-    if (currentServices) {
-      const isInsideSubmenu = currentServices.subItems?.some((subItem) =>
-        isActive(subItem.href),
-      );
-      setOpenServices(!!isInsideSubmenu);
-    }
+  }, [currentPath]);
 
-    const currentDashboard = sidebarItems.find(
-      (item) => item.label === "Dashboard",
-    );
-    if (currentDashboard) {
-      const isInsideSubmenu = currentDashboard.subItems?.some((subItem) =>
-        isActive(subItem.href),
-      );
-      setOpenDashboard(!!isInsideSubmenu);
-    }
-  }, [pathname]);
+  const handleItemClick = (path: string) => {
+    toggleItem(path);
+  };
 
-  const sidebarStyle =
-    "bg-gradient-to-b from-gray-800 to-gray-900 w-64 h-screen p-4 rounded-md m-3 mb-3";
-  const linkStyle =
-    "text-white flex items-center justify-between rounded transition duration-300 cursor-pointer";
-  const activeLinkStyle = "hover:bg-gray-700 bg-blue-500"; // Background color for active link
-  const listItemStyle = "mb-1"; // Adjust the margin between items if needed
-  const titleStyle = "ml-2 font-light text-roboto text-base leading-4"; // Apply custom styles to the title
-  const submenuStyle = "ml-5"; // Adjust the margin for the submenu
-  const submenuLinkStyle =
-    "text-white flex items-center justify-between rounded transition duration-300 cursor-pointer";
-
-  const sidebarItems: SidebarItem[] = [
-    { href: "/", label: "Home", icon: FaHome },
-    { href: "/about", label: "About", icon: FaInfoCircle },
+  const menuItems: MenuItem[] = [
+    { label: "Home", path: "/home", icon: <AiOutlineHome size={24} /> },
     {
-      href: "#",
-      label: "Services",
-      icon: FaFileAlt,
+      label: "Settings",
+      path: "/settings",
+      icon: <AiOutlineSetting size={24} />,
+    },
+    {
+      label: "Projects",
+      path: "/projects",
+      icon: <AiOutlineFolder size={24} />,
       subItems: [
-        { href: "/services/service1", label: "Service 1", icon: FaFileAlt },
-        { href: "/services/service2", label: "Service 2", icon: FaFileAlt },
-        { href: "/services/service3", label: "Service 3", icon: FaFileAlt },
+        {
+          label: "Project 1",
+          path: "/projects/project1",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "Project 2",
+          path: "/projects/project2",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "Project 3",
+          path: "/projects/project3",
+          icon: <AiOutlineCalendar size={20} />,
+        },
       ],
     },
-    { href: "/contact", label: "Contact", icon: FaEnvelope },
     {
-      href: "#",
-      label: "Dashboard",
-      icon: FaTh,
+      label: "Users",
+      path: "/users",
+      icon: <AiOutlineUser size={24} />,
       subItems: [
-        { href: "/dashboard/item1", label: "Item 1", icon: FaTh },
-        { href: "/dashboard/item2", label: "Item 2", icon: FaTh },
+        {
+          label: "User 1",
+          path: "/users/user1",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "User 2",
+          path: "/users/user2",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "User 3",
+          path: "/users/user3",
+          icon: <AiOutlineCalendar size={20} />,
+        },
       ],
     },
+    {
+      label: "Schedule",
+      path: "/schedule",
+      icon: <AiOutlineClockCircle size={24} />,
+      subItems: [
+        {
+          label: "Event 1",
+          path: "/schedule/event1",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "Event 2",
+          path: "/schedule/event2",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+        {
+          label: "Event 3",
+          path: "/schedule/event3",
+          icon: <AiOutlineCalendar size={20} />,
+        },
+      ],
+    },
+    { label: "Item 6", path: "/item6", icon: <AiOutlineCalendar size={24} /> },
+    { label: "Item 7", path: "/item7", icon: <AiOutlineCalendar size={24} /> },
   ];
 
   return (
-    <div className={sidebarStyle}>
-      <div className="flex items-center mb-8">
-        {/* Use the next/image component for the logo */}
-        <Image
-          src="/images/logo.png"
-          alt="Logo"
-          width={32}
-          height={32}
-          className="mr-2"
-        />
-        <span className="text-white text-2xl font-bold">Your Logo</span>
+    <div
+      className={`bg-gray-800 w-${
+        collapsed ? "16" : "64"
+      } h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4 transition-all duration-300 relative`}
+    >
+      {/* Logo */}
+      {!collapsed && (
+        <div className="flex items-center mb-6">
+          {/* Your logo component or image goes here */}
+          <div className="w-8 h-8 bg-white rounded-full" />
+          <span className="ml-2 text-lg font-bold">Your Logo</span>
+        </div>
+      )}
+
+      {/* Collapse Button */}
+      <div className="absolute top-4 right-4 cursor-pointer">
+        <AiOutlineBars size={24} onClick={toggleCollapse} />
       </div>
-      <nav>
-        <ul className="space-y-0">
-          {sidebarItems.map((item, index) => (
-            <li key={index} className={listItemStyle}>
-              {item.subItems ? (
-                // Render a submenu for items with subItems
-                <>
-                  <span
-                    className={`${linkStyle} ${
-                      isActive(item.href)
-                        ? `${activeLinkStyle} bg-blue-500`
-                        : ""
-                    } p-3`}
-                    onClick={() =>
-                      item.label === "Services"
-                        ? handleServicesToggle()
-                        : handleDashboardToggle()
-                    }
-                  >
-                    <span className="flex items-center">
-                      {item.label === "Services" &&
-                        (openServices ? (
-                          <IoIosArrowDown />
-                        ) : (
-                          <IoIosArrowForward />
-                        ))}
-                      {item.label === "Dashboard" &&
-                        (openDashboard ? (
-                          <IoIosArrowDown />
-                        ) : (
-                          <IoIosArrowForward />
-                        ))}
-                      {item.icon !== FaTh && <item.icon className="mr-2" />}
-                      <span className={titleStyle}>{item.label}</span>
-                    </span>
-                  </span>
-                  {(item.label === "Services" && openServices) ||
-                  (item.label === "Dashboard" && openDashboard) ? (
-                    <ul className={submenuStyle}>
-                      {item.subItems.map((subItem, subIndex) => (
-                        <li key={subIndex} className={listItemStyle}>
-                          <Link href={subItem.href} passHref>
-                            <span
-                              className={`${submenuLinkStyle} ${
-                                isActive(subItem.href)
-                                  ? `${activeLinkStyle} bg-blue-500`
-                                  : ""
-                              } p-3`}
-                            >
-                              <span className="flex items-center">
-                                {subItem.icon && (
-                                  <subItem.icon className="mr-2" />
-                                )}
-                                <span className={titleStyle}>
-                                  {subItem.label}
-                                </span>
-                              </span>
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </>
-              ) : (
-                // Render a regular item without a submenu
-                <Link href={item.href} passHref>
-                  <span
-                    className={`${linkStyle} ${
-                      isActive(item.href)
-                        ? `${activeLinkStyle} bg-blue-500`
-                        : ""
-                    } p-3`}
-                  >
-                    <span className="flex items-center">
-                      {item.icon === FaTh && <IoIosArrowForward />}
-                      {item.icon !== FaTh && <item.icon className="mr-2" />}
-                      <span className={titleStyle}>{item.label}</span>
-                    </span>
-                  </span>
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
+
+      <ul>
+        {menuItems.map((menuItem, index) => (
+          <SidebarItem
+            key={menuItem.label}
+            item={menuItem}
+            collapsed={collapsed}
+            isFirstChild={index === 0}
+            expanded={expandedItems.includes(menuItem.path)}
+            onItemClick={handleItemClick}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
