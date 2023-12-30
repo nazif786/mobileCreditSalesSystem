@@ -1,8 +1,7 @@
-"use client";
 // components/Sidebar.tsx
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   AiOutlineHome,
   AiOutlineSetting,
@@ -10,7 +9,6 @@ import {
   AiOutlineUser,
   AiOutlineClockCircle,
   AiOutlineCalendar,
-  AiOutlineBars,
 } from "react-icons/ai";
 
 interface MenuItem {
@@ -20,66 +18,9 @@ interface MenuItem {
   subItems?: MenuItem[];
 }
 
-interface SidebarItemProps {
-  item: MenuItem;
-  collapsed: boolean;
-  isFirstChild: boolean;
-  expanded: boolean;
-  onItemClick: (path: string) => void;
-}
-
-const SidebarItem: React.FC<SidebarItemProps> = ({
-  item,
-  collapsed,
-  isFirstChild,
-  expanded,
-  onItemClick,
-}) => {
-  const hasSubItems = item.subItems && item.subItems.length > 0;
-
-  return (
-    <li>
-      <div
-        className={`flex items-center py-2 px-4 cursor-pointer space-x-4 ${
-          collapsed && "justify-center"
-        } ${collapsed && isFirstChild ? "mt-14" : ""}`}
-        onClick={() => onItemClick(item.path)}
-      >
-        <div className="mr-2">
-          <Link href={item.path}>{item.icon}</Link>
-        </div>
-        {!collapsed && (
-          <div onClick={() => onItemClick(item.path)}>
-            <Link href={item.path}>{item.label}</Link>
-          </div>
-        )}
-      </div>
-      {!collapsed && hasSubItems && (
-        <ul
-          className={`transition-all duration-500 ease-out ${
-            expanded ? "max-h-96" : "max-h-0 overflow-hidden"
-          }`}
-        >
-          {item.subItems?.map((subItem) => (
-            <SidebarItem
-              key={subItem.label}
-              item={subItem}
-              collapsed={collapsed}
-              isFirstChild={false}
-              expanded={expanded}
-              onItemClick={onItemClick}
-            />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-};
-
 const Sidebar: React.FC = () => {
-  const currentPath = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
-  const [collapsed, setCollapsed] = useState(false);
+  const currentPath = usePathname();
 
   const toggleItem = (path: string) => {
     setExpandedItems((prevExpanded) => {
@@ -88,10 +29,6 @@ const Sidebar: React.FC = () => {
       }
       return [path];
     });
-  };
-
-  const toggleCollapse = () => {
-    setCollapsed((prevCollapsed) => !prevCollapsed);
   };
 
   const shouldExpandItem = (item: MenuItem): boolean => {
@@ -115,10 +52,6 @@ const Sidebar: React.FC = () => {
       }, [] as string[]),
     );
   }, [currentPath]);
-
-  const handleItemClick = (path: string) => {
-    toggleItem(path);
-  };
 
   const menuItems: MenuItem[] = [
     { label: "Home", path: "/home", icon: <AiOutlineHome size={24} /> },
@@ -198,35 +131,47 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div
-      className={`bg-gray-800 w-${
-        collapsed ? "16" : "64"
-      } h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4 transition-all duration-300 relative`}
-    >
+    <div className="bg-gray-800 w-64 h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4">
       {/* Logo */}
-      {!collapsed && (
-        <div className="flex items-center mb-6">
-          {/* Your logo component or image goes here */}
-          <div className="w-8 h-8 bg-white rounded-full" />
-          <span className="ml-2 text-lg font-bold">Your Logo</span>
-        </div>
-      )}
-
-      {/* Collapse Button */}
-      <div className="absolute top-4 right-4 cursor-pointer">
-        <AiOutlineBars size={24} onClick={toggleCollapse} />
+      <div className="flex items-center mb-4">
+        {/* Your logo component or image goes here */}
+        <div className="w-8 h-8 bg-white rounded-full" />
+        <span className="ml-2 text-lg font-bold">Your Logo</span>
       </div>
 
       <ul>
-        {menuItems.map((menuItem, index) => (
-          <SidebarItem
-            key={menuItem.label}
-            item={menuItem}
-            collapsed={collapsed}
-            isFirstChild={index === 0}
-            expanded={expandedItems.includes(menuItem.path)}
-            onItemClick={handleItemClick}
-          />
+        {menuItems.map((menuItem) => (
+          <li key={menuItem.label}>
+            <div
+              className="flex items-center py-2 px-4 cursor-pointer space-x-4"
+              onClick={() => toggleItem(menuItem.path)}
+            >
+              <div className="mr-2">{menuItem.icon}</div>
+              <Link href={menuItem.path}>
+                <div className="cursor-pointer">{menuItem.label}</div>
+              </Link>
+            </div>
+            {menuItem.subItems && (
+              <ul
+                className={`transition-all duration-500 ease-out ${
+                  expandedItems.includes(menuItem.path)
+                    ? "max-h-96"
+                    : "max-h-0 overflow-hidden"
+                }`}
+              >
+                {menuItem.subItems.map((subItem) => (
+                  <li key={subItem.label}>
+                    <Link href={subItem.path}>
+                      <div className="flex items-center py-2 px-8 cursor-pointer space-x-4">
+                        <div className="mr-2">{subItem.icon}</div>
+                        <div className="cursor-pointer">{subItem.label}</div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
         ))}
       </ul>
     </div>
