@@ -1,3 +1,5 @@
+"use client";
+
 // components/Sidebar.tsx
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -9,6 +11,7 @@ import {
   AiOutlineUser,
   AiOutlineClockCircle,
   AiOutlineCalendar,
+  AiOutlineBars,
 } from "react-icons/ai";
 
 interface MenuItem {
@@ -20,6 +23,7 @@ interface MenuItem {
 
 const Sidebar: React.FC = () => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [collapsed, setCollapsed] = useState(false);
   const currentPath = usePathname();
 
   const toggleItem = (path: string) => {
@@ -52,6 +56,15 @@ const Sidebar: React.FC = () => {
       }, [] as string[]),
     );
   }, [currentPath]);
+
+  const handleTitleClick = (path: string) => {
+    // Toggle the submenu open/close when clicking on the title
+    toggleItem(path);
+  };
+
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
 
   const menuItems: MenuItem[] = [
     { label: "Home", path: "/home", icon: <AiOutlineHome size={24} /> },
@@ -131,12 +144,26 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-800 w-64 h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4">
+    <div
+      className={`bg-gray-800 w-${
+        collapsed ? "16" : "64"
+      } h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4 transition-all duration-300`}
+      onClick={() => setCollapsed(false)}
+    >
       {/* Logo */}
-      <div className="flex items-center mb-4">
-        {/* Your logo component or image goes here */}
-        <div className="w-8 h-8 bg-white rounded-full" />
-        <span className="ml-2 text-lg font-bold">Your Logo</span>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center">
+          <div className="w-8 h-8 bg-white rounded-full" />
+          {!collapsed && (
+            <span className="ml-2 text-lg font-bold">Your Logo</span>
+          )}
+        </div>
+        <button
+          onClick={toggleSidebar}
+          className="text-white focus:outline-none"
+        >
+          <AiOutlineBars size={24} />
+        </button>
       </div>
 
       <ul>
@@ -144,12 +171,20 @@ const Sidebar: React.FC = () => {
           <li key={menuItem.label}>
             <div
               className="flex items-center py-2 px-4 cursor-pointer space-x-4"
-              onClick={() => toggleItem(menuItem.path)}
+              onClick={() => handleTitleClick(menuItem.path)}
             >
               <div className="mr-2">{menuItem.icon}</div>
-              <Link href={menuItem.path}>
-                <div className="cursor-pointer">{menuItem.label}</div>
-              </Link>
+              {menuItem.subItems ? (
+                <div className="cursor-pointer">
+                  {collapsed ? "" : menuItem.label}
+                </div>
+              ) : (
+                <Link href={menuItem.path}>
+                  <div className="cursor-pointer">
+                    {collapsed ? "" : menuItem.label}
+                  </div>
+                </Link>
+              )}
             </div>
             {menuItem.subItems && (
               <ul
@@ -162,9 +197,14 @@ const Sidebar: React.FC = () => {
                 {menuItem.subItems.map((subItem) => (
                   <li key={subItem.label}>
                     <Link href={subItem.path}>
-                      <div className="flex items-center py-2 px-8 cursor-pointer space-x-4">
+                      <div
+                        className="flex items-center py-2 px-8 cursor-pointer space-x-4"
+                        onClick={(event) => handleTitleClick(subItem.path)}
+                      >
                         <div className="mr-2">{subItem.icon}</div>
-                        <div className="cursor-pointer">{subItem.label}</div>
+                        <div className="cursor-pointer">
+                          {collapsed ? "" : subItem.label}
+                        </div>
                       </div>
                     </Link>
                   </li>
