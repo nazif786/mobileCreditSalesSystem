@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 // components/Sidebar.tsx
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -63,7 +65,7 @@ const Sidebar: React.FC = () => {
   };
 
   const toggleSidebar = () => {
-    setCollapsed(!collapsed);
+    setCollapsed((prevCollapsed) => !prevCollapsed);
   };
 
   const menuItems: MenuItem[] = [
@@ -148,7 +150,6 @@ const Sidebar: React.FC = () => {
       className={`bg-gray-800 w-${
         collapsed ? "16" : "64"
       } h-screen text-white rounded-xl mt-4 ml-4 overflow-hidden p-4 transition-all duration-300`}
-      onClick={() => setCollapsed(false)}
     >
       {/* Logo */}
       <div className="flex items-center justify-between mb-4">
