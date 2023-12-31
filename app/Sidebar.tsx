@@ -1,7 +1,4 @@
 "use client";
-
-"use client";
-
 // components/Sidebar.tsx
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -65,11 +62,11 @@ const Sidebar: React.FC = () => {
   };
 
   const toggleSidebar = () => {
-    setCollapsed((prevCollapsed) => !prevCollapsed);
+    setCollapsed(!collapsed);
   };
 
   const menuItems: MenuItem[] = [
-    { label: "Home", path: "/home", icon: <AiOutlineHome size={24} /> },
+    { label: "Home", path: "/", icon: <AiOutlineHome size={24} /> },
     {
       label: "Settings",
       path: "/settings",
@@ -170,28 +167,31 @@ const Sidebar: React.FC = () => {
       <ul>
         {menuItems.map((menuItem) => (
           <li key={menuItem.label}>
-            <div
-              className="flex items-center py-2 px-4 cursor-pointer space-x-4"
-              onClick={() => handleTitleClick(menuItem.path)}
-            >
-              <div className="mr-2">{menuItem.icon}</div>
-              {menuItem.subItems ? (
-                <div className="cursor-pointer">
-                  {collapsed ? "" : menuItem.label}
-                </div>
-              ) : (
-                <Link href={menuItem.path}>
+            {" "}
+            <Link href={menuItem.path}>
+              <div
+                className="flex items-center py-2 px-4 cursor-pointer space-x-4"
+                onClick={() => handleTitleClick(menuItem.path)}
+              >
+                <div className="mr-2">{menuItem.icon}</div>
+                {menuItem.subItems ? (
                   <div className="cursor-pointer">
                     {collapsed ? "" : menuItem.label}
                   </div>
-                </Link>
-              )}
-            </div>
+                ) : (
+                  <div className="cursor-pointer">
+                    {collapsed ? "" : menuItem.label}
+                  </div>
+                )}{" "}
+              </div>{" "}
+            </Link>
             {menuItem.subItems && (
               <ul
                 className={`transition-all duration-500 ease-out ${
                   expandedItems.includes(menuItem.path)
-                    ? "max-h-96"
+                    ? collapsed
+                      ? "max-h-0 overflow-hidden"
+                      : "max-h-96"
                     : "max-h-0 overflow-hidden"
                 }`}
               >
