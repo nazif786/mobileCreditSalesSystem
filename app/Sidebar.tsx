@@ -104,7 +104,9 @@ const Sidebar: React.FC = () => {
           // list items design style
           <li
             key={menuItem.label}
-            className="hover:bg-slate-600 rounded-md hover:text-slate-200 group"
+            className={`hover:bg-slate-600 rounded-md hover:text-slate-200 group ${
+              currentPath === menuItem.path ? "bg-blue-700" : ""
+            }`}
           >
             {" "}
             <Link href={menuItem.path}>
@@ -127,7 +129,8 @@ const Sidebar: React.FC = () => {
                 )}{" "}
               </div>{" "}
             </Link>
-            {menuItem.subItems && ( // subment design style
+            {/* // --------****** MENU Sub-Items ******* -------- */}
+            {menuItem.subItems && ( // sub-menu design style
               <ul
                 className={`transition-all duration-500 group-hover:bg-slate-900 rounded-md ease-out ${
                   expandedItems.includes(menuItem.path)
@@ -140,7 +143,9 @@ const Sidebar: React.FC = () => {
                 {menuItem.subItems.map((subItem) => (
                   <li
                     key={subItem.label}
-                    className="hover:bg-blue-900 rounded-md"
+                    className={`hover:bg-blue-900 rounded-md ${
+                      currentPath === subItem.path ? "bg-blue-400" : ""
+                    }`}
                   >
                     <Link href={subItem.path}>
                       <div
