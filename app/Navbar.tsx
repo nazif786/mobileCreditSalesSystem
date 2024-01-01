@@ -12,7 +12,7 @@ const Navbar = () => {
   ];
   return (
     <>
-      <nav className="flex space-x-6 px-5 items-center max-w-full bg-slate-50 py-7">
+      <nav className="flex space-x-6 px-5 items-center max-w-full">
         <ul className="flex justify-between w-full px-6">
           {links.map((link) => (
             <Link

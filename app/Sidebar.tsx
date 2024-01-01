@@ -154,17 +154,19 @@ const Sidebar: React.FC = () => {
                       currentPath === subItem.path ? "bg-blue-400" : ""
                     }`}
                   >
-                    <div
-                      className={`flex items-center py-2 px-8 cursor-pointer space-x-4 ${
-                        collapsed ? "justify-center" : ""
-                      }`}
-                      onClick={(event) => handleTitleClick(subItem.path)}
-                    >
-                      <div className="mr-2">{subItem.icon}</div>
-                      <div className="cursor-pointer text-gray-300">
-                        {collapsed ? "" : subItem.label}
+                    <Link href={subItem.path}>
+                      <div
+                        className={`flex items-center py-2 px-8 cursor-pointer space-x-4 ${
+                          collapsed ? "justify-center" : ""
+                        }`}
+                        onClick={(event) => handleTitleClick(subItem.path)}
+                      >
+                        <div className="mr-2">{subItem.icon}</div>
+                        <div className="cursor-pointer text-gray-300">
+                          {collapsed ? "" : subItem.label}
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </li>
                 ))}
               </ul>
