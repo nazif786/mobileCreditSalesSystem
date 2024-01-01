@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <div className="flex h-screen overflow-hidden bg-zinc-50">
+          <div className="flex h-screen overflow-hidden bg-zinc-100">
             <aside className="flex h-screen overflow-hidden">
               <Sidebar />
             </aside>

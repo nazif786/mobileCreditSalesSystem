@@ -1,5 +1,7 @@
 "use client";
 // components/Sidebar.tsx
+
+// components/Sidebar.tsx
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -101,36 +103,41 @@ const Sidebar: React.FC = () => {
 
       <ul>
         {menuItems.map((menuItem) => (
-          // list items design style
           <li
             key={menuItem.label}
             className={`hover:bg-slate-600 rounded-md hover:text-slate-200 group ${
               currentPath === menuItem.path ? "bg-blue-700" : ""
             }`}
           >
-            {" "}
-            <Link href={menuItem.path}>
+            {menuItem.subItems ? (
               <div
                 className={`flex items-center py-2 px-4 cursor-pointer space-x-4 ${
-                  // here is the style of items when collapsed
                   collapsed ? "pl-1 hover:bg-slate-600 rounded-md" : ""
                 }`}
                 onClick={() => handleTitleClick(menuItem.path)}
               >
                 <div className="mr-2">{menuItem.icon}</div>
-                {menuItem.subItems ? (
+                <div className="cursor-pointer text-gray-300">
+                  {collapsed ? "" : menuItem.label}
+                </div>
+              </div>
+            ) : (
+              <Link href={menuItem.path}>
+                <div
+                  className={`flex items-center py-2 px-4 cursor-pointer space-x-4 ${
+                    collapsed ? "pl-1 hover:bg-slate-600 rounded-md" : ""
+                  }`}
+                  onClick={() => handleTitleClick(menuItem.path)}
+                >
+                  <div className="mr-2">{menuItem.icon}</div>
                   <div className="cursor-pointer text-gray-300">
                     {collapsed ? "" : menuItem.label}
                   </div>
-                ) : (
-                  <div className="cursor-pointer text-gray-300">
-                    {collapsed ? "" : menuItem.label}
-                  </div>
-                )}{" "}
-              </div>{" "}
-            </Link>
-            {/* // --------****** MENU Sub-Items ******* -------- */}
-            {menuItem.subItems && ( // sub-menu design style
+                </div>
+              </Link>
+            )}
+
+            {menuItem.subItems && (
               <ul
                 className={`transition-all duration-500 group-hover:bg-slate-900 rounded-md ease-out ${
                   expandedItems.includes(menuItem.path)
@@ -147,19 +154,17 @@ const Sidebar: React.FC = () => {
                       currentPath === subItem.path ? "bg-blue-400" : ""
                     }`}
                   >
-                    <Link href={subItem.path}>
-                      <div
-                        className={`flex items-center py-2 px-8 cursor-pointer space-x-4 ${
-                          collapsed ? "justify-center" : ""
-                        }`}
-                        onClick={(event) => handleTitleClick(subItem.path)}
-                      >
-                        <div className="mr-2">{subItem.icon}</div>
-                        <div className="cursor-pointer text-gray-300">
-                          {collapsed ? "" : subItem.label}
-                        </div>
+                    <div
+                      className={`flex items-center py-2 px-8 cursor-pointer space-x-4 ${
+                        collapsed ? "justify-center" : ""
+                      }`}
+                      onClick={(event) => handleTitleClick(subItem.path)}
+                    >
+                      <div className="mr-2">{subItem.icon}</div>
+                      <div className="cursor-pointer text-gray-300">
+                        {collapsed ? "" : subItem.label}
                       </div>
-                    </Link>
+                    </div>
                   </li>
                 ))}
               </ul>
