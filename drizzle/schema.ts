@@ -12,8 +12,8 @@ export const company = mysqlTable("company", {
 (table) => {
 	return {
 		companyCompId: primaryKey({ columns: [table.compId], name: "company_comp_id"}),
-		emailUnique: unique("email_UNIQUE").on(table.compEmail),
 		mobileUnique: unique("mobile_UNIQUE").on(table.compMobile),
+		emailUnique: unique("email_UNIQUE").on(table.compEmail),
 	}
 });
 
@@ -28,8 +28,8 @@ export const companyContacts = mysqlTable("company_contacts", {
 	return {
 		compId: index("comp_id").on(table.compId),
 		companyContactsContId: primaryKey({ columns: [table.contId], name: "company_contacts_cont_id"}),
-		emailUnique: unique("email_UNIQUE").on(table.contEmail),
 		mobileUnique: unique("mobile_UNIQUE").on(table.contMobile),
+		emailUnique: unique("email_UNIQUE").on(table.contEmail),
 	}
 });
 
@@ -49,9 +49,9 @@ export const customerSales = mysqlTable("customer_sales", {
 (table) => {
 	return {
 		custId: index("cust_id").on(table.custId),
-		ibfk2Idx: index("customer_sales_ibfk_2_idx").on(table.compId),
-		transTypeId: index("trans_type_id").on(table.transTypeId),
 		userId: index("user_id").on(table.userId),
+		transTypeId: index("trans_type_id").on(table.transTypeId),
+		ibfk2Idx: index("customer_sales_ibfk_2_idx").on(table.compId),
 		customerSalesSaleId: primaryKey({ columns: [table.saleId], name: "customer_sales_sale_id"}),
 	}
 });
@@ -70,15 +70,15 @@ export const customers = mysqlTable("customers", {
 (table) => {
 	return {
 		customersCustId: primaryKey({ columns: [table.custId], name: "customers_cust_id"}),
+		mobileUnique: unique("mobile_UNIQUE").on(table.custMobile),
 		custUIdUnique: unique("cust_u_id_UNIQUE").on(table.custUId),
 		emailUnique: unique("email_UNIQUE").on(table.custEmail),
-		mobileUnique: unique("mobile_UNIQUE").on(table.custMobile),
 	}
 });
 
 export const employees = mysqlTable("employees", {
 	id: int("id").autoincrement().notNull(),
-	tazkiraId: int("tazkira_id").notNull(),
+	tazkiraId: varchar("tazkira_id", { length: 15 }).notNull(),
 	fname: varchar("fname", { length: 45 }).notNull(),
 	lname: varchar("lname", { length: 45 }),
 	fatherName: varchar("father_name", { length: 45 }),
@@ -92,9 +92,9 @@ export const employees = mysqlTable("employees", {
 (table) => {
 	return {
 		employeesId: primaryKey({ columns: [table.id], name: "employees_id"}),
-		emailUnique: unique("email_UNIQUE").on(table.email),
 		mobileUnique: unique("mobile_UNIQUE").on(table.mobile),
 		tazkiraIdUnique: unique("tazkira_id_UNIQUE").on(table.tazkiraId),
+		emailUnique: unique("email_UNIQUE").on(table.email),
 	}
 });
 
@@ -166,8 +166,8 @@ export const purchases = mysqlTable("purchases", {
 (table) => {
 	return {
 		compId: index("comp_id").on(table.compId),
-		transTypeId: index("trans_type_id").on(table.transTypeId),
 		userId: index("user_id").on(table.userId),
+		transTypeId: index("trans_type_id").on(table.transTypeId),
 		purchasesPId: primaryKey({ columns: [table.pId], name: "purchases_p_id"}),
 		pRecieptNoUnique: unique("p_reciept_no_UNIQUE").on(table.pRecieptNo),
 	}

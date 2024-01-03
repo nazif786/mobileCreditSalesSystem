@@ -1,24 +1,54 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Input, Radio, RadioGroup } from "@nextui-org/react";
 import { MailIcon } from "../../components/ui/MailIcon";
 import { UserIcon } from "../../components/ui/UserIcon";
+import { useForm } from "react-hook-form";
+import { empInsertSchema } from "@/app/db/validationSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Alerts from "@/app/components/ui/Aterts";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+
+type empSchema = z.infer<typeof empInsertSchema>;
 
 const page = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<empSchema>({ resolver: zodResolver(empInsertSchema) });
+
+  const router = useRouter();
+  const [error, setError] = useState("");
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await axios.post("/api/employees", data);
+      console.log(data);
+      router.push("/users");
+    } catch (error) {
+      // console.log(error);
+      setError("Unexpected Error Happened");
+    }
+  });
+
   return (
-    <div className="">
-      <div className="mb-12">
+    <section className="">
+      <div className="mb-12 ml-5 text-center">
         <h2 className="prose md:prose-lg lg:prose-2xl font-sans font-bold  text-zinc-500">
           New Emplyee Form
         </h2>
       </div>
 
       <div
-        className="mt-7 lg:p-10 md:relative
-       bg-white shadow-md rounded-md "
+        className="mt-7 p-2 md:p-10 lg:relative
+       bg-white shadow-md rounded-md md:w-4/6 m-auto"
       >
         <div
-          className=" mx-auto p-5 px-3 md:absolute -top-5 
+          className=" mx-auto p-5 px-3 lg:absolute -top-5 lg:mr-7
         bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 shadow-slate-400  rounded-lg  shadow-md "
         >
           <h2 className="prose md:prose-lg lg:prose-2xl font-sans text-zinc-50">
@@ -29,12 +59,66 @@ const page = () => {
             number, first Name and moblie number fields are mendatory.
           </p>
         </div>
-        <div className="relative mt-28">
-          <form className=" max-w-xl space-y-5 ">
-            <Input size="sm" type="text" label="Tazkira Number" />
-            <Input size="sm" type="text" label="First Name" />
-            <Input size="sm" type="text" label="Father Name" />
-            <Input size="sm" type="tel" label="Mobile Number" />
+        <div className="relative mt-20">
+          {/* ------------- Form -***********************************------------- */}
+
+          {error && <Alerts alertName="danger" alertMessage={error} />}
+
+          <form className=" max-w-xl space-y-5 " onSubmit={onSubmit}>
+            <Input
+              size="sm"
+              type="text"
+              label="Tazkira Number"
+              {...register("tazkiraId")}
+            />
+            {errors.tazkiraId && (
+              <Alerts
+                alertName="danger"
+                alertMessage={errors.tazkiraId.message!}
+              />
+            )}
+            <Input
+              size="sm"
+              type="text"
+              label="First Name"
+              {...register("fname")}
+            />
+            {errors.fname && (
+              <Alerts alertName="danger" alertMessage={errors.fname.message!} />
+            )}
+            <Input
+              size="sm"
+              type="text"
+              label="Last Name"
+              {...register("lname")}
+            />
+            {errors.lname && (
+              <Alerts alertName="danger" alertMessage={errors.lname.message!} />
+            )}
+            <Input
+              size="sm"
+              type="text"
+              label="Father Name"
+              {...register("fatherName")}
+            />
+            {errors.fatherName && (
+              <Alerts
+                alertName="danger"
+                alertMessage={errors.fatherName.message!}
+              />
+            )}
+            <Input
+              size="sm"
+              type="tel"
+              label="Mobile Number"
+              {...register("mobile")}
+            />
+            {errors.mobile && (
+              <Alerts
+                alertName="danger"
+                alertMessage={errors.mobile.message!}
+              />
+            )}
             <Input
               size="md"
               type="email"
@@ -42,19 +126,42 @@ const page = () => {
               startContent={
                 <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
+              {...register("email")}
             />
-            <Input size="sm" type="text" label="Adress" />
+            {errors.email && (
+              <Alerts alertName="danger" alertMessage={errors.email.message!} />
+            )}
+            <Input
+              size="sm"
+              type="text"
+              label="Adress"
+              {...register("address")}
+            />
+            {errors.address && (
+              <Alerts
+                alertName="danger"
+                alertMessage={errors.address.message!}
+              />
+            )}
             <RadioGroup
               label="Emplyee Status"
               orientation="horizontal"
               className="border-1 p-5 rounded-md"
+              {...register("status")}
             >
               <Radio value="0" className="mr-3">
                 current
               </Radio>
               <Radio value="1">former</Radio>
             </RadioGroup>
+            {errors.status && (
+              <Alerts
+                alertName="danger"
+                alertMessage={errors.status.message!}
+              />
+            )}
             <Button
+              type="submit"
               color="primary"
               className="bg-fuchsia-800"
               size="lg"
@@ -65,7 +172,7 @@ const page = () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

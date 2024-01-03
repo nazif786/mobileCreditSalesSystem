@@ -1,3 +1,6 @@
+-- Current sql file was generated after introspecting the database
+-- If you want to run this migration please uncomment this code before executing migrations
+/*
 CREATE TABLE `company` (
 	`comp_id` int AUTO_INCREMENT NOT NULL,
 	`comp_name` varchar(45) NOT NULL,
@@ -5,8 +8,8 @@ CREATE TABLE `company` (
 	`comp_email` varchar(45),
 	`comp_address` varchar(255),
 	CONSTRAINT `company_comp_id` PRIMARY KEY(`comp_id`),
-	CONSTRAINT `email_UNIQUE` UNIQUE(`comp_email`),
-	CONSTRAINT `mobile_UNIQUE` UNIQUE(`comp_mobile`)
+	CONSTRAINT `mobile_UNIQUE` UNIQUE(`comp_mobile`),
+	CONSTRAINT `email_UNIQUE` UNIQUE(`comp_email`)
 );
 --> statement-breakpoint
 CREATE TABLE `company_contacts` (
@@ -16,8 +19,8 @@ CREATE TABLE `company_contacts` (
 	`cont_mobile` varchar(15) NOT NULL,
 	`cont_email` varchar(45),
 	CONSTRAINT `company_contacts_cont_id` PRIMARY KEY(`cont_id`),
-	CONSTRAINT `email_UNIQUE` UNIQUE(`cont_email`),
-	CONSTRAINT `mobile_UNIQUE` UNIQUE(`cont_mobile`)
+	CONSTRAINT `mobile_UNIQUE` UNIQUE(`cont_mobile`),
+	CONSTRAINT `email_UNIQUE` UNIQUE(`cont_email`)
 );
 --> statement-breakpoint
 CREATE TABLE `customer_sales` (
@@ -46,14 +49,14 @@ CREATE TABLE `customers` (
 	`cust_address` varchar(255),
 	`cust_reg_date` datetime DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT `customers_cust_id` PRIMARY KEY(`cust_id`),
+	CONSTRAINT `mobile_UNIQUE` UNIQUE(`cust_mobile`),
 	CONSTRAINT `cust_u_id_UNIQUE` UNIQUE(`cust_u_id`),
-	CONSTRAINT `email_UNIQUE` UNIQUE(`cust_email`),
-	CONSTRAINT `mobile_UNIQUE` UNIQUE(`cust_mobile`)
+	CONSTRAINT `email_UNIQUE` UNIQUE(`cust_email`)
 );
 --> statement-breakpoint
 CREATE TABLE `employees` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`tazkira_id` int NOT NULL,
+	`tazkira_id` varchar(15) NOT NULL,
 	`fname` varchar(45) NOT NULL,
 	`lname` varchar(45),
 	`father_name` varchar(45),
@@ -63,9 +66,9 @@ CREATE TABLE `employees` (
 	`reg_date` date,
 	`status` tinyint,
 	CONSTRAINT `employees_id` PRIMARY KEY(`id`),
-	CONSTRAINT `email_UNIQUE` UNIQUE(`email`),
 	CONSTRAINT `mobile_UNIQUE` UNIQUE(`mobile`),
-	CONSTRAINT `tazkira_id_UNIQUE` UNIQUE(`tazkira_id`)
+	CONSTRAINT `tazkira_id_UNIQUE` UNIQUE(`tazkira_id`),
+	CONSTRAINT `email_UNIQUE` UNIQUE(`email`)
 );
 --> statement-breakpoint
 CREATE TABLE `invoice_pictures` (
@@ -171,21 +174,22 @@ CREATE TABLE `users` (
 --> statement-breakpoint
 CREATE INDEX `comp_id` ON `company_contacts` (`comp_id`);--> statement-breakpoint
 CREATE INDEX `cust_id` ON `customer_sales` (`cust_id`);--> statement-breakpoint
-CREATE INDEX `customer_sales_ibfk_2_idx` ON `customer_sales` (`comp_id`);--> statement-breakpoint
-CREATE INDEX `trans_type_id` ON `customer_sales` (`trans_type_id`);--> statement-breakpoint
 CREATE INDEX `user_id` ON `customer_sales` (`user_id`);--> statement-breakpoint
+CREATE INDEX `trans_type_id` ON `customer_sales` (`trans_type_id`);--> statement-breakpoint
+CREATE INDEX `customer_sales_ibfk_2_idx` ON `customer_sales` (`comp_id`);--> statement-breakpoint
 CREATE INDEX `invoice_picture_company_fk_idx` ON `invoice_pictures` (`comp_id`);--> statement-breakpoint
 CREATE INDEX `comp_id` ON `purchases` (`comp_id`);--> statement-breakpoint
-CREATE INDEX `trans_type_id` ON `purchases` (`trans_type_id`);--> statement-breakpoint
 CREATE INDEX `user_id` ON `purchases` (`user_id`);--> statement-breakpoint
-ALTER TABLE `company_contacts` ADD CONSTRAINT `company_contacts_comp_id_company_comp_id_fk` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_cust_id_customers_cust_id_fk` FOREIGN KEY (`cust_id`) REFERENCES `customers`(`cust_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_comp_id_company_comp_id_fk` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_user_id_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_trans_type_id_transaction_type_type_id_fk` FOREIGN KEY (`trans_type_id`) REFERENCES `transaction_type`(`type_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `invoice_pictures` ADD CONSTRAINT `invoice_pictures_p_id_purchases_p_id_fk` FOREIGN KEY (`p_id`) REFERENCES `purchases`(`p_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `invoice_pictures` ADD CONSTRAINT `invoice_pictures_comp_id_company_comp_id_fk` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `purchases` ADD CONSTRAINT `purchases_comp_id_company_comp_id_fk` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `purchases` ADD CONSTRAINT `purchases_user_id_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `purchases` ADD CONSTRAINT `purchases_trans_type_id_transaction_type_type_id_fk` FOREIGN KEY (`trans_type_id`) REFERENCES `transaction_type`(`type_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `users` ADD CONSTRAINT `users_emp_id_employees_id_fk` FOREIGN KEY (`emp_id`) REFERENCES `employees`(`id`) ON DELETE restrict ON UPDATE cascade;
+CREATE INDEX `trans_type_id` ON `purchases` (`trans_type_id`);--> statement-breakpoint
+ALTER TABLE `company_contacts` ADD CONSTRAINT `company_contacts_ibfk_1` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_ibfk_1` FOREIGN KEY (`cust_id`) REFERENCES `customers`(`cust_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_ibfk_2` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `customer_sales` ADD CONSTRAINT `customer_sales_ibfk_4` FOREIGN KEY (`trans_type_id`) REFERENCES `transaction_type`(`type_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `invoice_pictures` ADD CONSTRAINT `invoice_pictures_purchase` FOREIGN KEY (`p_id`) REFERENCES `purchases`(`p_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `invoice_pictures` ADD CONSTRAINT `invoice_picture_company_fk` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `purchases` ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`comp_id`) REFERENCES `company`(`comp_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `purchases` ADD CONSTRAINT `purchases_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `purchases` ADD CONSTRAINT `purchases_ibfk_4` FOREIGN KEY (`trans_type_id`) REFERENCES `transaction_type`(`type_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `users` ADD CONSTRAINT `FK_users_employees` FOREIGN KEY (`emp_id`) REFERENCES `employees`(`id`) ON DELETE restrict ON UPDATE cascade;
+*/

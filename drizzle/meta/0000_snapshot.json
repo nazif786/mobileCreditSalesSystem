@@ -1,50 +1,48 @@
 {
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
   "version": "5",
   "dialect": "mysql",
-  "id": "8d10593d-3739-4efb-80eb-f8444233c340",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "company": {
       "name": "company",
       "columns": {
         "comp_id": {
+          "autoincrement": true,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "comp_name": {
+          "autoincrement": false,
           "name": "comp_name",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "comp_mobile": {
+          "autoincrement": false,
           "name": "comp_mobile",
           "type": "varchar(15)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "comp_email": {
+          "autoincrement": false,
           "name": "comp_email",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "comp_address": {
+          "autoincrement": false,
           "name": "comp_address",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "company_comp_id": {
           "name": "company_comp_id",
@@ -53,17 +51,19 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {
-        "email_UNIQUE": {
-          "name": "email_UNIQUE",
-          "columns": [
-            "comp_email"
-          ]
-        },
         "mobile_UNIQUE": {
           "name": "mobile_UNIQUE",
           "columns": [
             "comp_mobile"
+          ]
+        },
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "comp_email"
           ]
         }
       }
@@ -72,39 +72,47 @@
       "name": "company_contacts",
       "columns": {
         "cont_id": {
+          "autoincrement": true,
           "name": "cont_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "cont_name": {
+          "autoincrement": false,
           "name": "cont_name",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cont_mobile": {
+          "autoincrement": false,
           "name": "cont_mobile",
           "type": "varchar(15)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cont_email": {
+          "autoincrement": false,
           "name": "cont_email",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "company_contacts_cont_id": {
+          "name": "company_contacts_cont_id",
+          "columns": [
+            "cont_id"
+          ]
         }
       },
       "indexes": {
@@ -117,8 +125,8 @@
         }
       },
       "foreignKeys": {
-        "company_contacts_comp_id_company_comp_id_fk": {
-          "name": "company_contacts_comp_id_company_comp_id_fk",
+        "company_contacts_ibfk_1": {
+          "name": "company_contacts_ibfk_1",
           "tableFrom": "company_contacts",
           "tableTo": "company",
           "columnsFrom": [
@@ -131,25 +139,17 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "company_contacts_cont_id": {
-          "name": "company_contacts_cont_id",
-          "columns": [
-            "cont_id"
-          ]
-        }
-      },
       "uniqueConstraints": {
-        "email_UNIQUE": {
-          "name": "email_UNIQUE",
-          "columns": [
-            "cont_email"
-          ]
-        },
         "mobile_UNIQUE": {
           "name": "mobile_UNIQUE",
           "columns": [
             "cont_mobile"
+          ]
+        },
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "cont_email"
           ]
         }
       }
@@ -158,81 +158,89 @@
       "name": "customer_sales",
       "columns": {
         "sale_id": {
+          "autoincrement": true,
           "name": "sale_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "cust_id": {
+          "autoincrement": false,
           "name": "cust_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "trans_type_id": {
+          "autoincrement": false,
           "name": "trans_type_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sale_date": {
+          "autoincrement": false,
           "name": "sale_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "amount": {
+          "autoincrement": false,
           "name": "amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "payment": {
+          "autoincrement": false,
           "name": "payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "reciept_no": {
+          "autoincrement": false,
           "name": "reciept_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "remarks": {
+          "autoincrement": false,
           "name": "remarks",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "balance": {
+          "autoincrement": false,
           "name": "balance",
           "type": "float",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "customer_sales_sale_id": {
+          "name": "customer_sales_sale_id",
+          "columns": [
+            "sale_id"
+          ]
         }
       },
       "indexes": {
@@ -243,10 +251,10 @@
           ],
           "isUnique": false
         },
-        "customer_sales_ibfk_2_idx": {
-          "name": "customer_sales_ibfk_2_idx",
+        "user_id": {
+          "name": "user_id",
           "columns": [
-            "comp_id"
+            "user_id"
           ],
           "isUnique": false
         },
@@ -257,17 +265,17 @@
           ],
           "isUnique": false
         },
-        "user_id": {
-          "name": "user_id",
+        "customer_sales_ibfk_2_idx": {
+          "name": "customer_sales_ibfk_2_idx",
           "columns": [
-            "user_id"
+            "comp_id"
           ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "customer_sales_cust_id_customers_cust_id_fk": {
-          "name": "customer_sales_cust_id_customers_cust_id_fk",
+        "customer_sales_ibfk_1": {
+          "name": "customer_sales_ibfk_1",
           "tableFrom": "customer_sales",
           "tableTo": "customers",
           "columnsFrom": [
@@ -279,8 +287,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "customer_sales_comp_id_company_comp_id_fk": {
-          "name": "customer_sales_comp_id_company_comp_id_fk",
+        "customer_sales_ibfk_2": {
+          "name": "customer_sales_ibfk_2",
           "tableFrom": "customer_sales",
           "tableTo": "company",
           "columnsFrom": [
@@ -292,8 +300,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "customer_sales_user_id_users_user_id_fk": {
-          "name": "customer_sales_user_id_users_user_id_fk",
+        "customer_sales_ibfk_3": {
+          "name": "customer_sales_ibfk_3",
           "tableFrom": "customer_sales",
           "tableTo": "users",
           "columnsFrom": [
@@ -305,8 +313,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "customer_sales_trans_type_id_transaction_type_type_id_fk": {
-          "name": "customer_sales_trans_type_id_transaction_type_type_id_fk",
+        "customer_sales_ibfk_4": {
+          "name": "customer_sales_ibfk_4",
           "tableFrom": "customer_sales",
           "tableTo": "transaction_type",
           "columnsFrom": [
@@ -319,86 +327,76 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "customer_sales_sale_id": {
-          "name": "customer_sales_sale_id",
-          "columns": [
-            "sale_id"
-          ]
-        }
-      },
       "uniqueConstraints": {}
     },
     "customers": {
       "name": "customers",
       "columns": {
         "cust_id": {
+          "autoincrement": true,
           "name": "cust_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "cust_u_id": {
+          "autoincrement": false,
           "name": "cust_u_id",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cust_fname": {
+          "autoincrement": false,
           "name": "cust_fname",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cust_lname": {
+          "autoincrement": false,
           "name": "cust_lname",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cust_comi": {
+          "autoincrement": false,
           "name": "cust_comi",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cust_mobile": {
+          "autoincrement": false,
           "name": "cust_mobile",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "cust_email": {
+          "autoincrement": false,
           "name": "cust_email",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "cust_address": {
+          "autoincrement": false,
           "name": "cust_address",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "cust_reg_date": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "cust_reg_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "customers_cust_id": {
           "name": "customers_cust_id",
@@ -407,7 +405,15 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {
+        "mobile_UNIQUE": {
+          "name": "mobile_UNIQUE",
+          "columns": [
+            "cust_mobile"
+          ]
+        },
         "cust_u_id_UNIQUE": {
           "name": "cust_u_id_UNIQUE",
           "columns": [
@@ -419,12 +425,6 @@
           "columns": [
             "cust_email"
           ]
-        },
-        "mobile_UNIQUE": {
-          "name": "mobile_UNIQUE",
-          "columns": [
-            "cust_mobile"
-          ]
         }
       }
     },
@@ -432,78 +432,76 @@
       "name": "employees",
       "columns": {
         "id": {
+          "autoincrement": true,
           "name": "id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "tazkira_id": {
+          "autoincrement": false,
           "name": "tazkira_id",
-          "type": "int",
+          "type": "varchar(15)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "fname": {
+          "autoincrement": false,
           "name": "fname",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "lname": {
+          "autoincrement": false,
           "name": "lname",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "father_name": {
+          "autoincrement": false,
           "name": "father_name",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "mobile": {
+          "autoincrement": false,
           "name": "mobile",
           "type": "varchar(15)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "email": {
+          "autoincrement": false,
           "name": "email",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "address": {
+          "autoincrement": false,
           "name": "address",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "reg_date": {
+          "autoincrement": false,
           "name": "reg_date",
           "type": "date",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "status": {
+          "autoincrement": false,
           "name": "status",
           "type": "tinyint",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "employees_id": {
           "name": "employees_id",
@@ -512,13 +510,9 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {
-        "email_UNIQUE": {
-          "name": "email_UNIQUE",
-          "columns": [
-            "email"
-          ]
-        },
         "mobile_UNIQUE": {
           "name": "mobile_UNIQUE",
           "columns": [
@@ -530,6 +524,12 @@
           "columns": [
             "tazkira_id"
           ]
+        },
+        "email_UNIQUE": {
+          "name": "email_UNIQUE",
+          "columns": [
+            "email"
+          ]
         }
       }
     },
@@ -537,62 +537,70 @@
       "name": "invoice_pictures",
       "columns": {
         "pic_id": {
+          "autoincrement": true,
           "name": "pic_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "p_id": {
+          "autoincrement": false,
           "name": "p_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "pic_date": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "pic_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": false
         },
         "pic_invoice_date": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "pic_invoice_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": false
         },
         "pic_invoice_no": {
+          "autoincrement": false,
           "name": "pic_invoice_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "pic_image": {
+          "autoincrement": false,
           "name": "pic_image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "remarks": {
+          "autoincrement": false,
           "name": "remarks",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "invoice_pictures_pic_id": {
+          "name": "invoice_pictures_pic_id",
+          "columns": [
+            "pic_id"
+          ]
         }
       },
       "indexes": {
@@ -605,8 +613,8 @@
         }
       },
       "foreignKeys": {
-        "invoice_pictures_p_id_purchases_p_id_fk": {
-          "name": "invoice_pictures_p_id_purchases_p_id_fk",
+        "invoice_pictures_purchase": {
+          "name": "invoice_pictures_purchase",
           "tableFrom": "invoice_pictures",
           "tableTo": "purchases",
           "columnsFrom": [
@@ -618,8 +626,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "invoice_pictures_comp_id_company_comp_id_fk": {
-          "name": "invoice_pictures_comp_id_company_comp_id_fk",
+        "invoice_picture_company_fk": {
+          "name": "invoice_picture_company_fk",
           "tableFrom": "invoice_pictures",
           "tableTo": "company",
           "columnsFrom": [
@@ -632,86 +640,76 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "invoice_pictures_pic_id": {
-          "name": "invoice_pictures_pic_id",
-          "columns": [
-            "pic_id"
-          ]
-        }
-      },
       "uniqueConstraints": {}
     },
     "purchasechanges": {
       "name": "purchasechanges",
       "columns": {
         "p_change_id": {
+          "autoincrement": true,
           "name": "p_change_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "p_id": {
+          "autoincrement": false,
           "name": "p_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "before_p_amount": {
+          "autoincrement": false,
           "name": "before_p_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "after_P_amount": {
+          "autoincrement": false,
           "name": "after_P_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "before_p_payment": {
+          "autoincrement": false,
           "name": "before_p_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "after_p_payment": {
+          "autoincrement": false,
           "name": "after_p_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_reciept_no": {
+          "autoincrement": false,
           "name": "p_reciept_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "changedAt": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "changedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "purchasechanges_p_change_id": {
           "name": "purchasechanges_p_change_id",
@@ -720,92 +718,92 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "purchasedelete": {
       "name": "purchasedelete",
       "columns": {
         "delete_id": {
+          "autoincrement": true,
           "name": "delete_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "p_id": {
+          "autoincrement": false,
           "name": "p_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "trans_type_id": {
+          "autoincrement": false,
           "name": "trans_type_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_amount": {
+          "autoincrement": false,
           "name": "p_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_payment": {
+          "autoincrement": false,
           "name": "p_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_reciept_no": {
+          "autoincrement": false,
           "name": "p_reciept_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_com": {
+          "autoincrement": false,
           "name": "p_com",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_date": {
+          "autoincrement": false,
           "name": "p_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "deletedAt": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "deletedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "purchasedelete_delete_id": {
           "name": "purchasedelete_delete_id",
@@ -814,81 +812,91 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "purchases": {
       "name": "purchases",
       "columns": {
         "p_id": {
+          "autoincrement": true,
           "name": "p_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "trans_type_id": {
+          "autoincrement": false,
           "name": "trans_type_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "p_amount": {
+          "autoincrement": false,
           "name": "p_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "p_payment": {
+          "autoincrement": false,
           "name": "p_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "p_reciept_no": {
+          "autoincrement": false,
           "name": "p_reciept_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "p_com": {
+          "autoincrement": false,
           "name": "p_com",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "p_date": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "p_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": true
         },
         "remarks": {
+          "autoincrement": false,
           "name": "remarks",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "purchases_p_id": {
+          "name": "purchases_p_id",
+          "columns": [
+            "p_id"
+          ]
         }
       },
       "indexes": {
@@ -899,24 +907,24 @@
           ],
           "isUnique": false
         },
-        "trans_type_id": {
-          "name": "trans_type_id",
-          "columns": [
-            "trans_type_id"
-          ],
-          "isUnique": false
-        },
         "user_id": {
           "name": "user_id",
           "columns": [
             "user_id"
           ],
           "isUnique": false
+        },
+        "trans_type_id": {
+          "name": "trans_type_id",
+          "columns": [
+            "trans_type_id"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {
-        "purchases_comp_id_company_comp_id_fk": {
-          "name": "purchases_comp_id_company_comp_id_fk",
+        "purchases_ibfk_1": {
+          "name": "purchases_ibfk_1",
           "tableFrom": "purchases",
           "tableTo": "company",
           "columnsFrom": [
@@ -928,8 +936,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "purchases_user_id_users_user_id_fk": {
-          "name": "purchases_user_id_users_user_id_fk",
+        "purchases_ibfk_3": {
+          "name": "purchases_ibfk_3",
           "tableFrom": "purchases",
           "tableTo": "users",
           "columnsFrom": [
@@ -941,8 +949,8 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "purchases_trans_type_id_transaction_type_type_id_fk": {
-          "name": "purchases_trans_type_id_transaction_type_type_id_fk",
+        "purchases_ibfk_4": {
+          "name": "purchases_ibfk_4",
           "tableFrom": "purchases",
           "tableTo": "transaction_type",
           "columnsFrom": [
@@ -953,14 +961,6 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "purchases_p_id": {
-          "name": "purchases_p_id",
-          "columns": [
-            "p_id"
-          ]
         }
       },
       "uniqueConstraints": {
@@ -976,65 +976,63 @@
       "name": "saleschanges",
       "columns": {
         "change_id": {
+          "autoincrement": true,
           "name": "change_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "sale_id": {
+          "autoincrement": false,
           "name": "sale_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "before_amount": {
+          "autoincrement": false,
           "name": "before_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "after_amount": {
+          "autoincrement": false,
           "name": "after_amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "before_payment": {
+          "autoincrement": false,
           "name": "before_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "after_payment": {
+          "autoincrement": false,
           "name": "after_payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "changedAt": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "changedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "saleschanges_change_id": {
           "name": "saleschanges_change_id",
@@ -1043,92 +1041,92 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "salesdelete": {
       "name": "salesdelete",
       "columns": {
         "sale_delete_id": {
+          "autoincrement": true,
           "name": "sale_delete_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "sale_id": {
+          "autoincrement": false,
           "name": "sale_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "cust_id": {
+          "autoincrement": false,
           "name": "cust_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "comp_id": {
+          "autoincrement": false,
           "name": "comp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_id": {
+          "autoincrement": false,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "trans_type_id": {
+          "autoincrement": false,
           "name": "trans_type_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "sale_date": {
+          "autoincrement": false,
           "name": "sale_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "amount": {
+          "autoincrement": false,
           "name": "amount",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "payment": {
+          "autoincrement": false,
           "name": "payment",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "reciept_no": {
+          "autoincrement": false,
           "name": "reciept_no",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "deletedAt": {
+          "default": "CURRENT_TIMESTAMP",
+          "autoincrement": false,
           "name": "deletedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "salesdelete_sale_delete_id": {
           "name": "salesdelete_sale_delete_id",
@@ -1137,28 +1135,28 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "transaction_type": {
       "name": "transaction_type",
       "columns": {
         "type_id": {
+          "autoincrement": true,
           "name": "type_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "type_name": {
+          "autoincrement": false,
           "name": "type_name",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {
         "transaction_type_type_id": {
           "name": "transaction_type_type_id",
@@ -1167,6 +1165,8 @@
           ]
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "uniqueConstraints": {
         "type_name_UNIQUE": {
           "name": "type_name_UNIQUE",
@@ -1180,60 +1180,68 @@
       "name": "users",
       "columns": {
         "user_id": {
+          "autoincrement": true,
           "name": "user_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
+          "notNull": true
         },
         "emp_id": {
+          "autoincrement": false,
           "name": "emp_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "user_name": {
+          "autoincrement": false,
           "name": "user_name",
           "type": "varchar(45)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "password": {
+          "autoincrement": false,
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "is_admin": {
+          "default": 0,
+          "autoincrement": false,
           "name": "is_admin",
           "type": "tinyint",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "notNull": true
         },
         "user_reg_date": {
+          "autoincrement": false,
           "name": "user_reg_date",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "last_login": {
+          "autoincrement": false,
           "name": "last_login",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_user_id": {
+          "name": "users_user_id",
+          "columns": [
+            "user_id"
+          ]
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "users_emp_id_employees_id_fk": {
-          "name": "users_emp_id_employees_id_fk",
+        "FK_users_employees": {
+          "name": "FK_users_employees",
           "tableFrom": "users",
           "tableTo": "employees",
           "columnsFrom": [
@@ -1244,14 +1252,6 @@
           ],
           "onDelete": "restrict",
           "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {
-        "users_user_id": {
-          "name": "users_user_id",
-          "columns": [
-            "user_id"
-          ]
         }
       },
       "uniqueConstraints": {
