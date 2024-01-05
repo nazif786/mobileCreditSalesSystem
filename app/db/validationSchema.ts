@@ -10,15 +10,15 @@ import {z} from 'zod'
 export const empInsertSchema = createInsertSchema(employees, {
   tazkiraId: z.string({
     required_error: "Tazkra number is required",
-  }).min(4,{ message: "Must be 4 or more characters long" }).max(20, { message: "Must be 20 or fewer characters long" }),
+  }).min(4,{ message: "Tazkra number must be 4 or more characters long" }).max(20, { message: "Tazkra number msut be 20 or fewer characters long" }),
   fname: z.string({
     required_error: "Name is required",
-  }).min(4,{ message: "Must be 4 or more characters long" }).max(45, { message: "Must be 45 or fewer characters long" }),
-  lname: z.string().max(45, { message: "Must be 45 or fewer characters long" }),
-  fatherName: z.string().max(45, { message: "Must be 45 or fewer characters long" }),
-  mobile: z.string({required_error: "Mobile number is required",}).min(10, {message:"enter correct mobile number"}).max(15, { message: "Must be 15 or fewer characters long" }),
+  }).min(4,{ message: "Name must be 4 or more characters long" }).max(45, { message: "Name must be 45 or fewer characters long" }),
+  lname: z.string().max(45, { message: "last name must be 45 or fewer characters long" }),
+  fatherName: z.string().max(45, { message: "father name msut be 45 or fewer characters long" }),
+  mobile: z.string({required_error: "Mobile number is required",}).min(10, {message:"enter correct mobile number"}).max(15, { message: "mobile number must be 15 or fewer characters long" }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional(),
-  address: z.string().max(255, { message: "Must be 255 or fewer characters long" }),
-  regDate: z.coerce.date().max(new Date(), { message: "enter correct date" }), 
+  address: z.string().max(255, { message: "Address must be 255 or fewer characters long" }),
+  regDate: z.coerce.date().max(new Date()), 
   status: z.coerce.boolean(),
 });

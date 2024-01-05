@@ -14,6 +14,7 @@ import { object, z } from "zod";
 import { ServerResponse } from "http";
 import axios from "axios";
 import DangerAlert from "@/app/components/ui/DangerAlert";
+import Spinner from "@/app/components/ui/Spinner";
 interface ValidationError {
   message: string;
   errors: Record<string, string[]>;
@@ -30,14 +31,17 @@ const page = () => {
 
   const router = useRouter();
   const [error, setError] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      setIsSubmitting(true);
       const res = await axios.post("/api/employees", data);
       // console.log(res.status);
 
       router.push("/users");
     } catch (error: any) {
+      setIsSubmitting(false);
       //console.log(error.message); // it shows 500 code error
       // console.log(error.response.message);   // shows undefined
       setError(error.response.data.message); // gies axios error
@@ -93,42 +97,28 @@ const page = () => {
               label="First Name"
               {...register("fname")}
             />
-            {errors.fname && (
-              <Alerts alertName="danger" alertMessage={errors.fname.message!} />
-            )}
+            <DangerAlert>{errors.fname?.message}</DangerAlert>
             <Input
               size="sm"
               type="text"
               label="Last Name"
               {...register("lname")}
             />
-            {/* {errors.lname && (
-              <Alerts alertName="danger" alertMessage={errors.lname.message!} />
-            )} */}
+            <DangerAlert>{errors.lname?.message}</DangerAlert>
             <Input
               size="sm"
               type="text"
               label="Father Name"
               {...register("fatherName")}
             />
-            {errors.fatherName && (
-              <Alerts
-                alertName="danger"
-                alertMessage={errors.fatherName.message!}
-              />
-            )}
+            <DangerAlert>{errors.fatherName?.message!}</DangerAlert>
             <Input
               size="sm"
               type="tel"
               label="Mobile Number"
               {...register("mobile")}
             />
-            {errors.mobile && (
-              <Alerts
-                alertName="danger"
-                alertMessage={errors.mobile.message!}
-              />
-            )}
+            <DangerAlert>{errors.mobile?.message!}</DangerAlert>
             <Input
               size="md"
               type="email"
@@ -138,21 +128,15 @@ const page = () => {
               }
               {...register("email")}
             />
-            {errors.email && (
-              <Alerts alertName="danger" alertMessage={errors.email.message!} />
-            )}
+
+            <DangerAlert>{errors.email?.message}</DangerAlert>
             <Input
               size="sm"
               type="text"
               label="Adress"
               {...register("address")}
             />
-            {errors.address && (
-              <Alerts
-                alertName="danger"
-                alertMessage={errors.address.message!}
-              />
-            )}
+            <DangerAlert>{errors.address?.message!}</DangerAlert>
             <RadioGroup
               label="Emplyee Status"
               orientation="horizontal"
@@ -164,13 +148,9 @@ const page = () => {
               </Radio>
               <Radio value="1">former</Radio>
             </RadioGroup>
-            {errors.status && (
-              <Alerts
-                alertName="danger"
-                alertMessage={errors.status.message!}
-              />
-            )}
+            <DangerAlert>{errors.status?.message!}</DangerAlert>
             <Button
+              disabled={isSubmitting}
               type="submit"
               color="primary"
               className="bg-fuchsia-800"
@@ -178,6 +158,7 @@ const page = () => {
               startContent={<UserIcon />}
             >
               Save New Emplyee
+              {isSubmitting && <Spinner />}
             </Button>
           </form>
         </div>
