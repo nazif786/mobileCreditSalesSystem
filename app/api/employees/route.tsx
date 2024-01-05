@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/db/connection";
 import * as schema from "@/drizzle/schema";
 import { empInsertSchema } from "@/app/db/validationSchema";
-import { AxiosError } from "axios";
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,18 +13,42 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  const validation = empInsertSchema.safeParse(body);
+    const validData = empInsertSchema.safeParse(body);
 
-  if (!validation.success) {
-    return NextResponse.json(
-      { error: validation.error.format() },
-      { status: 201 },
-    );
+    if (!validData.success) {
+      return NextResponse.json(
+        { error: validData.error.format() },
+        { status: 201 },
+      );
+    }
+
+    const empMobile = body.mobile;
+    const empEmail = body.email;
+    const empTazkira = body.tazkiraId;
+
+    const result = await db
+      .select({
+        email: schema.employees.email,
+        mobile: schema.employees.mobile,
+        tazkiraDB: schema.employees.tazkiraId,
+      })
+      .from(schema.employees);
+
+    // chec if mobile number exists
+
+
+    if (result.length > 0) {
+      return NextResponse.json(
+        { message: "tazkera number already registered" },
+        { status: 409 },
+      );
+    }
+    const data = await db.insert(schema.employees).values(body);
+    return NextResponse.json({ data });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message });
   }
-
-  await db.insert(schema.employees).values(body);
-
-  return NextResponse.json({ status: 200 });
 }
