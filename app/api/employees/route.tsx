@@ -37,15 +37,47 @@ export async function POST(request: NextRequest) {
       })
       .from(schema.employees);
 
-    // chec if mobile number exists
+    // check if tazkira Id already exists
+    const isTazkiraExist = result.some(
+      (employee) => employee.tazkiraDB === empTazkira,
+    );
 
-
-    if (result.length > 0) {
+    if (isTazkiraExist) {
       return NextResponse.json(
-        { message: "tazkera number already registered" },
+        { message: "Tazkira holder already registered" },
         { status: 409 },
       );
     }
+
+    // chec if mobile number exists
+    const isMobileNumberExists = result.some(
+      (employee) => employee.mobile === empMobile,
+    );
+
+    // if true return error message
+    if (isMobileNumberExists) {
+      return NextResponse.json(
+        { message: "Mobile number already registered" },
+        { status: 409 },
+      );
+    }
+    // check if email address exists
+    const isEmialExists = result.some(
+      (employee) => employee.email === empEmail,
+    );
+    if (isEmialExists) {
+      return NextResponse.json(
+        { message: "Email address already registered" },
+        { status: 409 },
+      );
+    }
+
+    // if (result.length > 0) {
+    //   return NextResponse.json(
+    //     { message: "tazkera number already registered" },
+    //     { status: 409 },
+    //   );
+    // }
     const data = await db.insert(schema.employees).values(body);
     return NextResponse.json({ data });
   } catch (error: any) {

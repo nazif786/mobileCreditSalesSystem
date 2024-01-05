@@ -1,4 +1,5 @@
 import Alerts from "./components/ui/Aterts";
+import DangerAlert from "./components/ui/DangerAlert";
 
 export default function Home() {
   return (

@@ -1,4 +1,6 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, unique, int, varchar, index, foreignKey, datetime, text, float, date, tinyint, timestamp } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, unique, int, varchar, index, 
+	     foreignKey, datetime, text, float, date, tinyint, timestamp } 
+		 from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
 

@@ -8,9 +8,16 @@ import { useForm } from "react-hook-form";
 import { empInsertSchema } from "@/app/db/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Alerts from "@/app/components/ui/Aterts";
-import axios from "axios";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { object, z } from "zod";
+import { ServerResponse } from "http";
+import axios from "axios";
+import DangerAlert from "@/app/components/ui/DangerAlert";
+interface ValidationError {
+  message: string;
+  errors: Record<string, string[]>;
+}
 
 type empSchema = z.infer<typeof empInsertSchema>;
 
@@ -22,16 +29,20 @@ const page = () => {
   } = useForm<empSchema>({ resolver: zodResolver(empInsertSchema) });
 
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState();
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("/api/employees", data);
-      console.log(data);
+      const res = await axios.post("/api/employees", data);
+      // console.log(res.status);
+
       router.push("/users");
-    } catch (error) {
-      // console.log(error);
-      setError("Unexpected Error Happened");
+    } catch (error: any) {
+      //console.log(error.message); // it shows 500 code error
+      // console.log(error.response.message);   // shows undefined
+      setError(error.response.data.message); // gies axios error
+      // console.log(error.response.data);  // not axios
+      // console.log(error.response.data.error); // not axios: endefined
     }
   });
 
@@ -62,7 +73,9 @@ const page = () => {
         <div className="relative mt-20">
           {/* ------------- Form -***********************************------------- */}
 
-          {error && <Alerts alertName="danger" alertMessage={error} />}
+          <div className="mb-3">
+            {error && <Alerts alertName="danger" alertMessage={error} />}
+          </div>
 
           <form className=" max-w-xl space-y-5 " onSubmit={onSubmit}>
             <Input
@@ -71,12 +84,9 @@ const page = () => {
               label="Tazkira Number"
               {...register("tazkiraId")}
             />
-            {errors.tazkiraId && (
-              <Alerts
-                alertName="danger"
-                alertMessage={errors.tazkiraId.message!}
-              />
-            )}
+
+            <DangerAlert>{errors.tazkiraId?.message}</DangerAlert>
+
             <Input
               size="sm"
               type="text"
@@ -92,9 +102,9 @@ const page = () => {
               label="Last Name"
               {...register("lname")}
             />
-            {errors.lname && (
+            {/* {errors.lname && (
               <Alerts alertName="danger" alertMessage={errors.lname.message!} />
-            )}
+            )} */}
             <Input
               size="sm"
               type="text"

@@ -9,7 +9,7 @@ interface Props {
 const Aterts = ({ alertName, alertMessage }: Props) => {
   const [show, setShow] = useState(false);
   return (
-    <>
+    <section className="max-w-full mr-3">
       {/* <!-- Info --> */}
       {alertName === "info" && (
         <div
@@ -196,7 +196,7 @@ const Aterts = ({ alertName, alertMessage }: Props) => {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 };
 
