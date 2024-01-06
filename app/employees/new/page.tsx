@@ -39,7 +39,7 @@ const page = () => {
       const res = await axios.post("/api/employees", data);
       // console.log(res.status);
 
-      router.push("/users");
+      router.push("/employees");
     } catch (error: any) {
       setIsSubmitting(false);
       //console.log(error.message); // it shows 500 code error
@@ -111,7 +111,13 @@ const page = () => {
               label="Father Name"
               {...register("fatherName")}
             />
-            <DangerAlert>{errors.fatherName?.message!}</DangerAlert>
+            <Input
+              size="sm"
+              type="text"
+              label="Job Title"
+              {...register("jobTitle")}
+            />
+            <DangerAlert>{errors.jobTitle?.message!}</DangerAlert>
             <Input
               size="sm"
               type="tel"

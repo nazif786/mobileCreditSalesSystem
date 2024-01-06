@@ -16,6 +16,7 @@ export const empInsertSchema = createInsertSchema(employees, {
   }).min(4,{ message: "Name must be 4 or more characters long" }).max(45, { message: "Name must be 45 or fewer characters long" }),
   lname: z.string().max(45, { message: "last name must be 45 or fewer characters long" }),
   fatherName: z.string().max(45, { message: "father name msut be 45 or fewer characters long" }),
+  jobTitle: z.string().min(1, {message: "Job title is required"}).max(45, { message: "father name msut be 45 or fewer characters long" }),
   mobile: z.string({required_error: "Mobile number is required",}).min(10, {message:"enter correct mobile number"}).max(15, { message: "mobile number must be 15 or fewer characters long" }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional(),
   address: z.string().max(255, { message: "Address must be 255 or fewer characters long" }),

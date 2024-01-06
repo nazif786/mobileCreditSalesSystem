@@ -26,6 +26,12 @@ export const menuItems: MenuItem[] = [
     icon: <AiOutlineSetting size={24} />,
   },
   {
+    label: "Employees",
+    path: "/employees",
+    icon: <AiOutlineSetting size={24} />,
+  },
+
+  {
     label: "Projects",
     path: "/projects",
     icon: <AiOutlineFolder size={24} />,
