@@ -20,13 +20,14 @@ import {
 
 import { empInsertSchema } from "@/app/db/validationSchema";
 import { z } from "zod";
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { columns } from "./columns";
 import { SearchIcon } from "../components/ui/svg/SearchIcon";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
 import { capitalize } from "./utils";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
 import Link from "next/link";
+import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 
 type empSchema = z.infer<typeof empInsertSchema>;
 
@@ -47,17 +48,16 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({});
   const [filterValue, setFilterValue] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(1);
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
-  const [page, setPage] = useState(1);
-  ///////////////////////////////////////////////
+
   const hasSearchFilter = Boolean(filterValue);
   // const rowsPerPage = 10;
   const pages = Math.ceil(empData.length / rowsPerPage);
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // show columns drop down code
-
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
 
@@ -65,8 +65,40 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
       Array.from(visibleColumns).includes(column.key),
     );
   }, [visibleColumns]);
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Rendering cells
+
+  const renderCell = useCallback((employ: Employ, columnKey: React.Key) => {
+    const cellValue = employ[columnKey as keyof Employ];
+
+    switch (columnKey) {
+      case "actions":
+        return (
+          <div className="relative flex justify-end items-center gap-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly size="sm" variant="light">
+                  <VerticalDotsIcon className="text-default-300" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem>View</DropdownItem>
+                <DropdownItem>Edit</DropdownItem>
+                <DropdownItem>Delete</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        );
+
+      default:
+        return cellValue;
+    }
+  }, []);
+
+  /////////////////////////////////////////////////////////////////
+
+  // search
   const filteredItems = useMemo(() => {
     let filteredEmp = [...empData];
 
@@ -83,8 +115,6 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
     return filteredEmp;
   }, [empData, filterValue]);
   ///////////////////////////////////////////////////////////////////////
-
-  // search
 
   const onSearchChange = useCallback((value?: string) => {
     if (value) {
@@ -132,8 +162,6 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
 
   ////////////////////////////////////////////////////////////////////
   // Paginationa
-
-  ///////////////////////////////////////////////
   const onNextPage = useCallback(() => {
     if (page < pages) {
       setPage(page + 1);
@@ -290,7 +318,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
         {(item) => (
           <TableRow key={item.tazkiraId}>
             {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)} </TableCell>
+              <TableCell>{renderCell(item, columnKey)} </TableCell>
             )}
           </TableRow>
         )}
