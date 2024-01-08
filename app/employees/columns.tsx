@@ -2,6 +2,7 @@ export const columns = [
   { key: "id", label: "ID" },
   { key: "tazkiraId", label: "TAZKIRA No" },
   { key: "fname", label: "NAME" },
+  { key: "lname", label: "Last Name" },
   { key: "fatherName", label: "FATHAR NAME" },
   { key: "jobTitle", label: "TITLE" },
   { key: "mobile", label: "MOBILE" },

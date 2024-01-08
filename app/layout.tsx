@@ -32,7 +32,7 @@ export default function RootLayout({
               <header className="mb-7">
                 <Navbar />
               </header>
-              <div className="pl-5 ">{children}</div>
+              <div className="md:px-5 ">{children}</div>
             </main>
           </div>
           <footer>{/* Add your footer content here */}</footer>

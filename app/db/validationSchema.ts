@@ -1,3 +1,4 @@
+import { datetime } from 'drizzle-orm/mysql-core';
 import { employees } from '@/drizzle/schema';
 import { createInsertSchema } from 'drizzle-zod';
 import {z} from 'zod'
@@ -21,6 +22,7 @@ export const empInsertSchema = createInsertSchema(employees, {
   mobile: z.string({required_error: "Mobile number is required",}).min(10, {message:"enter correct mobile number"}).max(15, { message: "mobile number must be 15 or fewer characters long" }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional(),
   address: z.string().max(255, { message: "Address must be 255 or fewer characters long" }),
-  regDate: z.coerce.date().max(new Date()), 
+  regDate:  z.string(),
   status: z.coerce.string(),
 });
+// z.coerce.date().max(new Date()),

@@ -6,7 +6,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
   Pagination,
   SortDescriptor,
   Button,
@@ -16,6 +15,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Link,
 } from "@nextui-org/react";
 
 import { empInsertSchema } from "@/app/db/validationSchema";
@@ -26,7 +26,7 @@ import { SearchIcon } from "../components/ui/svg/SearchIcon";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
 import { capitalize } from "./utils";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
-import Link from "next/link";
+// import Link from "next/link";
 import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 
 type empSchema = z.infer<typeof empInsertSchema>;
@@ -82,15 +82,26 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
                   <VerticalDotsIcon className="text-default-300" />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+              <DropdownMenu aria-label="actions">
+                <DropdownItem href={`/employees/new/${employ.id}`}>
+                  View
+                </DropdownItem>
+                <DropdownItem href={`/employees/new/${employ.id}`}>
+                  Edit
+                </DropdownItem>
+                <DropdownItem href={`/employees/new/${employ.id}`}>
+                  Delete
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
         );
-
+      case "regDate":
+        return <span>{new Date(cellValue!).toLocaleDateString()}</span>;
+      case "fname":
+        return <span>{capitalize(cellValue?.toString()!)}</span>;
+      case "jobTitle":
+        return <span>{capitalize(cellValue?.toString()!)}</span>;
       default:
         return cellValue;
     }
@@ -141,7 +152,13 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   // rows per page code
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
+      // let lent: number = empData.length;
+      // console.log(lent);
+      // if (e.target.value == "all") {
+      //   setRowsPerPage(lent);
+      // }
       setRowsPerPage(Number(e.target.value));
+
       setPage(1);
     },
     [],
@@ -221,7 +238,9 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
             </Dropdown>
 
             <Button color="primary" endContent={<PlusIcon />}>
-              <Link href="/employees/new">Add New</Link>
+              <Link href="/employees/new" className="text-white">
+                Add New
+              </Link>
             </Button>
           </div>
         </div>
@@ -232,12 +251,15 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
             <select
+              defaultValue="10"
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
+              <option value="100">100</option>
+              <option value="all">All</option>
             </select>
           </label>
         </div>
