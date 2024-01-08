@@ -51,7 +51,6 @@ const columns = [
   },
 ];
 
-export default function Employees() {
   return (
     <Table aria-label="Example table with dynamic content">
       <TableHeader columns={columns}>
