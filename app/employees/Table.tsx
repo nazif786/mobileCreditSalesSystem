@@ -38,7 +38,7 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
 type User = (typeof users)[0];
 
-export default function Employees() {
+export default function Dummy() {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -49,7 +49,7 @@ export default function Employees() {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "age",
     direction: "ascending",
-  });
+  }); // ---------------------      copied
 
   const [page, setPage] = useState(1);
 
@@ -93,6 +93,7 @@ export default function Employees() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = useMemo(() => {
+    // ---- copied
     return [...items].sort((a: User, b: User) => {
       const first = a[sortDescriptor.column as keyof User] as number;
       const second = b[sortDescriptor.column as keyof User] as number;
@@ -100,7 +101,7 @@ export default function Employees() {
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [sortDescriptor, items]);
+  }, [sortDescriptor, items]); ////// ------------ till here copied
 
   const renderCell = useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
@@ -186,6 +187,7 @@ export default function Employees() {
       setFilterValue("");
     }
   }, []);
+  // --------------- end of search
 
   const onClear = useCallback(() => {
     setFilterValue("");
@@ -230,6 +232,7 @@ export default function Employees() {
                 ))}
               </DropdownMenu>
             </Dropdown>
+
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -254,6 +257,7 @@ export default function Employees() {
                 ))}
               </DropdownMenu>
             </Dropdown>
+
             <Button color="primary" endContent={<PlusIcon />}>
               <Link href="/employees/new">Add New</Link>
             </Button>

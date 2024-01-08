@@ -8,6 +8,7 @@ import {z} from 'zod'
 //   });
 
 export const empInsertSchema = createInsertSchema(employees, {
+  id: z.number(), 
   tazkiraId: z.string({
     required_error: "Tazkra number is required",
   }).min(4,{ message: "Tazkra number must be 4 or more characters long" }).max(20, { message: "Tazkra number msut be 20 or fewer characters long" }),
@@ -21,5 +22,5 @@ export const empInsertSchema = createInsertSchema(employees, {
   email: z.string().email({ message: "Please enter a valid email address." }).optional(),
   address: z.string().max(255, { message: "Address must be 255 or fewer characters long" }),
   regDate: z.coerce.date().max(new Date()), 
-  status: z.coerce.boolean(),
+  status: z.coerce.string(),
 });

@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const emp = await db.select().from(schema.employees);
     return NextResponse.json({ emp }, { status: 200 });
   } catch (err: any) {
-    console.log(err.message);
+    return NextResponse.json({ err: err.message });
   }
 }
 
