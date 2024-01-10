@@ -30,6 +30,11 @@ export const menuItems: MenuItem[] = [
     path: "/employees",
     icon: <AiOutlineSetting size={24} />,
   },
+  {
+    label: "Customers",
+    path: "/customers",
+    icon: <AiOutlineSetting size={24} />,
+  },
 
   {
     label: "Projects",

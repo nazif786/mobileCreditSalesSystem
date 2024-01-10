@@ -1,20 +1,18 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@nextui-org/button";
-import { Input, Radio, RadioGroup } from "@nextui-org/react";
-import { MailIcon } from "../../components/ui/MailIcon";
-import { UserIcon } from "../../components/ui/UserIcon";
-import { useForm } from "react-hook-form";
-import { empInsertSchema } from "@/app/db/validationSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Alerts from "@/app/components/ui/Aterts";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { object, z } from "zod";
-import { ServerResponse } from "http";
-import axios from "axios";
 import DangerAlert from "@/app/components/ui/DangerAlert";
 import Spinner from "@/app/components/ui/Spinner";
+import { empInsertSchema } from "@/app/db/validationSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@nextui-org/button";
+import { Input, Radio, RadioGroup } from "@nextui-org/react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { MailIcon } from "../../components/ui/MailIcon";
+import { UserIcon } from "../../components/ui/UserIcon";
 interface ValidationError {
   message: string;
   errors: Record<string, string[]>;
@@ -88,7 +86,6 @@ const page = () => {
               label="Tazkira Number"
               {...register("tazkiraId")}
             />
-
             <DangerAlert>{errors.tazkiraId?.message}</DangerAlert>
 
             <Input

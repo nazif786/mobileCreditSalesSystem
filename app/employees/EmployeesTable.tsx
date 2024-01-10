@@ -69,43 +69,48 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Rendering cells
 
-  const renderCell = useCallback((employ: Employ, columnKey: React.Key) => {
-    const cellValue = employ[columnKey as keyof Employ];
+  const renderCell = useCallback(
+    (employ: Employ, columnKey: React.Key | Date) => {
+      const cellValue = employ[columnKey as keyof Employ];
 
-    switch (columnKey) {
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="actions">
-                <DropdownItem href={`/employees/new/${employ.id}`}>
-                  View
-                </DropdownItem>
-                <DropdownItem href={`/employees/new/${employ.id}`}>
-                  Edit
-                </DropdownItem>
-                <DropdownItem href={`/employees/new/${employ.id}`}>
-                  Delete
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      case "regDate":
-        return <span>{new Date(cellValue!).toLocaleDateString()}</span>;
-      case "fname":
-        return <span>{capitalize(cellValue?.toString()!)}</span>;
-      case "jobTitle":
-        return <span>{capitalize(cellValue?.toString()!)}</span>;
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="actions">
+                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                    View
+                  </DropdownItem>
+                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                    Delete
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        case "regDate":
+          return (
+            <span>{new Date(cellValue!).toISOString().split("T")[0]}</span>
+          );
+        case "fname":
+          return <span>{capitalize(cellValue?.toString()!)}</span>;
+        case "jobTitle":
+          return <span>{capitalize(cellValue?.toString()!)}</span>;
+        default:
+          return cellValue;
+      }
+    },
+    [],
+  );
 
   /////////////////////////////////////////////////////////////////
 

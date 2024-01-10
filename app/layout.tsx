@@ -23,7 +23,7 @@ export default function RootLayout({
         <Providers>
           <div
             style={{ minWidth: "320px" }}
-            className="flex h-screen overflow-hidden bg-zinc-100 "
+            className="flex h-screen overflow-hidden bg-zinc-200 "
           >
             <aside className="flex h-screen overflow-hidden">
               <Sidebar />
