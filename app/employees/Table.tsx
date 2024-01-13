@@ -25,7 +25,7 @@ import { ChevronDownIcon } from "@/app/components/ui/svg/ChevronDownIcon";
 import { SearchIcon } from "@/app/components/ui/svg/SearchIcon";
 import { columns, users, statusOptions } from "./data";
 import { useCallback, useMemo, useState } from "react";
-import { capitalize } from "./utils";
+import { capitalize } from "../utils/capitalize";
 import Link from "next/link";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {

@@ -1,61 +1,60 @@
 "use client";
+
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Link,
+  Selection,
   Pagination,
   SortDescriptor,
-  Button,
-  Input,
-  Selection,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react";
-
-import { empInsertSchema } from "@/app/db/validationSchema";
-import { z } from "zod";
 import { useCallback, useMemo, useState } from "react";
-import { columns } from "./columns";
-import { SearchIcon } from "../components/ui/svg/SearchIcon";
-import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
-import { capitalize } from "../utils/capitalize";
-import { PlusIcon } from "../components/ui/svg/PlusIcon";
+import { ChevronDownIcon } from "@/app/components/ui/svg/ChevronDownIcon";
+import { PlusIcon } from "@/app/components/ui/svg/PlusIcon";
+import { SearchIcon } from "@/app/components/ui/svg/SearchIcon";
+import { VerticalDotsIcon } from "@/app/components/ui/svg/VerticalDotsIcon";
+import { custInsertSchema } from "@/app/db/validationSchema";
+import { z } from "zod";
+import { columns } from "../utils/columns";
+import { capitalize } from "@/app/utils/capitalize";
 // import Link from "next/link";
-import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 
-type empSchema = z.infer<typeof empInsertSchema>;
-
-let INITIAL_VISIBLE_COLUMNS: any[] = [
-  "id",
-  "fname",
-  "jobTitle",
-  "mobile",
-  "email",
-  "regDate",
+let INITIAL_VISIBLE_COLUMNS: string[] = [
+  "custId",
+  "custComi",
+  "custFname",
+  "custMobile",
+  "custEmail",
+  "custRegDate",
   "actions",
 ];
+
+export type custSchema = z.infer<typeof custInsertSchema>;
+
 const li = new Set(INITIAL_VISIBLE_COLUMNS);
 
-export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
-  type Employ = (typeof empData)[0];
-  //// start here
+const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
+  type Customer = (typeof custData)[0];
+
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({});
   const [filterValue, setFilterValue] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
-  const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set(INITIAL_VISIBLE_COLUMNS),
-  );
+  const [visibleColumns, setVisibleColumns] = useState<Selection>(li);
 
   const hasSearchFilter = Boolean(filterValue);
   // const rowsPerPage = 10;
-  const pages = Math.ceil(empData.length / rowsPerPage);
+  const pages = Math.ceil(custData.length / rowsPerPage);
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // show columns drop down code
   const headerColumns = useMemo(() => {
@@ -70,8 +69,8 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   // Rendering cells
 
   const renderCell = useCallback(
-    (employ: Employ, columnKey: React.Key | Date) => {
-      const cellValue = employ[columnKey as keyof Employ];
+    (customer: Customer, columnKey: React.Key | Date) => {
+      const cellValue = customer[columnKey as keyof Customer];
 
       switch (columnKey) {
         case "actions":
@@ -84,13 +83,13 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="actions">
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/new/${customer.custId}`}>
                     View
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/new/${customer.custId}`}>
                     Edit
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/new/${customer.custId}`}>
                     Delete
                   </DropdownItem>
                 </DropdownMenu>
@@ -116,20 +115,21 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
 
   // search
   const filteredItems = useMemo(() => {
-    let filteredEmp = [...empData];
+    let filteredEmp = [...custData];
 
     if (hasSearchFilter) {
       filteredEmp = filteredEmp.filter(
         (
-          emp, //// search the columns here
+          cust, //// search the columns here
         ) =>
-          emp.fname.toLowerCase().includes(filterValue.toLowerCase()) ||
-          emp.jobTitle.toLowerCase().includes(filterValue.toLowerCase()),
+          cust.custFname.toLowerCase().includes(filterValue.toLowerCase()) ||
+          cust.custLname!.toLowerCase().includes(filterValue.toLowerCase()) ||
+          cust.custUId.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
 
     return filteredEmp;
-  }, [empData, filterValue]);
+  }, [custData, filterValue]);
   ///////////////////////////////////////////////////////////////////////
 
   const onSearchChange = useCallback((value?: string) => {
@@ -157,11 +157,11 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   // rows per page code
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      // let lent: number = empData.length;
-      // console.log(lent);
-      // if (e.target.value == "all") {
-      //   setRowsPerPage(lent);
-      // }
+      let lent: number = custData.length;
+      console.log(lent);
+      if (e.target.value == "all") {
+        setRowsPerPage(lent);
+      }
       setRowsPerPage(Number(e.target.value));
 
       setPage(1);
@@ -173,9 +173,9 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   //  sorting cloumns contents. pass this as items to table body instead of Items
   const sortedItems = useMemo(() => {
     // ---- copied
-    return [...items].sort((a: Employ, b: Employ) => {
-      const first = a[sortDescriptor.column as keyof Employ] as number;
-      const second = b[sortDescriptor.column as keyof Employ] as number;
+    return [...items].sort((a: Customer, b: Customer) => {
+      const first = a[sortDescriptor.column as keyof Customer] as number;
+      const second = b[sortDescriptor.column as keyof Customer] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -243,7 +243,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
             </Dropdown>
 
             <Button color="primary" endContent={<PlusIcon />}>
-              <Link href="/employees/new" className="text-white">
+              <Link href="/customers/new" className="text-white">
                 Add New
               </Link>
             </Button>
@@ -251,7 +251,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {empData.length} employees
+            Total {custData.length} employees
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -264,7 +264,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="100">100</option>
-              <option value="all">All</option>
+              {/* <option value="all">All</option> */}
             </select>
           </label>
         </div>
@@ -276,7 +276,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
     // statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    empData.length,
+    custData.length,
     hasSearchFilter,
   ]);
 
@@ -343,7 +343,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
         emptyContent={"No employees data to display."}
       >
         {(item) => (
-          <TableRow key={item.tazkiraId}>
+          <TableRow key={item.custId}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)} </TableCell>
             )}
@@ -352,4 +352,6 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default CustomersTable;
