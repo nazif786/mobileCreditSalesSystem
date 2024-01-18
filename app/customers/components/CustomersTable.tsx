@@ -48,7 +48,7 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({});
   const [filterValue, setFilterValue] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [visibleColumns, setVisibleColumns] = useState<Selection>(li);
 
@@ -79,7 +79,7 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
               <Dropdown>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-default-300" />
+                    <VerticalDotsIcon className="text-primary-300 " />
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="actions">
@@ -96,13 +96,13 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
               </Dropdown>
             </div>
           );
-        case "regDate":
+        case "custRegDate":
           return (
             <span>{new Date(cellValue!).toISOString().split("T")[0]}</span>
           );
-        case "fname":
+        case "custFname":
           return <span>{capitalize(cellValue?.toString()!)}</span>;
-        case "jobTitle":
+        case "custLname":
           return <span>{capitalize(cellValue?.toString()!)}</span>;
         default:
           return cellValue;
@@ -256,7 +256,7 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
             <select
-              defaultValue="10"
+              defaultValue="5"
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
