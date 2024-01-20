@@ -83,13 +83,13 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="actions">
-                  <DropdownItem href={`/employees/new/${customer.custId}`}>
+                  <DropdownItem href={`/customers/${customer.custId}`}>
                     View
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${customer.custId}`}>
+                  <DropdownItem href={`/customers/${customer.custId}`}>
                     Edit
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${customer.custId}`}>
+                  <DropdownItem href={`/customers/${customer.custId}`}>
                     Delete
                   </DropdownItem>
                 </DropdownMenu>

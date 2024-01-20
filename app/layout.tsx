@@ -29,7 +29,9 @@ export default function RootLayout({
               <Sidebar />
             </aside>
             <main className=" flex-1 overflow-x-hidden overflow-y-auto py-7 ">
-              <header className="mb-7">{/* <Navbar /> */}</header>
+              <header className="mb-7">
+                <Navbar />
+              </header>
               <div className="">{children}</div>
             </main>
           </div>

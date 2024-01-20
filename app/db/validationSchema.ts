@@ -12,7 +12,7 @@ export function asOptionalField<T extends z.ZodTypeAny>(schema: T) {
 }
 
 export const empInsertSchema = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   tazkiraId: z
     .string({ required_error: "Tazkra number is required" })
     .trim()
@@ -26,11 +26,13 @@ export const empInsertSchema = z.object({
   lname: z
     .string()
     .trim()
-    .max(45, { message: "last name must be 45 or fewer characters long" }),
+    .max(45, { message: "last name must be 45 or fewer characters long" })
+    .optional(),
   fatherName: z
     .string()
     .trim()
-    .max(45, { message: "father name msut be 45 or fewer characters long" }),
+    .max(45, { message: "father name msut be 45 or fewer characters long" })
+    .optional(),
   jobTitle: z
     .string()
     .trim()
@@ -45,7 +47,7 @@ export const empInsertSchema = z.object({
     .string()
     .max(255, { message: "Address must be 255 or fewer characters long" }),
   regDate: z.string().datetime().optional(),
-  status: z.coerce.string(),
+  status: z.coerce.string().optional(),
 });
 // z.coerce.date().max(new Date()),
 
@@ -56,12 +58,13 @@ export const custInsertSchema = z.object({
     .trim()
     .min(3, { message: "Customer Unique ID must be 3 or more charactors" })
     .max(15, { message: "must not exceed 15 charactors" }),
-  custComi: z.string({
-    required_error: "Commission percentage is required",
-    invalid_type_error: "Commission must be a number",
-  }),
-  // .positive({ message: "Commission must be a positive number" })
-  // .lte(100, { message: "Commission can not be more than 100 percent" }),
+  custComi: z
+    .number({
+      required_error: "Commission percentage is required",
+      invalid_type_error: "Commission must be a number",
+    })
+    .positive({ message: "Commission must be a positive number" })
+    .lte(100, { message: "Commission can not be more than 100 percent" }),
   custFname: z
     .string({ required_error: "Customer name is required" })
     .trim()
@@ -72,7 +75,7 @@ export const custInsertSchema = z.object({
     .trim()
     .max(45, { message: "must not exceed 45 charactors" })
     .optional(),
-  custMobile: z.string({
+  custMobile: z.number({
     required_error: "Mobile Number is required",
     invalid_type_error: "Provie a correct mobile number",
   }),
