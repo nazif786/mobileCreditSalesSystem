@@ -50,19 +50,18 @@ export const empInsertSchema = z.object({
 // z.coerce.date().max(new Date()),
 
 export const custInsertSchema = z.object({
-  custId: z.number(),
+  custId: z.number().optional(),
   custUId: z
     .string({ required_error: "Customer Unique ID is required" })
     .trim()
     .min(3, { message: "Customer Unique ID must be 3 or more charactors" })
     .max(15, { message: "must not exceed 15 charactors" }),
-  custComi: z
-    .number({
-      required_error: "Commission percentage is required",
-      invalid_type_error: "Commission must be a number",
-    })
-    .positive({ message: "Commission must be a positive number" })
-    .lte(100, { message: "Commission can not be more than 100 percent" }),
+  custComi: z.string({
+    required_error: "Commission percentage is required",
+    invalid_type_error: "Commission must be a number",
+  }),
+  // .positive({ message: "Commission must be a positive number" })
+  // .lte(100, { message: "Commission can not be more than 100 percent" }),
   custFname: z
     .string({ required_error: "Customer name is required" })
     .trim()
@@ -73,7 +72,7 @@ export const custInsertSchema = z.object({
     .trim()
     .max(45, { message: "must not exceed 45 charactors" })
     .optional(),
-  custMobile: z.number({
+  custMobile: z.string({
     required_error: "Mobile Number is required",
     invalid_type_error: "Provie a correct mobile number",
   }),
