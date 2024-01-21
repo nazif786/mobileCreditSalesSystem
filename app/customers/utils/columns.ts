@@ -1,6 +1,6 @@
 export const columns = [
   { key: "custId", label: "ID" },
-  { key: "custUId", label: "Costomer Unique ID" },
+  { key: "custUId", label: "Unique ID" },
   { key: "custComi", label: "Commission %" },
   { key: "custFname", label: "Name" },
   { key: "custLname", label: "Last Name" },

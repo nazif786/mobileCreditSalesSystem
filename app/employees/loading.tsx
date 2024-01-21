@@ -18,12 +18,10 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
-import { SearchIcon } from "../components/ui/svg/SearchIcon";
-import { capitalize } from "../utils/capitalize";
 import { columns } from "./data";
 
 const loading = () => {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const items = [1, 2, 3, 4, 5];
   return (
     <>
       <div className=" mb-5 text-center text-2xl">
@@ -79,10 +77,10 @@ const loading = () => {
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
+      <Table aria-label="loading table">
+        <TableHeader aria-label="loading table header">
           {items.map((item) => (
-            <TableColumn>
+            <TableColumn key={item}>
               <Skeleton />
             </TableColumn>
           ))}
@@ -90,22 +88,7 @@ const loading = () => {
 
         <TableBody aria-label="Example table with dynamic content">
           {items.map((item) => (
-            <TableRow>
-              <TableCell>
-                <Skeleton />
-              </TableCell>
-              <TableCell>
-                <Skeleton />
-              </TableCell>
-              <TableCell>
-                <Skeleton />
-              </TableCell>
-              <TableCell>
-                <Skeleton />
-              </TableCell>
-              <TableCell>
-                <Skeleton />
-              </TableCell>
+            <TableRow key={item}>
               <TableCell>
                 <Skeleton />
               </TableCell>

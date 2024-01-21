@@ -74,10 +74,10 @@ const loading = () => {
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
+      <Table aria-label="loading table">
+        <TableHeader aria-label="loading table header">
           {items.map((item) => (
-            <TableColumn>
+            <TableColumn key={item}>
               <Skeleton />
             </TableColumn>
           ))}
@@ -85,7 +85,7 @@ const loading = () => {
 
         <TableBody aria-label="Example table with dynamic content">
           {items.map((item) => (
-            <TableRow>
+            <TableRow key={item}>
               <TableCell>
                 <Skeleton />
               </TableCell>
