@@ -50,7 +50,7 @@ const loading = () => {
               </DropdownTrigger>
               <DropdownMenu>
                 {columns.map((column) => (
-                  <DropdownItem></DropdownItem>
+                  <DropdownItem key={column.uid}></DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>

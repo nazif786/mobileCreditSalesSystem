@@ -2,9 +2,9 @@ import React from "react";
 
 const EditCustomer = () => {
   return (
-    <>
-      <div>EditCustomer</div>
-    </>
+    <section>
+      <div>Edit Customer Detils</div>
+    </section>
   );
 };
 
