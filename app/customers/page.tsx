@@ -1,7 +1,7 @@
 import { Button, Link } from "@nextui-org/react";
 import { db } from "../db/connection";
 import { customers } from "@/drizzle/schema";
-import CustomersTable from "./components/CustomersTable";
+import CustomersTable from "./_components/CustomersTable";
 
 const Customers = async () => {
   const custData: any[] = await db.select().from(customers);
