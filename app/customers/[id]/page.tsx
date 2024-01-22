@@ -1,8 +1,7 @@
 import { db } from "@/app/db/connection";
-import { SelectCustomer, customers } from "@/drizzle/schema";
-import { notFound } from "next/navigation";
-import React from "react";
+import { customers } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 import CustomerDetails from "./CustomerDetails";
 
 const page = async ({ params }: { params: { id: string } }) => {

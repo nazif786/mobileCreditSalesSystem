@@ -355,3 +355,6 @@ export const users = mysqlTable(
 
 export type SelectCustomer = InferSelectModel<typeof customers>;
 export type InsertCustomer = InferInsertModel<typeof customers>;
+
+export type SelectEmpoyee = InferSelectModel<typeof employees>;
+export type InsertEmployee = InferInsertModel<typeof employees>;

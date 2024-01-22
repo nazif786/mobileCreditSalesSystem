@@ -30,7 +30,8 @@ import { capitalize } from "@/app/utils/capitalize";
 // import Link from "next/link";
 
 let INITIAL_VISIBLE_COLUMNS: string[] = [
-  "custId",
+  // "custId",
+  "custUId",
   "custComi",
   "custFname",
   "custMobile",
@@ -86,7 +87,7 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
                   <DropdownItem href={`/customers/${customer.custId}`}>
                     View
                   </DropdownItem>
-                  <DropdownItem href={`/customers/${customer.custId}`}>
+                  <DropdownItem href={`/customers/${customer.custId}/edit`}>
                     Edit
                   </DropdownItem>
                   <DropdownItem href={`/customers/${customer.custId}`}>

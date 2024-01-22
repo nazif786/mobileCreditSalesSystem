@@ -1,4 +1,3 @@
-import React from "react";
 import CustomerForm from "../../_components/CustomerForm";
 import { db } from "@/app/db/connection";
 import { customers } from "@/drizzle/schema";

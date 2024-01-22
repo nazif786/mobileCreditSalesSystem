@@ -84,13 +84,13 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="actions">
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/${employ.id}`}>
                     View
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/${employ.id}/edit`}>
                     Edit
                   </DropdownItem>
-                  <DropdownItem href={`/employees/new/${employ.id}`}>
+                  <DropdownItem href={`/employees/${employ.id}`}>
                     Delete
                   </DropdownItem>
                 </DropdownMenu>
