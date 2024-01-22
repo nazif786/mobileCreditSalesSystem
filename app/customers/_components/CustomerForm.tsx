@@ -13,6 +13,7 @@ import Alerts from "@/app/components/ui/Aterts";
 import Spinner from "@/app/components/ui/Spinner";
 import CustFormText from "./NewCustFormText";
 import { InsertCustomer } from "@/drizzle/schema";
+import EditCustFormText from "./EditCustFormText";
 
 type CustShema = z.infer<typeof custInsertSchema>;
 
@@ -52,7 +53,8 @@ const page = ({ customer }: { customer?: InsertCustomer }) => {
     <>
       <div className="m-auto p-2">
         <div className="flex-col mt-7 md:bg-white rounded-md md:py-7 md:w-[90%] lg:w-[65%] mx-auto">
-          <CustFormText />
+          {customer ? <EditCustFormText /> : <CustFormText />}
+
           <div className="my-7 mx-3">
             {error && <Alerts alertName="danger" alertMessage={error} />}
             <form

@@ -20,7 +20,9 @@ const EditCustomerPage = async ({ params }: Props) => {
 
   return (
     <section>
-      <div>Edit Customer Detils</div>
+      <h1 className="prose md:prose-lg lg:prose-2xl font-sans font-bold  text-zinc-500 text-center">
+        Edit Customer Detils
+      </h1>
       <CustomerForm customer={customer[0]} />
     </section>
   );
