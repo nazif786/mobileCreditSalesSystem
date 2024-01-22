@@ -66,17 +66,20 @@ export async function PATCH(
     //   // custAddress: body.custAddress,
     // });
     console.log(body);
-    // const updateData = await db.execute(
-    //   sql`UPDATE employeedb.customers SET cust_mobile = 999 WHERE (cust_id = '2');`,
-    // );
-
-    const data = db
-      .update(schema.customers)
-      .set({ custMobile: body.custMobile })
-      .where(eq(schema.customers.custId, parseInt(params.id)));
+    const updateData = await db.execute(
+      sql`UPDATE employeedb.customers SET 
+          cust_u_id = ${body.custUId}, 
+          cust_fname = ${body.custFname},
+          cust_lname = ${body.custLname},
+          cust_comi = ${body.custComi},
+          cust_mobile = ${body.custMobile},
+          cust_email = ${body.custEmail},
+          cust_address = ${body.custAddress}
+          WHERE (cust_id = ${parseInt(params.id)});`,
+    );
 
     // console.log(updateData);
-    return NextResponse.json({ data });
+    return NextResponse.json(updateData);
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message });

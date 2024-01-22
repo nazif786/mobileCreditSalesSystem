@@ -62,7 +62,7 @@ const CustomerDetails = ({ customer }: { customer: SelectCustomer }) => {
             fullWidth={true}
             labelPlacement="outside-left"
             variant="underlined"
-            label={columns[5].label}
+            label={columns[6].label}
             value={customer.custEmail!}
           />
           <Input

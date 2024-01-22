@@ -98,11 +98,9 @@ const page = ({ customer }: { customer?: InsertCustomer }) => {
               <Input
                 defaultValue={customer?.custMobile}
                 size="sm"
-                type="tel"
+                type="text"
                 label="Mobile Number"
-                {...register("custMobile", {
-                  valueAsNumber: true,
-                })}
+                {...register("custMobile")}
               />
               <DangerAlert>{errors.custMobile?.message}</DangerAlert>
               <Input

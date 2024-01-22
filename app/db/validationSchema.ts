@@ -75,7 +75,7 @@ export const custInsertSchema = z.object({
     .trim()
     .max(45, { message: "must not exceed 45 charactors" })
     .optional(),
-  custMobile: z.number({
+  custMobile: z.string({
     required_error: "Mobile Number is required",
     invalid_type_error: "Provie a correct mobile number",
   }),
