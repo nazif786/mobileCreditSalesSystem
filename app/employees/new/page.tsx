@@ -1,4 +1,4 @@
-import EmpForm from "../_components/empForm";
+import EmpForm from "../_components/EmpForm";
 
 const page = () => {
   return (

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     if (!validData.success) {
       return NextResponse.json(
         { error: validData.error.format() },
-        { status: 201 },
+        { status: 404 },
       );
     }
 

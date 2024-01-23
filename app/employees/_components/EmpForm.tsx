@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MailIcon } from "../../components/ui/MailIcon";
 import { UserIcon } from "../../components/ui/UserIcon";
+import { InsertEmployee } from "@/drizzle/schema";
 interface ValidationError {
   message: string;
   errors: Record<string, string[]>;
@@ -20,7 +21,7 @@ interface ValidationError {
 
 type empSchema = z.infer<typeof empInsertSchema>;
 
-const EmpForm = () => {
+const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
   const {
     register,
     handleSubmit,
@@ -34,7 +35,9 @@ const EmpForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
-      const res = await axios.post("/api/employees", data);
+      if (employeeData)
+        await axios.patch(`/api/employees/${employeeData.id}`, data);
+      else await axios.post("/api/employees", data);
       // console.log(res.status);
 
       router.push("/employees");
@@ -75,6 +78,7 @@ const EmpForm = () => {
 
           <form className=" max-w-xl space-y-5 " onSubmit={onSubmit}>
             <Input
+              defaultValue={employeeData?.tazkiraId}
               size="sm"
               type="text"
               label="Tazkira Number"
@@ -83,6 +87,7 @@ const EmpForm = () => {
             <DangerAlert>{errors.tazkiraId?.message}</DangerAlert>
 
             <Input
+              defaultValue={employeeData?.fname}
               size="sm"
               type="text"
               label="First Name"
@@ -90,6 +95,7 @@ const EmpForm = () => {
             />
             <DangerAlert>{errors.fname?.message}</DangerAlert>
             <Input
+              defaultValue={employeeData?.lname!}
               size="sm"
               type="text"
               label="Last Name"
@@ -97,12 +103,14 @@ const EmpForm = () => {
             />
             <DangerAlert>{errors.lname?.message}</DangerAlert>
             <Input
+              defaultValue={employeeData?.fatherName!}
               size="sm"
               type="text"
               label="Father Name"
               {...register("fatherName")}
             />
             <Input
+              defaultValue={employeeData?.jobTitle}
               size="sm"
               type="text"
               label="Job Title"
@@ -110,6 +118,7 @@ const EmpForm = () => {
             />
             <DangerAlert>{errors.jobTitle?.message!}</DangerAlert>
             <Input
+              defaultValue={employeeData?.mobile}
               size="sm"
               type="tel"
               label="Mobile Number"
@@ -117,6 +126,7 @@ const EmpForm = () => {
             />
             <DangerAlert>{errors.mobile?.message!}</DangerAlert>
             <Input
+              defaultValue={employeeData?.email!}
               size="md"
               type="email"
               label="Email"
@@ -129,18 +139,21 @@ const EmpForm = () => {
             <DangerAlert>{errors.email?.message}</DangerAlert>
 
             <RadioGroup
+              defaultValue={employeeData?.status!.toString()}
+              onSubmit={() => console.log(getSelection)}
               label="Emplyee Status"
               orientation="horizontal"
-              className="border-1 p-5 rounded-md"
+              className="border-1 p-5 rounded-md text-left"
               {...register("status")}
             >
-              <Radio value="0" className="mr-3">
+              <Radio value="1" className="mr-3" checked>
                 current
               </Radio>
-              <Radio value="1">former</Radio>
+              <Radio value={(0).toString()}>former</Radio>
             </RadioGroup>
             <DangerAlert>{errors.status?.message!}</DangerAlert>
             <Textarea
+              defaultValue={employeeData?.address!}
               size="sm"
               type="text"
               label="Adress"
@@ -155,7 +168,8 @@ const EmpForm = () => {
               size="lg"
               startContent={<UserIcon />}
             >
-              Save New Emplyee
+              {employeeData ? "Update Employee Info" : "Save New Emplyee"}
+
               {isSubmitting && <Spinner />}
             </Button>
           </form>

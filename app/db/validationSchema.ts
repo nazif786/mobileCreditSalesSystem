@@ -47,7 +47,7 @@ export const empInsertSchema = z.object({
     .string()
     .max(255, { message: "Address must be 255 or fewer characters long" }),
   regDate: z.string().datetime().optional(),
-  status: z.coerce.string().optional(),
+  status: z.coerce.boolean().optional(),
 });
 // z.coerce.date().max(new Date()),
 
