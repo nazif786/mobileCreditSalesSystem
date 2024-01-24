@@ -52,7 +52,7 @@ const DeleteCustomer = ({ customerId }: { customerId: number }) => {
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Are you sure to delete this employee, the data will be lost
+                  Are you sure to delete this customer, the data will be lost
                   forever?
                 </p>
               </ModalBody>

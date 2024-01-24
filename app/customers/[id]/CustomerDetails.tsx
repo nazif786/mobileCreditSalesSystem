@@ -4,10 +4,11 @@ import { Button, Input, Textarea } from "@nextui-org/react";
 import { columns } from "../utils/columns";
 import Link from "next/link";
 import DeleteCustomer from "./DeleteCustomer";
+import { useState } from "react";
 
 const CustomerDetails = ({ customer }: { customer: SelectCustomer }) => {
   return (
-    <div className="relative w-[100%]">
+    <div className="relative w-[100%] pb-7">
       <div className="md:absolute md:-mt-10 min-w-full p-5 md:bg-gradient-to-r from-violet-700 to-violet-800 md:shadow-slate-400  rounded-lg  md:shadow-md">
         <h1 className=" prose text-xl font-extrabold text-center md:text-zinc-50">
           Customer Information
@@ -28,8 +29,8 @@ const CustomerDetails = ({ customer }: { customer: SelectCustomer }) => {
               <Button className="w-[100%]" color="secondary">
                 <EditIcon fontSize={16} /> Edit
               </Button>
-              <DeleteCustomer customerId={customer.custId} />
             </Link>
+            <DeleteCustomer customerId={customer.custId} />
           </div>
         </div>
         <div className="flex-grow md:p-5 space-y-5">

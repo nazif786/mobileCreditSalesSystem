@@ -85,3 +85,27 @@ export async function PATCH(
     return NextResponse.json({ error: error.message });
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const customer = await db
+      .selectDistinct()
+      .from(schema.customers)
+      .where(eq(schema.customers.custId, parseInt(params.id)));
+
+    if (!customer)
+      return NextResponse.json({ error: "invalid Customer" }, { status: 404 });
+
+    await db
+      .delete(schema.customers)
+      .where(eq(schema.customers.custId, parseInt(params.id)));
+
+    return NextResponse.json({});
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json({ error: error.message });
+  }
+}
