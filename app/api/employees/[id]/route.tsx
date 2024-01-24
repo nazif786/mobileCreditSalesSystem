@@ -4,6 +4,7 @@ import { updateData } from "@/app/utils/apiUtils";
 import { employees } from "@/drizzle/schema";
 import { eq, ne } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { any } from "zod";
 
 export async function PATCH(
   request: NextRequest,
@@ -58,7 +59,7 @@ export async function PATCH(
         { status: 409 },
       );
     }
-    console.log(body);
+    // console.log(body);
     const updatedEmp = await db
       .update(employees)
       .set({
@@ -74,6 +75,27 @@ export async function PATCH(
       })
       .where(eq(employees.id, parseInt(params.id)));
     return NextResponse.json(updatedEmp);
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json({ error: error.message });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const emp = await db
+      .selectDistinct()
+      .from(employees)
+      .where(eq(employees.id, parseInt(params.id)));
+
+    if (!emp)
+      return NextResponse.json({ error: "invalid emplooyee" }, { status: 404 });
+
+    await db.delete(employees).where(eq(employees.id, parseInt(params.id)));
+    return NextResponse.json({});
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message });

@@ -42,7 +42,11 @@ export const empInsertSchema = z.object({
     .string({ required_error: "Mobile number is required" })
     .min(10, { message: "enter correct mobile number" })
     .max(15, { message: "mobile number must be 15 or fewer characters long" }),
-  email: z.string().email().optional().or(z.literal("")),
+  email: z
+    .string()
+    .email({ message: "please enter correct email address" })
+    .optional()
+    .or(z.literal("")),
   address: z
     .string()
     .max(255, { message: "Address must be 255 or fewer characters long" }),

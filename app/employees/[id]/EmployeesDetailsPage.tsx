@@ -4,11 +4,13 @@ import { Button, Input, Textarea } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
 import { columns } from "../columns";
+import DeleteEmployee from "./DeleteEmployee";
+import { capitalize } from "@/app/utils/capitalize";
 
 const EmployeesDetailsPage = ({ employee }: { employee: SelectEmpoyee }) => {
   return (
     <>
-      <div className="relative w-[100%]">
+      <div className="relative w-[100%] pb-10">
         <div className="md:absolute md:-mt-10 min-w-full p-5 md:bg-gradient-to-r from-violet-700 to-violet-800 md:shadow-slate-400  rounded-lg  md:shadow-md">
           <h1 className=" prose text-xl font-extrabold text-center md:text-zinc-50">
             Employee Information
@@ -18,15 +20,18 @@ const EmployeesDetailsPage = ({ employee }: { employee: SelectEmpoyee }) => {
           <div className="bg-zinc-100 lg:flex-grow-0 md:p-5 min-w-[14rem] text-center md:rounded-md md:shadow-lg my-5 py-2">
             <div className=" md:min-h-full lg:pt-24">
               <h3 className="text-xl font-thin text-zinc-800">
-                {employee.fname} {employee.lname}
+                {capitalize(employee.fname)} {capitalize(employee.lname!) || ""}
               </h3>
               <text className="text-zinc-500 text-wrap">{employee.mobile}</text>
             </div>
-            <Link href={`/employees/${employee.id}/edit`}>
-              <Button className="w-[100%]" color="secondary">
-                <EditIcon fontSize={16} /> Edit
-              </Button>
-            </Link>
+            <div className="grid gap-3">
+              <Link href={`/employees/${employee.id}/edit`}>
+                <Button className="w-[100%]" color="secondary">
+                  <EditIcon fontSize={16} /> Edit
+                </Button>
+              </Link>
+              <DeleteEmployee employeeId={employee.id} />
+            </div>
           </div>
           <div className="flex-grow md:p-5 space-y-5">
             <div className="md:flex md:space-x-2">

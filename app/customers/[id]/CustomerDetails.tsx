@@ -3,6 +3,7 @@ import { SelectCustomer } from "@/drizzle/schema";
 import { Button, Input, Textarea } from "@nextui-org/react";
 import { columns } from "../utils/columns";
 import Link from "next/link";
+import DeleteCustomer from "./DeleteCustomer";
 
 const CustomerDetails = ({ customer }: { customer: SelectCustomer }) => {
   return (
@@ -22,11 +23,14 @@ const CustomerDetails = ({ customer }: { customer: SelectCustomer }) => {
               {customer.custMobile}
             </text>
           </div>
-          <Link href={`/customers/${customer.custId}/edit`}>
-            <Button className="w-[100%]" color="secondary">
-              <EditIcon fontSize={16} /> Edit
-            </Button>
-          </Link>
+          <div className="grid gap-3">
+            <Link href={`/customers/${customer.custId}/edit`}>
+              <Button className="w-[100%]" color="secondary">
+                <EditIcon fontSize={16} /> Edit
+              </Button>
+              <DeleteCustomer customerId={customer.custId} />
+            </Link>
+          </div>
         </div>
         <div className="flex-grow md:p-5 space-y-5">
           <div className="md:flex md:space-x-2">

@@ -1,32 +1,33 @@
 "use client";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Pagination,
-  SortDescriptor,
   Button,
-  Input,
-  Selection,
   Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
   DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
   Link,
+  Pagination,
+  Selection,
+  SortDescriptor,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react";
 
 import { empInsertSchema } from "@/app/db/validationSchema";
-import { z } from "zod";
 import { useCallback, useMemo, useState } from "react";
-import { columns } from "./columns";
-import { SearchIcon } from "../components/ui/svg/SearchIcon";
+import { z } from "zod";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
-import { capitalize } from "../utils/capitalize";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
-// import Link from "next/link";
+import { SearchIcon } from "../components/ui/svg/SearchIcon";
+import { capitalize } from "../utils/capitalize";
+import { columns } from "./columns";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 
 type empSchema = z.infer<typeof empInsertSchema>;
@@ -52,6 +53,8 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
+  const router = useRouter();
+  const [err, setErr] = useState(false);
 
   const hasSearchFilter = Boolean(filterValue);
   // const rowsPerPage = 10;
@@ -89,9 +92,6 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
                   </DropdownItem>
                   <DropdownItem href={`/employees/${employ.id}/edit`}>
                     Edit
-                  </DropdownItem>
-                  <DropdownItem href={`/employees/${employ.id}`}>
-                    Delete
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

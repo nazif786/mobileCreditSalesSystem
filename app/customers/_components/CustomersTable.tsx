@@ -90,9 +90,6 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
                   <DropdownItem href={`/customers/${customer.custId}/edit`}>
                     Edit
                   </DropdownItem>
-                  <DropdownItem href={`/customers/${customer.custId}`}>
-                    Delete
-                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
