@@ -1,13 +1,16 @@
 "use client";
 import {
-  AiOutlineHome,
-  AiOutlineSetting,
-  AiOutlineFolder,
-  AiOutlineUser,
-  AiOutlineClockCircle,
   AiOutlineCalendar,
+  AiOutlineClockCircle,
+  AiOutlineFolder,
+  AiOutlineSetting,
+  AiOutlineUser,
 } from "react-icons/ai";
+import { HomeIcon } from "../components/ui/svg/HomeIcon";
 import { MenuItem } from "../types/MenuItem";
+import { TiGroup } from "react-icons/ti";
+import { GoRepo } from "react-icons/go";
+import { BiSolidPurchaseTag } from "react-icons/bi";
 
 //
 //
@@ -19,21 +22,22 @@ import { MenuItem } from "../types/MenuItem";
 //                              menu items (arry of objects)
 // ------------------------------------------------------------------------------------------------
 export const menuItems: MenuItem[] = [
-  { label: "Home", path: "/", icon: <AiOutlineHome size={24} /> },
-  {
-    label: "Settings",
-    path: "/settings",
-    icon: <AiOutlineSetting size={24} />,
-  },
+  { label: "Home", path: "/", icon: <HomeIcon size={24} /> },
+
   {
     label: "Employees",
     path: "/employees",
-    icon: <AiOutlineSetting size={24} />,
+    icon: <TiGroup size={24} />,
   },
   {
     label: "Customers",
     path: "/customers",
-    icon: <AiOutlineSetting size={24} />,
+    icon: <GoRepo size={24} />,
+  },
+  {
+    label: "Suppliers",
+    path: "/supliers",
+    icon: <BiSolidPurchaseTag size={24} />,
   },
 
   {

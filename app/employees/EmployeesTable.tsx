@@ -29,6 +29,8 @@ import { columns } from "./columns";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
+import { EyeIcon } from "../components/ui/svg/EyeIcon";
+import { EditIcon } from "../components/ui/svg/EditIcon";
 
 type empSchema = z.infer<typeof empInsertSchema>;
 
@@ -83,14 +85,20 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
               <Dropdown>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-default-300" />
+                    <VerticalDotsIcon className="text-blue-400" />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="actions">
-                  <DropdownItem href={`/employees/${employ.id}`}>
+                <DropdownMenu aria-label="actions" color="primary">
+                  <DropdownItem
+                    href={`/employees/${employ.id}`}
+                    endContent={<EyeIcon />}
+                  >
                     View
                   </DropdownItem>
-                  <DropdownItem href={`/employees/${employ.id}/edit`}>
+                  <DropdownItem
+                    href={`/employees/${employ.id}/edit`}
+                    endContent={<EditIcon />}
+                  >
                     Edit
                   </DropdownItem>
                 </DropdownMenu>

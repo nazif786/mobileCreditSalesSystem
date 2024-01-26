@@ -7,7 +7,7 @@ export const CheckIcon = ({
 }) => {
   return (
     <svg
-      width={size || width || 24}
+      width={size || width || 24} 
       height={size || height || 24}
       viewBox="0 0 24 24"
       fill="none"

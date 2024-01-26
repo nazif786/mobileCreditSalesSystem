@@ -11,7 +11,7 @@ const EmployeesDetailsPage = ({ employee }: { employee: SelectEmpoyee }) => {
   return (
     <>
       <div className="relative w-[100%] pb-10">
-        <div className="md:absolute md:-mt-10 min-w-full p-5 md:bg-gradient-to-r from-violet-700 to-violet-800 md:shadow-slate-400  rounded-lg  md:shadow-md">
+        <div className="md:absolute md:-mt-10 min-w-full p-5 md:bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 shadow-slate-400 rounded-lg  md:shadow-slate-400  md:shadow-md">
           <h1 className=" prose text-xl font-extrabold text-center md:text-zinc-50">
             Employee Information
           </h1>
@@ -26,7 +26,7 @@ const EmployeesDetailsPage = ({ employee }: { employee: SelectEmpoyee }) => {
             </div>
             <div className="grid gap-3">
               <Link href={`/employees/${employee.id}/edit`}>
-                <Button className="w-[100%]" color="secondary">
+                <Button className="w-[100%] md:bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 md:text-zinc-50">
                   <EditIcon fontSize={16} /> Edit
                 </Button>
               </Link>

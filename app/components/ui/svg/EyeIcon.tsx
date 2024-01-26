@@ -1,4 +1,3 @@
-import React from "react";
 export const EyeIcon = (
   props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) => (
