@@ -92,7 +92,7 @@ export async function DELETE(
       .where(eq(employees.id, parseInt(params.id)));
 
     if (!emp)
-      return NextResponse.json({ error: "invalid emplooyee" }, { status: 404 });
+      return NextResponse.json({ error: "invalid employee" }, { status: 404 });
 
     await db.delete(employees).where(eq(employees.id, parseInt(params.id)));
     return NextResponse.json({});

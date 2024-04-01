@@ -75,11 +75,9 @@ const SupplierForm = ({ supplierData }: { supplierData?: InsertSupplier }) => {
         </div>
         <div className="relative mt-20">
           {/* ------------- Form -***********************************------------- */}
-
           <div className="mb-3">
             {error && <Alerts alertName="danger" alertMessage={error} />}
           </div>
-
           <form className=" max-w-xl space-y-5 " onSubmit={onSubmit}>
             <Input
               defaultValue={supplierData?.compName}
@@ -123,7 +121,7 @@ const SupplierForm = ({ supplierData }: { supplierData?: InsertSupplier }) => {
               disabled={isSubmitting}
               type="submit"
               color="primary"
-              className="bg-fuchsia-800"
+              className="bg-gradient-to-r from-blue-800 to-indigo-900"
               size="lg"
               startContent={<UserIcon />}
             >
@@ -131,7 +129,7 @@ const SupplierForm = ({ supplierData }: { supplierData?: InsertSupplier }) => {
 
               {isSubmitting && <Spinner />}
             </Button>
-          </form>
+          </form>{" "}
         </div>
       </div>
     </section>

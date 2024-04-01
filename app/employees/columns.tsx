@@ -3,7 +3,7 @@ export const columns = [
   { key: "tazkiraId", label: "TAZKIRA No" },
   { key: "fname", label: "NAME" },
   { key: "lname", label: "Last Name" },
-  { key: "fatherName", label: "FATHAR NAME" },
+  { key: "fatherName", label: "FATHER NAME" },
   { key: "jobTitle", label: "TITLE" },
   { key: "mobile", label: "MOBILE" },
   { key: "email", label: "EMAIL" },

@@ -1,25 +1,25 @@
 import { db } from "@/app/db/connection";
-import { employees } from "@/drizzle/schema";
-import React from "react";
+import { company } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import EmployeesDetailsPage from "./EmployeesDetailsPage";
+import SupplierDetailsPage from "./SupplierDetailsPage";
 import { notFound } from "next/navigation";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const employee = await db
+  const supplier = await db
     .select()
-    .from(employees)
-    .where(eq(employees.id, parseInt(params.id)));
+    .from(company)
+    .where(eq(company.compId, parseInt(params.id)));
 
-  // console.log(employee);
-  if (!employee) notFound();
+  // console.log("supplier data", supplier);
+
+  if (!supplier) notFound();
   return (
     <>
       <h1 className="prose mb-7 text-zinc-600 text-center">
-        Emplyees Details Page
+        Supplier Details Page
       </h1>
       <div className="bg-white min-h-full rounded-lg shadow-md p-1 md:mx-auto md:p-5 md:w-[85%] lg:w-[65%]">
-        <EmployeesDetailsPage employee={employee[0]} />
+        <SupplierDetailsPage supplier={supplier[0]} />
       </div>
     </>
   );
