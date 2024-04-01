@@ -36,7 +36,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     label: "Suppliers",
-    path: "/supliers",
+    path: "/suppliers",
     icon: <BiSolidPurchaseTag size={24} />,
   },
 

@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/ui/UserIcon.jsx", "app/sidebar/Sidebar.tsx", "app/components/ui/svg/CameraIcon.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/ui/UserIcon.jsx", "app/sidebar/Sidebar.tsx", "app/components/ui/svg/CameraIcon.jsx", "app/components/ui/svg/users.jsx"],
   "exclude": ["node_modules"]
 }

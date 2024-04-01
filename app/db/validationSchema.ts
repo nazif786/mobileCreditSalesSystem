@@ -14,10 +14,10 @@ export function asOptionalField<T extends z.ZodTypeAny>(schema: T) {
 export const empInsertSchema = z.object({
   id: z.number().optional(),
   tazkiraId: z
-    .string({ required_error: "Tazkra number is required" })
+    .string({ required_error: "Tazkira number is required" })
     .trim()
-    .min(4, { message: "Tazkra number must be 4 or more characters long" })
-    .max(20, { message: "Tazkra number must be 20 or fewer characters long" }),
+    .min(4, { message: "Tazkira number must be 4 or more characters long" })
+    .max(20, { message: "Tazkira number must be 20 or fewer characters long" }),
   fname: z
     .string({ required_error: "Name is required" })
     .trim()
@@ -31,13 +31,13 @@ export const empInsertSchema = z.object({
   fatherName: z
     .string()
     .trim()
-    .max(45, { message: "father name msut be 45 or fewer characters long" })
+    .max(45, { message: "father name must be 45 or fewer characters long" })
     .optional(),
   jobTitle: z
     .string()
     .trim()
     .min(1, { message: "Job title is required" })
-    .max(45, { message: "father name msut be 45 or fewer characters long" }),
+    .max(45, { message: "father name must be 45 or fewer characters long" }),
   mobile: z
     .string({ required_error: "Mobile number is required" })
     .min(10, { message: "enter correct mobile number" })
@@ -60,8 +60,8 @@ export const custInsertSchema = z.object({
   custUId: z
     .string({ required_error: "Customer Unique ID is required" })
     .trim()
-    .min(3, { message: "Customer Unique ID must be 3 or more charactors" })
-    .max(15, { message: "must not exceed 15 charactors" }),
+    .min(3, { message: "Customer Unique ID must be 3 or more characters" })
+    .max(15, { message: "must not exceed 15 characters" }),
   custComi: z
     .number({
       required_error: "Commission percentage is required",
@@ -72,21 +72,43 @@ export const custInsertSchema = z.object({
   custFname: z
     .string({ required_error: "Customer name is required" })
     .trim()
-    .min(3, { message: "Customer First Name must be 3 or more charactors" })
-    .max(45, { message: "must not exceed 45 charactors" }),
+    .min(3, { message: "Customer First Name must be 3 or more characters" })
+    .max(45, { message: "must not exceed 45 characters" }),
   custLname: z
     .string()
     .trim()
-    .max(45, { message: "must not exceed 45 charactors" })
+    .max(45, { message: "must not exceed 45 characters" })
     .optional(),
   custMobile: z.string({
     required_error: "Mobile Number is required",
-    invalid_type_error: "Provie a correct mobile number",
+    invalid_type_error: "Provide a correct mobile number",
   }),
   custEmail: asOptionalField(z.string().email()),
   custAddress: z
     .string()
-    .max(255, { message: "must not exceed 255 charactors" })
+    .max(255, { message: "must not exceed 255 characters" })
     .optional(),
   custRegDate: z.string().datetime().optional(),
+});
+
+export const supplierInsertSchema = z.object({
+  compId: z.number().optional().nullable(),
+  compName: z
+    .string({ required_error: "Supplier name is required" })
+    .trim()
+    .min(3, { message: "Supplier name must be 3 or more characters" })
+    .max(45, { message: "Supplier name must not exceed 45 characters" }),
+
+  compMobile: z
+    .string({
+      required_error: "Mobile Number is required",
+      invalid_type_error: "Provide a correct mobile number",
+    })
+    .min(9, { message: "Please Enter a Valid Mobile number" })
+    .max(45, { message: "invalid Mobile number" }),
+  compEmail: asOptionalField(z.string().email()),
+  compAddress: z
+    .string()
+    .max(255, { message: "must not exceed 255 characters" })
+    .optional(),
 });

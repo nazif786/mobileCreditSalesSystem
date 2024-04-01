@@ -9,5 +9,5 @@
 "parserOptions":{
   "project": "./tsconfig.json"
 },
-"plugins": "drizzle"
+"plugins": ["drizzle"]
 }

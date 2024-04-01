@@ -2,7 +2,10 @@
 import Alerts from "@/app/components/ui/Aterts";
 import DangerAlert from "@/app/components/ui/DangerAlert";
 import Spinner from "@/app/components/ui/Spinner";
-import { empInsertSchema } from "@/app/db/validationSchema";
+import {
+  empInsertSchema,
+  supplierInsertSchema,
+} from "@/app/db/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
@@ -13,20 +16,20 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MailIcon } from "../../components/ui/MailIcon";
 import { UserIcon } from "../../components/ui/UserIcon";
-import { InsertEmployee } from "@/drizzle/schema";
+import { InsertSupplier } from "@/drizzle/schema";
 interface ValidationError {
   message: string;
   errors: Record<string, string[]>;
 }
 
-type empSchema = z.infer<typeof empInsertSchema>;
+type supplierSchema = z.infer<typeof supplierInsertSchema>;
 
-const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
+const SupplierForm = ({ supplierData }: { supplierData?: InsertSupplier }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<empSchema>({ resolver: zodResolver(empInsertSchema) });
+  } = useForm<supplierSchema>({ resolver: zodResolver(supplierInsertSchema) });
 
   const router = useRouter();
   const [error, setError] = useState();
@@ -34,13 +37,14 @@ const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      console.log("submit Called");
       setIsSubmitting(true);
-      if (employeeData)
-        await axios.patch(`/api/employees/${employeeData.id}`, data);
-      else await axios.post("/api/employees", data);
+      if (supplierData)
+        await axios.patch(`/api/suppliers/${supplierData.compId}`, data);
+      else await axios.post("/api/suppliers", data);
       // console.log(res.status);
 
-      router.push("/employees");
+      router.push("/suppliers");
     } catch (error: any) {
       setIsSubmitting(false);
       //console.log(error.message); // it shows 500 code error
@@ -59,14 +63,14 @@ const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
       >
         <div
           className=" mx-auto p-5 px-3 lg:absolute -top-5 lg:mr-7
-        bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 shadow-slate-400  rounded-lg  shadow-md "
+          bg-gradient-to-r from-blue-800 to-indigo-900 shadow-slate-400  rounded-lg  shadow-md "
         >
           <h2 className="prose md:prose-lg lg:prose-2xl font-sans text-zinc-50">
             Register New Employee
           </h2>
           <p className="text-zinc-300 ">
-            To Register new employee fill the required fields. Tazkira (ID)
-            number, first Name and mobile number fields are mandatory.
+            To Register new supplier fill the required fields. Supplier Name and
+            mobile number are required fields.
           </p>
         </div>
         <div className="relative mt-20">
@@ -78,88 +82,43 @@ const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
 
           <form className=" max-w-xl space-y-5 " onSubmit={onSubmit}>
             <Input
-              defaultValue={employeeData?.tazkiraId}
+              defaultValue={supplierData?.compName}
               size="sm"
               type="text"
-              label="Tazkira Number"
-              {...register("tazkiraId")}
+              label="Company Name"
+              {...register("compName")}
             />
-            <DangerAlert>{errors.tazkiraId?.message}</DangerAlert>
+            <DangerAlert>{errors.compName?.message}</DangerAlert>
 
             <Input
-              defaultValue={employeeData?.fname}
-              size="sm"
-              type="text"
-              label="First Name"
-              {...register("fname")}
-            />
-            <DangerAlert>{errors.fname?.message}</DangerAlert>
-            <Input
-              defaultValue={employeeData?.lname!}
-              size="sm"
-              type="text"
-              label="Last Name"
-              {...register("lname")}
-            />
-            <DangerAlert>{errors.lname?.message}</DangerAlert>
-            <Input
-              defaultValue={employeeData?.fatherName!}
-              size="sm"
-              type="text"
-              label="Father Name"
-              {...register("fatherName")}
-            />
-            <Input
-              defaultValue={employeeData?.jobTitle}
-              size="sm"
-              type="text"
-              label="Job Title"
-              {...register("jobTitle")}
-            />
-            <DangerAlert>{errors.jobTitle?.message!}</DangerAlert>
-            <Input
-              defaultValue={employeeData?.mobile}
+              defaultValue={supplierData?.compMobile}
               size="sm"
               type="tel"
               label="Mobile Number"
-              {...register("mobile")}
+              {...register("compMobile")}
             />
-            <DangerAlert>{errors.mobile?.message!}</DangerAlert>
+            <DangerAlert>{errors.compMobile?.message!}</DangerAlert>
             <Input
-              defaultValue={employeeData?.email!}
+              defaultValue={supplierData?.compEmail!}
               size="md"
               type="email"
               label="Email"
               startContent={
                 <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
-              {...register("email")}
+              {...register("compEmail")}
             />
 
-            <DangerAlert>{errors.email?.message}</DangerAlert>
+            <DangerAlert>{errors.compEmail?.message}</DangerAlert>
 
-            <RadioGroup
-              defaultValue={employeeData?.status!.toString()}
-              onSubmit={() => console.log(getSelection)}
-              label="Employee Status"
-              orientation="horizontal"
-              className="border-1 p-5 rounded-md text-left"
-              {...register("status")}
-            >
-              <Radio value="1" className="mr-3" checked>
-                current
-              </Radio>
-              <Radio value={(0).toString()}>former</Radio>
-            </RadioGroup>
-            <DangerAlert>{errors.status?.message!}</DangerAlert>
             <Textarea
-              defaultValue={employeeData?.address!}
+              defaultValue={supplierData?.compAddress!}
               size="sm"
               type="text"
-              label="Address"
-              {...register("address")}
+              label="Adress"
+              {...register("compAddress")}
             />
-            <DangerAlert>{errors.address?.message!}</DangerAlert>
+            <DangerAlert>{errors.compAddress?.message!}</DangerAlert>
             <Button
               disabled={isSubmitting}
               type="submit"
@@ -168,7 +127,7 @@ const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
               size="lg"
               startContent={<UserIcon />}
             >
-              {employeeData ? "Update Employee Info" : "Save New Employee"}
+              {supplierData ? "Update Supplier Info" : "Save New Supplier"}
 
               {isSubmitting && <Spinner />}
             </Button>
@@ -179,4 +138,4 @@ const EmpForm = ({ employeeData }: { employeeData?: InsertEmployee }) => {
   );
 };
 
-export default EmpForm;
+export default SupplierForm;
