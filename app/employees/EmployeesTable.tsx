@@ -107,7 +107,9 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
           );
         case "regDate":
           return (
-            <span>{new Date(cellValue!).toISOString().split("T")[0]}</span>
+            <span>
+              {new Date(cellValue as string).toISOString().split("T")[0]}
+            </span>
           );
         case "fname":
           return <span>{capitalize(cellValue?.toString()!)}</span>;
@@ -191,7 +193,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   }, [sortDescriptor, items]);
 
   ////////////////////////////////////////////////////////////////////
-  // Paginationa
+  // Pagination
   const onNextPage = useCallback(() => {
     if (page < pages) {
       setPage(page + 1);
@@ -330,7 +332,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   return (
     <Table
       bottomContentPlacement="outside"
-      aria-label="Example table with dynamic content"
+      aria-label="Employee table with dynamic content"
       selectionMode="single"
       color="primary"
       bottomContent={bottomContent}
