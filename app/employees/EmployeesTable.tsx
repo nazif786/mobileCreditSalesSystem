@@ -11,11 +11,11 @@ import {
   Selection,
   SortDescriptor,
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableColumn,
+  TableBody,
   TableRow,
+  TableCell,
 } from "@nextui-org/react";
 
 import { empInsertSchema } from "@/app/db/validationSchema";
@@ -55,8 +55,8 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
-  const router = useRouter();
-  const [err, setErr] = useState(false);
+  // const router = useRouter();
+  // const [err, setErr] = useState(false);
 
   const hasSearchFilter = Boolean(filterValue);
   // const rowsPerPage = 10;
@@ -77,7 +77,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   const renderCell = useCallback(
     (employ: Employ, columnKey: React.Key | Date) => {
       const cellValue = employ[columnKey as keyof Employ];
-
+      // console.log("cell values are ", cellValue);
       switch (columnKey) {
         case "actions":
           return (
@@ -180,7 +180,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   );
 
   //////////////////////////////////////////////////////////////////
-  //  sorting cloumns contents. pass this as items to table body instead of Items
+  //  sorting columns contents. pass this as items to table body instead of Items
   const sortedItems = useMemo(() => {
     // ---- copied
     return [...items].sort((a: Employ, b: Employ) => {
@@ -191,7 +191,6 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-
   ////////////////////////////////////////////////////////////////////
   // Pagination
   const onNextPage = useCallback(() => {
@@ -331,13 +330,13 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Table
-      bottomContentPlacement="outside"
       aria-label="Employee table with dynamic content"
       selectionMode="single"
       color="primary"
-      bottomContent={bottomContent}
       topContent={topContent}
       topContentPlacement="outside"
+      bottomContent={bottomContent}
+      bottomContentPlacement="outside"
       onSortChange={setSortDescriptor}
     >
       <TableHeader columns={headerColumns}>

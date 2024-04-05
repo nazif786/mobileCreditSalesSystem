@@ -6,7 +6,7 @@ import { SelectSupplier } from "@/drizzle/schema";
 
 const page = async () => {
   const supplierData: SelectSupplier[] = await db.select().from(schema.company);
-
+  console.log(supplierData);
   return (
     <>
       <div className="bg-cyan-900 text-zinc-50 py-10 px-3">Suppliers page</div>

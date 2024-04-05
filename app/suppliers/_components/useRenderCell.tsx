@@ -1,4 +1,4 @@
-import { ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import { SelectSupplier } from "@/drizzle/schema";
 import { capitalize } from "@/app/utils/capitalize";
 import { EditIcon } from "@/app/components/ui/svg/EditIcon";
@@ -14,25 +14,15 @@ import {
 
 type Supplier = SelectSupplier;
 
-interface RenderCellProps {
-  supplier: Supplier;
-  columnKey: React.Key | Date;
-}
-
-interface UseRenderCellProps {
-  supplierData: SelectSupplier[];
-}
-
-export const useRenderCell = ({ supplierData }: UseRenderCellProps) => {
+export const useRenderCell = () => {
   const renderCell = useCallback(
-    (props: RenderCellProps) => {
-      const { supplier, columnKey } = props;
-      const cellValue = supplier[columnKey as keyof Supplier];
-
+    (supplier: Supplier, columnKey: React.Key | Date) => {
+      let cellValue = supplier[columnKey as keyof Supplier];
+      console.log(cellValue);
       switch (columnKey) {
         case "actions":
           return (
-            <div className="relative flex justify-end items-center gap-2">
+            <div>
               <Dropdown>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
@@ -58,13 +48,13 @@ export const useRenderCell = ({ supplierData }: UseRenderCellProps) => {
           );
 
         case "comp_name":
-          return <span>{capitalize(cellValue?.toString()!)}</span>;
+          return <span>{capitalize(cellValue?.toString() || " ")}</span>;
 
         default:
           return cellValue;
       }
     },
-    [supplierData],
+    [],
   );
 
   return renderCell;
