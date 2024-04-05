@@ -20,17 +20,19 @@ import {
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
-import { EditIcon } from "../components/ui/svg/EditIcon";
-import { EyeIcon } from "../components/ui/svg/EyeIcon";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
 import { SearchIcon } from "../components/ui/svg/SearchIcon";
-import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 import { capitalize } from "../utils/capitalize";
-import { supplierColumns } from "../utils/columns";
-import useHeaderColumns from "./_components/useHeaderColumns";
 import { useRenderCell } from "./_components/useRenderCell";
+import { supplierColumns } from "../utils/columns";
 
-let INITIAL_VISIBLE_COLUMNS = supplierColumns.map((supplier) => supplier.key);
+let INITIAL_VISIBLE_COLUMNS: any[] = [
+  "compId",
+  "compName",
+  "compMobile",
+  "compEmail",
+  "actions",
+];
 
 const SupplierTable = ({
   supplierData,
@@ -45,9 +47,16 @@ const SupplierTable = ({
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
 
-  const headerColumns = useHeaderColumns(visibleColumns);
+  //   const headerColumns = useHeaderColumns(visibleColumns);
+  const headerColumns = useMemo(() => {
+    if (visibleColumns === "all") return supplierColumns;
+
+    return supplierColumns.filter((column) =>
+      Array.from(visibleColumns).includes(column.key),
+    );
+  }, [visibleColumns]);
+
   const renderCell = useRenderCell();
-  //   console.log(renderCell);
   const hasSearchFilter = Boolean(filterValue.trim().length);
 
   const pages = Math.ceil(supplierData.length / rowsPerPage);
@@ -85,12 +94,10 @@ const SupplierTable = ({
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-  console.log(items);
 
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
-
       setPage(1);
     },
     [],
@@ -126,6 +133,7 @@ const SupplierTable = ({
       <div className="flex flex-col gap-4 bg-slate-300 mt-7 p-5 rounded-md">
         <div className="flex justify-between gap-3 items-end">
           <Input
+            name="search"
             isClearable
             className="w-full sm:max-w-[44%]"
             placeholder="Search by name or job title..."
@@ -157,14 +165,14 @@ const SupplierTable = ({
               >
                 {supplierColumns.map((column) => (
                   <DropdownItem key={column.key} className="capitalize">
-                    {capitalize(column.label)}
+                    {column.label}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
 
             <Button color="primary" endContent={<PlusIcon />}>
-              <Link href="/employees/new" className="text-white">
+              <Link href="/suppliers/new" className="text-white">
                 Add New
               </Link>
             </Button>
@@ -183,9 +191,9 @@ const SupplierTable = ({
             >
               <option value="5">5</option>
               <option value="10">10</option>
-              <option value="15">15</option>
+              <option value="50">50</option>
               <option value="100">100</option>
-              <option value="all">All</option>
+              <option value={supplierData.length}>All</option>
             </select>
           </label>
         </div>
@@ -256,7 +264,7 @@ const SupplierTable = ({
             <TableColumn
               key={column.key}
               //   align={column.key === "actions" ? "center" : "start"}
-              //   allowsSorting={column.sortable}
+              allowsSorting={column.sortable}
             >
               {column.label}
             </TableColumn>
@@ -268,7 +276,7 @@ const SupplierTable = ({
           emptyContent={"No employees data to display."}
         >
           {(item) => (
-            <TableRow key={item.compName}>
+            <TableRow key={item.compId}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)} </TableCell>
               )}

@@ -43,8 +43,6 @@ let INITIAL_VISIBLE_COLUMNS: any[] = [
   "regDate",
   "actions",
 ];
-const li = new Set(INITIAL_VISIBLE_COLUMNS);
-
 export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   type Employ = (typeof empData)[0];
   //// start here
@@ -163,17 +161,10 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
   /////////////////////////////////////
-
   // rows per page code
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      // let lent: number = empData.length;
-      // console.log(lent);
-      // if (e.target.value == "all") {
-      //   setRowsPerPage(lent);
-      // }
       setRowsPerPage(Number(e.target.value));
-
       setPage(1);
     },
     [],
@@ -271,9 +262,9 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
             >
               <option value="5">5</option>
               <option value="10">10</option>
-              <option value="15">15</option>
+              <option value="50">50</option>
               <option value="100">100</option>
-              <option value="all">All</option>
+              <option value={empData.length}>All</option>
             </select>
           </label>
         </div>

@@ -1,8 +1,8 @@
 export const supplierColumns = [
-  { key: "compId", label: "Supplier ID", sortable: true },
-  { key: "compName", label: "Name", sortable: true },
-  { key: "compMobile", label: "Mobile Number" },
-  { key: "compEmail", label: "Email Address" },
-  { key: "compAddress", label: "Suppler Address" },
+  { key: "compId", label: "SUPPLIER ID", sortable: true },
+  { key: "compName", label: "NAME", sortable: true },
+  { key: "compMobile", label: "MOBILE NUMBER" },
+  { key: "compEmail", label: "EMAIL ADDRESS" },
+  { key: "compAddress", label: "ADDRESS" },
   { key: "actions", label: "ACTIONS" },
 ];

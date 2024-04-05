@@ -18,7 +18,7 @@ export const useRenderCell = () => {
   const renderCell = useCallback(
     (supplier: Supplier, columnKey: React.Key | Date) => {
       let cellValue = supplier[columnKey as keyof Supplier];
-      console.log(cellValue);
+      // console.log(cellValue);
       switch (columnKey) {
         case "actions":
           return (
@@ -47,7 +47,7 @@ export const useRenderCell = () => {
             </div>
           );
 
-        case "comp_name":
+        case "compName":
           return <span>{capitalize(cellValue?.toString() || " ")}</span>;
 
         default:
