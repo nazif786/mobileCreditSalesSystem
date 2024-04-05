@@ -285,7 +285,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
         <div className="hidden sm:flex w-[30%] justify-start gap-2">
           <Button
             className="bg-white px-7"
-            isDisabled={pages === 1}
+            isDisabled={page === 1}
             size="sm"
             variant="flat"
             onPress={onPreviousPage}
@@ -305,7 +305,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button
             className="bg-white px-7"
-            isDisabled={pages === 1}
+            isDisabled={page === pages}
             size="sm"
             variant="flat"
             onPress={onNextPage}

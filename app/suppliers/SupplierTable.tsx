@@ -1,9 +1,6 @@
 "use client";
 import { SelectSupplier } from "@/drizzle/schema";
 import {
-  Button,
-  Input,
-  Pagination,
   Selection,
   SortDescriptor,
   Table,
@@ -12,27 +9,22 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  usePagination,
 } from "@nextui-org/react";
-import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { PlusIcon } from "../components/ui/svg/PlusIcon";
-import { SearchIcon } from "../components/ui/svg/SearchIcon";
 import { supplierColumns } from "../utils/columns";
-import { useRenderCell } from "./_components/useRenderCell";
+import { useBottomContent } from "./_hooks/useBottomContent";
+import { useFilteredItems, useItems } from "./_hooks/useFilteredItems";
+import useHeaderColumns from "./_hooks/useHeaderColumns";
+import { useRenderCell } from "./_hooks/useRenderCell";
+import { useSortedItems } from "./_hooks/useSortedItems";
+import { useTopContent } from "./_hooks/useTopContent";
 
-let INITIAL_VISIBLE_COLUMNS: any[] = [
-  "compId",
-  "compName",
-  "compMobile",
-  "compEmail",
-  "actions",
-];
-
-const SupplierTable = ({
-  supplierData,
-}: {
-  supplierData: SelectSupplier[];
-}) => {
+// prettier-ignore
+let INITIAL_VISIBLE_COLUMNS: any[] = ["compId", "compName", "compMobile", "compEmail", "actions"];
+// prettier-ignore
+const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
+  // 
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState(1);
@@ -41,53 +33,22 @@ const SupplierTable = ({
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
 
-  //   const headerColumns = useHeaderColumns(visibleColumns);
-  const headerColumns = useMemo(() => {
-    // if (visibleColumns === "all") return supplierColumns;
-    return supplierColumns.filter((column) =>
-      Array.from(visibleColumns).includes(column.key),
-    );
-  }, [visibleColumns]);
-
-  const renderCell = useRenderCell();
+  // Variable and Types
   const hasSearchFilter = Boolean(filterValue.trim().length);
-
   const pages = Math.ceil(supplierData.length / rowsPerPage);
 
-  const filteredItems = useMemo(() => {
-    let filteredSupplier = [...supplierData];
+  //HOOKS
+  const headerColumns = useHeaderColumns(visibleColumns);
+  const renderCell = useRenderCell();
+  // const filteredItems = useFilteredItems(supplierData, filterValue,hasSearchFilter);
+  const filteredItems = useFilteredItems(supplierData, filterValue);
+  const items = useItems(filteredItems, page, rowsPerPage);
 
-    if (hasSearchFilter) {
-      filteredSupplier = filteredSupplier.filter(
-        (
-          supp, //// search the columns here
-        ) => supp.compName.toLowerCase().includes(filterValue.toLowerCase()),
-        //   ||
-        //   emp.jobTitle.toLowerCase().includes(filterValue.toLowerCase()),
-      );
-    }
+  const sortedItems = useSortedItems(items, sortDescriptor);
 
-    return filteredSupplier;
-  }, [supplierData, filterValue]);
 
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
 
-  type Supplier = (typeof supplierData)[0];
-  const sortedItems = useMemo(() => {
-    // ---- copied
-    return [...items].sort((a: Supplier, b: Supplier) => {
-      const first = a[sortDescriptor.column as keyof Supplier] as number;
-      const second = b[sortDescriptor.column as keyof Supplier] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, items]);
-
+  // sorted till here
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
@@ -121,124 +82,11 @@ const SupplierTable = ({
     setFilterValue("");
     setPage(1);
   }, []);
-  const topContent = useMemo(() => {
-    return (
-      <div className="flex flex-col gap-3 bg-slate-300 mt-0 p-5 rounded-md">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            name="search"
-            isClearable
-            className="w-full sm:max-w-[44%]"
-            placeholder=" Search by supplier name or ID..."
-            startContent={<SearchIcon />}
-            value={filterValue}
-            onClear={() => onClear()}
-            onValueChange={onSearchChange}
-          />
 
-          <div className="flex gap-3">
-            {/* <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  style={{ zIndex: 1 }}
-                  color="secondary"
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {supplierColumns.map((column) => (
-                  <DropdownItem key={column.key} className="capitalize">
-                    {column.label}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown> */}
-
-            <Button color="primary" endContent={<PlusIcon />}>
-              <Link href="/suppliers/new" className="text-white">
-                Add New
-              </Link>
-            </Button>
-          </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {supplierData.length} employees
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              defaultValue="10"
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value={supplierData.length}>All</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    );
-  }, [
-    filterValue,
-    onSearchChange,
-    // statusFilter,
-    visibleColumns,
-    onRowsPerPageChange,
-    supplierData.length,
-    hasSearchFilter,
-  ]);
-
-  const bottomContent = useMemo(() => {
-    return (
-      <div className="py-5 px-5 flex justify-between items-center bg-slate-300 rounded-md">
-        <div className="hidden sm:flex w-[30%] justify-start gap-2">
-          <Button
-            className="bg-white px-7"
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onPreviousPage}
-          >
-            Previous
-          </Button>
-        </div>
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="primary"
-          page={page}
-          total={pages}
-          onChange={setPage}
-        />
-        <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button
-            className="bg-white px-7"
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onNextPage}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-    );
-  }, [items.length, page, pages]);
+  // prettier-ignore
+  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, supplierData});
+  // prettier-ignore
+  const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
 
   return (
     <>
