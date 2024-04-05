@@ -9,9 +9,8 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  usePagination,
 } from "@nextui-org/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { supplierColumns } from "../utils/columns";
 import { useBottomContent } from "./_hooks/useBottomContent";
 import { useFilteredItems, useItems } from "./_hooks/useFilteredItems";
@@ -40,15 +39,11 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   //HOOKS
   const headerColumns = useHeaderColumns(visibleColumns);
   const renderCell = useRenderCell();
-  // const filteredItems = useFilteredItems(supplierData, filterValue,hasSearchFilter);
   const filteredItems = useFilteredItems(supplierData, filterValue);
   const items = useItems(filteredItems, page, rowsPerPage);
-
   const sortedItems = useSortedItems(items, sortDescriptor);
 
-
-
-  // sorted till here
+  // rows per page 
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
