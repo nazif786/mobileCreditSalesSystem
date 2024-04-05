@@ -11,26 +11,24 @@ import {
   Selection,
   SortDescriptor,
   Table,
-  TableHeader,
-  TableColumn,
   TableBody,
-  TableRow,
   TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react";
 
 import { empInsertSchema } from "@/app/db/validationSchema";
 import { useCallback, useMemo, useState } from "react";
 import { z } from "zod";
 import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
+import { EditIcon } from "../components/ui/svg/EditIcon";
+import { EyeIcon } from "../components/ui/svg/EyeIcon";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
 import { SearchIcon } from "../components/ui/svg/SearchIcon";
+import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
 import { capitalize } from "../utils/capitalize";
 import { columns } from "./columns";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { VerticalDotsIcon } from "../components/ui/svg/VerticalDotsIcon";
-import { EyeIcon } from "../components/ui/svg/EyeIcon";
-import { EditIcon } from "../components/ui/svg/EditIcon";
 
 type empSchema = z.infer<typeof empInsertSchema>;
 
@@ -202,7 +200,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 bg-slate-300 mt-7 p-5 rounded-md">
+      <div className="flex flex-col gap-4 bg-slate-300 mt-7 p-5 rounded-none">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -283,7 +281,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   const bottomContent = useMemo(() => {
     return (
-      <div className="py-5 px-5 flex justify-between items-center bg-slate-300 rounded-md">
+      <div className="p-5 flex justify-between items-center bg-slate-300 rounded-none">
         <div className="hidden sm:flex w-[30%] justify-start gap-2">
           <Button
             className="bg-white px-7"
@@ -329,6 +327,8 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       onSortChange={setSortDescriptor}
+      radius="none"
+      isCompact
     >
       <TableHeader columns={headerColumns}>
         {(column) => (

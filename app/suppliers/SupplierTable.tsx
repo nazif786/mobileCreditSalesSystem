@@ -2,10 +2,6 @@
 import { SelectSupplier } from "@/drizzle/schema";
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Input,
   Pagination,
   Selection,
@@ -19,12 +15,10 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
 import { PlusIcon } from "../components/ui/svg/PlusIcon";
 import { SearchIcon } from "../components/ui/svg/SearchIcon";
-import { capitalize } from "../utils/capitalize";
-import { useRenderCell } from "./_components/useRenderCell";
 import { supplierColumns } from "../utils/columns";
+import { useRenderCell } from "./_components/useRenderCell";
 
 let INITIAL_VISIBLE_COLUMNS: any[] = [
   "compId",
@@ -49,8 +43,7 @@ const SupplierTable = ({
 
   //   const headerColumns = useHeaderColumns(visibleColumns);
   const headerColumns = useMemo(() => {
-    if (visibleColumns === "all") return supplierColumns;
-
+    // if (visibleColumns === "all") return supplierColumns;
     return supplierColumns.filter((column) =>
       Array.from(visibleColumns).includes(column.key),
     );
@@ -130,13 +123,13 @@ const SupplierTable = ({
   }, []);
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 bg-slate-300 mt-7 p-5 rounded-md">
+      <div className="flex flex-col gap-3 bg-slate-300 mt-0 p-5 rounded-md">
         <div className="flex justify-between gap-3 items-end">
           <Input
             name="search"
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name or job title..."
+            placeholder=" Search by supplier name or ID..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -144,7 +137,7 @@ const SupplierTable = ({
           />
 
           <div className="flex gap-3">
-            <Dropdown>
+            {/* <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   style={{ zIndex: 1 }}
@@ -169,7 +162,7 @@ const SupplierTable = ({
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
 
             <Button color="primary" endContent={<PlusIcon />}>
               <Link href="/suppliers/new" className="text-white">
@@ -251,7 +244,7 @@ const SupplierTable = ({
     <>
       <Table
         aria-label="Supplier table contents"
-        color="secondary"
+        color="primary"
         selectionMode="single"
         topContent={topContent}
         topContentPlacement="outside"
@@ -276,11 +269,13 @@ const SupplierTable = ({
           emptyContent={"No employees data to display."}
         >
           {(item) => (
+            // <Suspense>
             <TableRow key={item.compId}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)} </TableCell>
               )}
             </TableRow>
+            // </Suspense>
           )}
         </TableBody>
       </Table>

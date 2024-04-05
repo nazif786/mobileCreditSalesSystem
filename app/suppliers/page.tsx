@@ -9,7 +9,9 @@ const page = async () => {
   // console.log(supplierData);
   return (
     <>
-      <div className="bg-cyan-900 text-zinc-50 py-10 px-3">Suppliers page</div>
+      <div className="bg-cyan-900 text-zinc-50 py-10 px-3 pl-7 font-bold">
+        Suppliers Information
+      </div>
       <SupplierTable supplierData={supplierData} />
     </>
   );

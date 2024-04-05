@@ -1,20 +1,17 @@
-import { useCallback } from "react";
-import { SelectSupplier } from "@/drizzle/schema";
-import { capitalize } from "@/app/utils/capitalize";
+"use client";
+import Spinner from "@/app/components/ui/Spinner";
 import { EditIcon } from "@/app/components/ui/svg/EditIcon";
 import { EyeIcon } from "@/app/components/ui/svg/EyeIcon";
-import { VerticalDotsIcon } from "@/app/components/ui/svg/VerticalDotsIcon";
-import {
-  Dropdown,
-  DropdownTrigger,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/react";
+import { capitalize } from "@/app/utils/capitalize";
+import { SelectSupplier } from "@/drizzle/schema";
+import { Tooltip } from "@nextui-org/react";
+import Link from "next/link";
+import { useCallback, useState } from "react";
 
 type Supplier = SelectSupplier;
 
 export const useRenderCell = () => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const renderCell = useCallback(
     (supplier: Supplier, columnKey: React.Key | Date) => {
       let cellValue = supplier[columnKey as keyof Supplier];
@@ -22,28 +19,27 @@ export const useRenderCell = () => {
       switch (columnKey) {
         case "actions":
           return (
-            <div>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-blue-400" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="actions" color="primary">
-                  <DropdownItem
-                    href={`/suppliers/${supplier.compId}`}
-                    endContent={<EyeIcon />}
-                  >
-                    View
-                  </DropdownItem>
-                  <DropdownItem
-                    href={`/suppliers/${supplier.compId}/edit`}
-                    endContent={<EditIcon />}
-                  >
-                    Edit
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+            <div className="relative flex items-center gap-3">
+              <Tooltip content="Details" color="foreground">
+                <Link
+                  href={`/suppliers/${supplier.compId}`}
+                  onClick={() => setIsSubmitting(true)}
+                >
+                  <span className="text-lg text-secondary cursor-pointer active:opacity-50">
+                    {isSubmitting ? <Spinner /> : <EyeIcon />}
+                  </span>
+                </Link>
+              </Tooltip>
+              <Tooltip content="Edit user" color="foreground">
+                <Link
+                  href={`/suppliers/${supplier.compId}/edit`}
+                  onClick={() => setIsSubmitting(true)}
+                >
+                  <span className="text-lg text-primary cursor-pointer active:opacity-50">
+                    {isSubmitting ? <Spinner /> : <EditIcon />}
+                  </span>
+                </Link>
+              </Tooltip>
             </div>
           );
 
