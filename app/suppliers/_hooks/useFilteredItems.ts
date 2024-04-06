@@ -2,7 +2,7 @@
 // import { SelectSupplier } from "@/drizzle/schema";
 
 import { SelectSupplier } from "@/drizzle/schema";
-import { useMemo } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 
 export const useFilteredItems = (
   supplierData: SelectSupplier[],
@@ -27,3 +27,18 @@ export const useItems = (
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 };
+
+// export const useSearchChange = (
+//   setFilterValue: Dispatch<SetStateAction<string>>,
+//   setPage: Dispatch<SetStateAction<number>>,
+//   value?: string,
+// ) => {
+//   return useCallback(() => {
+//     if (value) {
+//       setFilterValue(value);
+//       setPage(1);
+//     } else {
+//       setFilterValue("");
+//     }
+//   }, []);
+// };

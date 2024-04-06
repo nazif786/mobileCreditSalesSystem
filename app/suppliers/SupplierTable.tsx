@@ -10,12 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { supplierColumns } from "../utils/columns";
 import { useBottomContent } from "./_hooks/useBottomContent";
 import { useFilteredItems, useItems } from "./_hooks/useFilteredItems";
 import useHeaderColumns from "./_hooks/useHeaderColumns";
+import usePage, { useRowsPerPage } from "./_hooks/usePage";
 import { useRenderCell } from "./_hooks/useRenderCell";
+import { useSearchChange } from "./_hooks/useSearchChange";
 import { useSortedItems } from "./_hooks/useSortedItems";
 import { useTopContent } from "./_hooks/useTopContent";
 
@@ -32,8 +34,6 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
 
-  // Variable and Types
-  const hasSearchFilter = Boolean(filterValue.trim().length);
   const pages = Math.ceil(supplierData.length / rowsPerPage);
 
   //HOOKS
@@ -42,47 +42,13 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   const filteredItems = useFilteredItems(supplierData, filterValue);
   const items = useItems(filteredItems, page, rowsPerPage);
   const sortedItems = useSortedItems(items, sortDescriptor);
-
-  // rows per page 
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    [],
-  );
-
-  // Pagination
-  const onNextPage = useCallback(() => {
-    if (page < pages) {
-      setPage(page + 1);
-    }
-  }, [page, pages]);
-  /////////////////////////////////////////////////////
-  const onPreviousPage = useCallback(() => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  }, [page]);
-  // end of Pagination
-  const onSearchChange = useCallback((value?: string) => {
-    if (value) {
-      setFilterValue(value);
-      setPage(1);
-    } else {
-      setFilterValue("");
-    }
-  }, []);
-  const onClear = useCallback(() => {
-    setFilterValue("");
-    setPage(1);
-  }, []);
-
+  const {onRowsPerPageChange} = useRowsPerPage(setRowsPerPage, setPage) 
+  const {onNextPage, onPreviousPage} = usePage(page, setPage, pages)
+  const { onSearchChange, onClear } = useSearchChange(setFilterValue, setPage);
   // prettier-ignore
   const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, supplierData});
   // prettier-ignore
   const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
-
   return (
     <>
       <Table

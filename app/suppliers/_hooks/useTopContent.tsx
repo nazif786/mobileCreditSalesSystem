@@ -1,8 +1,10 @@
+"use client";
 import { PlusIcon } from "@/app/components/ui/svg/PlusIcon";
 import { SearchIcon } from "@/app/components/ui/svg/SearchIcon";
 import { SelectSupplier } from "@/drizzle/schema";
-import { Button, Input, Link } from "@nextui-org/react";
-import { useMemo } from "react";
+import { Button, Input, Spinner } from "@nextui-org/react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 
 export const useTopContent = ({
   filterValue,
@@ -17,6 +19,7 @@ export const useTopContent = ({
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   supplierData: SelectSupplier[];
 }) => {
+  const [loading, setLoading] = useState(false); // State to track loading state
   return useMemo(() => {
     return (
       <div className="flex flex-col gap-3 bg-slate-300 mt-0 p-5 rounded-md">
@@ -33,10 +36,18 @@ export const useTopContent = ({
           />
 
           <div className="flex gap-3">
-            <Button color="primary" endContent={<PlusIcon />}>
-              <Link href="/suppliers/new" className="text-white">
-                Add New
-              </Link>
+            <Button
+              color="primary"
+              onClick={() => setLoading(true)}
+              endContent={
+                loading ? <Spinner color="warning" size="sm" /> : <PlusIcon />
+              }
+              startContent={loading && <Spinner color="danger" />}
+              href="/suppliers/new"
+              as={Link}
+              // isLoading={loading}
+            >
+              Add New
             </Button>
           </div>
         </div>
