@@ -81,10 +81,10 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
               <Dropdown>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-blue-400" />
+                    <VerticalDotsIcon className="text-fuchsia-800" />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="actions" color="primary">
+                <DropdownMenu aria-label="actions" className="text-fuchsia-800">
                   <DropdownItem
                     href={`/employees/${employ.id}`}
                     endContent={<EyeIcon />}
@@ -240,7 +240,10 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
               </DropdownMenu>
             </Dropdown>
 
-            <Button color="primary" endContent={<PlusIcon />}>
+            <Button
+              className="bg-fuchsia-800"
+              endContent={<PlusIcon className="text-background" />}
+            >
               <Link href="/employees/new" className="text-white">
                 Add New
               </Link>
@@ -284,7 +287,7 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
       <div className="p-5 flex justify-between items-center bg-slate-300 rounded-none">
         <div className="hidden sm:flex w-[30%] justify-start gap-2">
           <Button
-            className="bg-white px-7"
+            className="bg-fuchsia-800 text-background px-7"
             isDisabled={page === 1}
             size="sm"
             variant="flat"
@@ -297,14 +300,14 @@ export default function EmployeesTable({ empData }: { empData: empSchema[] }) {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button
-            className="bg-white px-7"
+            className="bg-fuchsia-800 text-background px-7"
             isDisabled={page === pages}
             size="sm"
             variant="flat"

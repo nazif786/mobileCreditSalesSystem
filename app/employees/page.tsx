@@ -6,7 +6,7 @@ const Employees = async () => {
   const empData: any[] = await db.select().from(schema.employees);
   return (
     <>
-      <div className=" mb-5 text-center text-2xl">
+      <div className="bg-gradient-to-r from-fuchsia-700 to-fuchsia-800 px-3 pl-7 py-7 text-bold text-background">
         <h1>Employees</h1>
       </div>
       {/* eslint: ignore error */}

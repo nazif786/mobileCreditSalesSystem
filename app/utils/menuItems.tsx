@@ -39,7 +39,12 @@ export const menuItems: MenuItem[] = [
     path: "/suppliers",
     icon: <BiSolidPurchaseTag size={24} />,
   },
-
+  { label: "Sales", path: "/sales", icon: <AiOutlineCalendar size={24} /> },
+  {
+    label: "Purchases",
+    path: "/purchases",
+    icon: <AiOutlineCalendar size={24} />,
+  },
   {
     label: "Projects",
     path: "/projects",

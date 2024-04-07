@@ -25,7 +25,6 @@ import { useTopContent } from "./_hooks/useTopContent";
 let INITIAL_VISIBLE_COLUMNS: any[] = ["compId", "compName", "compMobile", "compEmail", "actions"];
 // prettier-ignore
 const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
-  // 
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState(1);
@@ -33,9 +32,7 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
   );
-
   const pages = Math.ceil(supplierData.length / rowsPerPage);
-
   //HOOKS
   const headerColumns = useHeaderColumns(visibleColumns);
   const renderCell = useRenderCell();

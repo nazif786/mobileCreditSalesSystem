@@ -200,7 +200,7 @@ const CustomersTable = ({ custData }: { custData: custSchema[] }) => {
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 bg-slate-300 mt-7 p-5 rounded-md">
+      <div className="flex flex-col gap-4 bg-slate-300 p-5 mt-4 rounded-md">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
