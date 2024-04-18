@@ -17,6 +17,8 @@ import { useFilteredItems, useItems } from "../hooks/useFilteredItems";
 import { useSortedItems } from "../hooks/useSortedItems";
 import usePage, { useRowsPerPage } from "../hooks/usePage";
 import { useSearchChange } from "../hooks/useSearchChange";
+import { useTopContent } from "../hooks/useTopContent";
+import { useBottomContent } from "../hooks/useBottomContent";
 
 let INITIAL_VISIBLE_COLUMNS: any[] = [
   "saleId",
@@ -56,13 +58,11 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
   const { onRowsPerPageChange } = useRowsPerPage(setRowsPerPage, setPage);
   const { onNextPage, onPreviousPage } = usePage(page, setPage, pages);
   const { onSearchChange, onClear } = useSearchChange(setFilterValue, setPage);
-  const topContent = useTopContent({
-    filterValue,
-    onClear,
-    onSearchChange,
-    onRowsPerPageChange,
-    salesData,
-  });
+  const data = salesData;
+  // prettier-ignore
+  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, data});
+  // prettier-ignore
+  const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
 
   return (
     <>
@@ -70,11 +70,11 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
         aria-label="Sales table with dynamic content"
         selectionMode="single"
         color="primary"
-        // topContent={topContent}
-        // topContentPlacement="outside"
-        // bottomContent={bottomContent}
-        // bottomContentPlacement="outside"
-        // onSortChange={setSortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        onSortChange={setSortDescriptor}
         radius="none"
         isCompact
       >
@@ -89,7 +89,7 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
           emptyContent={"No employees data to display."}
         >
           {(item) => (
-            <TableRow key={item.tazkiraId}>
+            <TableRow key={item.saleId}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)} </TableCell>
               )}

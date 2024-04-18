@@ -12,14 +12,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { supplierColumns } from "../utils/columns";
-import { useBottomContent } from "./_hooks/useBottomContent";
+import { useBottomContent } from "../hooks/useBottomContent";
 import { useFilteredItems, useItems } from "../hooks/useFilteredItems";
 import useHeaderColumns from "./_hooks/useHeaderColumns";
 import usePage, { useRowsPerPage } from "../hooks/usePage";
 import { useRenderCell } from "./_hooks/useRenderCell";
 import { useSearchChange } from "../hooks/useSearchChange";
 import { useSortedItems } from "../hooks/useSortedItems";
-import { useTopContent } from "./_hooks/useTopContent";
+import { useTopContent } from "../hooks/useTopContent";
 
 // prettier-ignore
 let INITIAL_VISIBLE_COLUMNS: any[] = ["compId", "compName", "compMobile", "compEmail", "actions"];
@@ -44,7 +44,8 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   const {onNextPage, onPreviousPage} = usePage(page, setPage, pages)
   const { onSearchChange, onClear } = useSearchChange(setFilterValue, setPage);
   // prettier-ignore
-  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, supplierData});
+  const data = supplierData
+  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, data});
   // prettier-ignore
   const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
   return (

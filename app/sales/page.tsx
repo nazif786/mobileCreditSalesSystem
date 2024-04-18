@@ -1,5 +1,4 @@
 import { db } from "../db/connection";
-import SalesForm from "./_components/SalesForm";
 import * as schema from "@/drizzle/schema";
 import SalesTable from "./SalesTable";
 

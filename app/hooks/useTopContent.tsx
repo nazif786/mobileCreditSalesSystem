@@ -6,20 +6,23 @@ import { Button, Input, Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-export const useTopContent = ({
+type dataType = Record<string, any>;
+
+export const useTopContent = <T extends dataType>({
   filterValue,
   onClear,
   onSearchChange,
   onRowsPerPageChange,
-  supplierData,
+  data,
 }: {
   filterValue: string;
   onClear: () => void;
   onSearchChange: (value?: string) => void;
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  supplierData: SelectSupplier[];
+  data: T[];
 }) => {
   const [loading, setLoading] = useState(false); // State to track loading state
+  const datalength = data.length;
   return useMemo(() => {
     return (
       <div className="flex flex-col gap-3 bg-slate-300 mt-0 p-5 rounded-md">
@@ -53,7 +56,7 @@ export const useTopContent = ({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {supplierData.length} Suppliers
+            Total {datalength} Rows
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -66,17 +69,11 @@ export const useTopContent = ({
               <option value="10">10</option>
               <option value="50">50</option>
               <option value="100">100</option>
-              <option value={supplierData.length}>All</option>
+              <option value={datalength}>All</option>
             </select>
           </label>
         </div>
       </div>
     );
-  }, [
-    filterValue,
-    onClear,
-    onSearchChange,
-    onRowsPerPageChange,
-    supplierData.length,
-  ]);
+  }, [filterValue, onClear, onSearchChange, onRowsPerPageChange, datalength]);
 };
