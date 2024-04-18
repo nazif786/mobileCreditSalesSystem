@@ -361,3 +361,6 @@ export type InsertEmployee = InferInsertModel<typeof employees>;
 
 export type SelectSupplier = InferSelectModel<typeof company>;
 export type InsertSupplier = InferInsertModel<typeof company>;
+
+export type SelectSales = InferSelectModel<typeof customerSales>;
+export type InsertSales = InferInsertModel<typeof customerSales>;

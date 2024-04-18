@@ -1,23 +1,30 @@
-// import { useMemo } from "react";
 // import { SelectSupplier } from "@/drizzle/schema";
+import { useMemo } from "react";
 
-import { SelectSupplier } from "@/drizzle/schema";
-import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
+type Datatype = Record<string, any>; // Define a generic type for sortable items
 
-export const useFilteredItems = (
-  supplierData: SelectSupplier[],
+export const useFilteredItems = <T extends Datatype>(
+  data: T[],
   filterValue: string,
+  propertyNames: (keyof T)[], // Array of property names of type T to filter on
 ) => {
   return useMemo(() => {
-    if (!filterValue.trim()) return supplierData;
-    return supplierData.filter((supp) =>
-      supp.compName.toLowerCase().includes(filterValue.toLowerCase()),
-    );
-  }, [supplierData, filterValue]);
+    if (!filterValue.trim()) return data;
+    return data.filter((item) => {
+      if (typeof item === "object" && item !== null) {
+        return propertyNames.some((propertyName) =>
+          String(item[propertyName])
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()),
+        );
+      }
+      return false;
+    });
+  }, [data, filterValue, propertyNames]);
 };
 
 export const useItems = (
-  filteredItems: SelectSupplier[],
+  filteredItems: Datatype[],
   page: number,
   rowsPerPage: number,
 ) => {

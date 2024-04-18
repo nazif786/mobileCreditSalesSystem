@@ -13,12 +13,12 @@ import {
 import { useState } from "react";
 import { supplierColumns } from "../utils/columns";
 import { useBottomContent } from "./_hooks/useBottomContent";
-import { useFilteredItems, useItems } from "./_hooks/useFilteredItems";
+import { useFilteredItems, useItems } from "../hooks/useFilteredItems";
 import useHeaderColumns from "./_hooks/useHeaderColumns";
-import usePage, { useRowsPerPage } from "./_hooks/usePage";
+import usePage, { useRowsPerPage } from "../hooks/usePage";
 import { useRenderCell } from "./_hooks/useRenderCell";
-import { useSearchChange } from "./_hooks/useSearchChange";
-import { useSortedItems } from "./_hooks/useSortedItems";
+import { useSearchChange } from "../hooks/useSearchChange";
+import { useSortedItems } from "../hooks/useSortedItems";
 import { useTopContent } from "./_hooks/useTopContent";
 
 // prettier-ignore
@@ -31,13 +31,14 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({});
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS),
-  );
+  ); 
+  const filterColumns: (keyof SelectSupplier)[] = ['compName']; // Specify the columns you want to filter on
   const pages = Math.ceil(supplierData.length / rowsPerPage);
   //HOOKS
   const headerColumns = useHeaderColumns(visibleColumns);
   const renderCell = useRenderCell();
-  const filteredItems = useFilteredItems(supplierData, filterValue);
-  const items = useItems(filteredItems, page, rowsPerPage);
+  const filteredItems = useFilteredItems(supplierData, filterValue, filterColumns);
+  const items:any[] = useItems(filteredItems, page, rowsPerPage);
   const sortedItems = useSortedItems(items, sortDescriptor);
   const {onRowsPerPageChange} = useRowsPerPage(setRowsPerPage, setPage) 
   const {onNextPage, onPreviousPage} = usePage(page, setPage, pages)
