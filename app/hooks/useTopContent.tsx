@@ -1,10 +1,20 @@
 "use client";
 import { PlusIcon } from "@/app/components/ui/svg/PlusIcon";
 import { SearchIcon } from "@/app/components/ui/svg/SearchIcon";
-import { SelectSupplier } from "@/drizzle/schema";
-import { Button, Input, Spinner } from "@nextui-org/react";
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Selection,
+  Spinner,
+} from "@nextui-org/react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { ChevronDownIcon } from "../components/ui/svg/ChevronDownIcon";
+import { capitalize } from "../utils/capitalize";
 
 type dataType = Record<string, any>;
 
@@ -14,12 +24,20 @@ export const useTopContent = <T extends dataType>({
   onSearchChange,
   onRowsPerPageChange,
   data,
+  addNewButtonUrl,
+  visibleColumns,
+  setVisibleColumns,
+  columns,
 }: {
   filterValue: string;
   onClear: () => void;
   onSearchChange: (value?: string) => void;
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   data: T[];
+  addNewButtonUrl: string;
+  visibleColumns: Selection;
+  setVisibleColumns: Dispatch<SetStateAction<Selection>>;
+  columns: any[];
 }) => {
   const [loading, setLoading] = useState(false); // State to track loading state
   const datalength = data.length;
@@ -31,7 +49,7 @@ export const useTopContent = <T extends dataType>({
             name="search"
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder=" Search by supplier name or ID..."
+            placeholder=" Search..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={onClear}
@@ -39,6 +57,33 @@ export const useTopContent = <T extends dataType>({
           />
 
           <div className="flex gap-3">
+            <Dropdown>
+              <DropdownTrigger className="hidden sm:flex">
+                <Button
+                  style={{ zIndex: 1 }}
+                  color="secondary"
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
+                  Columns
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Table Columns"
+                closeOnSelect={false}
+                selectedKeys={visibleColumns}
+                selectionMode="multiple"
+                onSelectionChange={setVisibleColumns}
+              >
+                {columns.map((column) => (
+                  <DropdownItem key={column.key} className="capitalize">
+                    {capitalize(column.label)}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+
             <Button
               color="primary"
               onClick={() => setLoading(true)}
@@ -46,7 +91,7 @@ export const useTopContent = <T extends dataType>({
                 loading ? <Spinner color="warning" size="sm" /> : <PlusIcon />
               }
               startContent={loading && <Spinner color="danger" />}
-              href="/suppliers/new"
+              href={addNewButtonUrl}
               as={Link}
               // isLoading={loading}
             >
@@ -75,5 +120,13 @@ export const useTopContent = <T extends dataType>({
         </div>
       </div>
     );
-  }, [filterValue, onClear, onSearchChange, onRowsPerPageChange, datalength]);
+  }, [
+    filterValue,
+    onClear,
+    onSearchChange,
+    onRowsPerPageChange,
+    datalength,
+    visibleColumns,
+    setVisibleColumns,
+  ]);
 };

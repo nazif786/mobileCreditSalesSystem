@@ -1,9 +1,44 @@
 import { db } from "../db/connection";
-import * as schema from "@/drizzle/schema";
+import {
+  customerSales,
+  customers,
+  transactionType,
+  company,
+  users,
+} from "@/drizzle/schema";
 import SalesTable from "./SalesTable";
+import { sql, eq, or, desc, Query } from "drizzle-orm";
 
 const page = async () => {
-  const salesData = await db.select().from(schema.customerSales);
+  const salesData: any[] = await db
+    .select({
+      saleId: customerSales.saleId,
+      recieptNo: customerSales.recieptNo,
+      // custId: customers.custUId,
+      // name: customers.custFname,
+      custId: sql<string>`CONCAT(customers.cust_fname, " ", customers.cust_lname)`,
+      // fullName: Query.CONCAT,
+      compId: company.compName,
+      userId: users.userName,
+      transTypeId: transactionType.typeName,
+      amount: customerSales.amount,
+      payment: customerSales.payment,
+      balance: customerSales.balance,
+      saleDate: customerSales.saleDate,
+      remarks: customerSales.remarks,
+    })
+    .from(customerSales)
+    .innerJoin(customers, eq(customerSales.custId, customers.custId))
+    .innerJoin(company, eq(customerSales.compId, company.compId))
+    .innerJoin(
+      transactionType,
+      eq(customerSales.transTypeId, transactionType.typeId),
+    )
+    .innerJoin(users, eq(customerSales.userId, users.userId))
+    .orderBy(desc(customerSales.saleId));
+  // db
+  //   .select()
+  //   .from(schema.customerSales);
   // [#3c096c]
   console.log(salesData);
   return (

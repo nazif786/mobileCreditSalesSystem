@@ -45,7 +45,12 @@ const SupplierTable = ({ supplierData}: { supplierData: SelectSupplier[];}) => {
   const { onSearchChange, onClear } = useSearchChange(setFilterValue, setPage);
   // prettier-ignore
   const data = supplierData
-  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, data});
+  const addNewButtonUrl = "/suppliers/new"
+  const columns = supplierColumns;
+  const topContent = useTopContent(
+    {filterValue, onClear, onSearchChange, onRowsPerPageChange, 
+      data, addNewButtonUrl, visibleColumns, setVisibleColumns, columns}
+    );
   // prettier-ignore
   const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
   return (

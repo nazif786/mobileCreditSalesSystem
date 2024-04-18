@@ -15,6 +15,7 @@ export const useRenderCell = () => {
   const renderCell = useCallback((sale: Sale, columnKey: React.Key | Date) => {
     let cellValue = sale[columnKey as keyof Sale];
     // console.log(cellValue);
+    const balance = sale.amount - sale.payment;
     switch (columnKey) {
       case "actions":
         return (
@@ -41,14 +42,20 @@ export const useRenderCell = () => {
             </Tooltip>
           </div>
         );
-      //   case "regDate":
-      //     return (
-      //       <span>
-      //         {new Date(cellValue as string).toISOString().split("T")[0]}
-      //       </span>
-      //     );
-      //   case "compName":
-      //     return <span>{capitalize(cellValue?.toString() || " ")}</span>;
+      case "saleDate":
+        return (
+          <span>
+            {new Date(cellValue as string).toISOString().split("T")[0]}
+          </span>
+        );
+      case "balance":
+        return <span>{balance}</span>;
+      case "custId":
+        return <span>{capitalize(cellValue?.toString() || " ")}</span>;
+      case "compId":
+        return <span>{capitalize(cellValue?.toString() || " ")}</span>;
+      case "userId":
+        return <span>{capitalize(cellValue?.toString() || " ")}</span>;
 
       default:
         return cellValue;

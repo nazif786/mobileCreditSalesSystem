@@ -20,8 +20,9 @@ import { useSearchChange } from "../hooks/useSearchChange";
 import { useTopContent } from "../hooks/useTopContent";
 import { useBottomContent } from "../hooks/useBottomContent";
 
-let INITIAL_VISIBLE_COLUMNS: any[] = [
+export let INITIAL_VISIBLE_COLUMNS: any[] = [
   "saleId",
+  "recieptNo",
   "custId",
   "compId",
   "transTypeId",
@@ -29,9 +30,10 @@ let INITIAL_VISIBLE_COLUMNS: any[] = [
   "amount",
   "payment",
   "balance",
+  "actions",
 ];
-
 const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
+  //  type SelectSales = (typeof salesData)[0]
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState(1);
@@ -48,7 +50,17 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
     );
   }, [visibleColumns]);
 
-  const filterColumns: (keyof SelectSales)[] = ["saleId"]; // Specify the columns you want to filter on
+  const filterColumns: any[] = [
+    "saleId",
+    "recieptNo",
+    "custId",
+    "compId",
+    "transTypeId",
+    "saleDate",
+    "amount",
+    "payment",
+    "balance",
+  ]; // Specify the columns you want to filter on
 
   // Hooks
   const renderCell = useRenderCell();
@@ -60,7 +72,19 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
   const { onSearchChange, onClear } = useSearchChange(setFilterValue, setPage);
   const data = salesData;
   // prettier-ignore
-  const topContent = useTopContent({filterValue, onClear, onSearchChange, onRowsPerPageChange, data});
+  const addNewButtonUrl = "/sales/new"
+  const columns = salesColumns;
+  const topContent = useTopContent({
+    filterValue,
+    onClear,
+    onSearchChange,
+    onRowsPerPageChange,
+    data,
+    addNewButtonUrl,
+    visibleColumns,
+    setVisibleColumns,
+    columns,
+  });
   // prettier-ignore
   const bottomContent = useBottomContent({page, setPage, pages, onNextPage,onPreviousPage});
 
@@ -76,11 +100,13 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
         bottomContentPlacement="outside"
         onSortChange={setSortDescriptor}
         radius="none"
-        isCompact
+        // isCompact
       >
         <TableHeader columns={headerColumns}>
           {(column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
+            <TableColumn key={column.key} allowsSorting={column.sortable}>
+              {column.label}
+            </TableColumn>
           )}
         </TableHeader>
 
