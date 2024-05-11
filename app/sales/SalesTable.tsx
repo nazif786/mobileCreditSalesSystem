@@ -55,6 +55,7 @@ const SalesTable = ({ salesData }: { salesData: SelectSales[] }) => {
     "recieptNo",
     "custId",
     "compId",
+    "userId",
     "transTypeId",
     "saleDate",
     "amount",

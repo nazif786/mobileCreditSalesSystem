@@ -1,13 +1,14 @@
-import { db } from "../db/connection";
 import {
-  customerSales,
-  customers,
-  transactionType,
   company,
+  customers,
+  customerSales,
+  transactionType,
   users,
 } from "@/drizzle/schema";
+import { desc, eq, sql } from "drizzle-orm";
+import { notFound } from "next/navigation";
+import { db } from "../db/connection";
 import SalesTable from "./SalesTable";
-import { sql, eq, or, desc, Query } from "drizzle-orm";
 
 const page = async () => {
   const salesData: any[] = await db
@@ -36,11 +37,10 @@ const page = async () => {
     )
     .innerJoin(users, eq(customerSales.userId, users.userId))
     .orderBy(desc(customerSales.saleId));
-  // db
-  //   .select()
-  //   .from(schema.customerSales);
+
+  if (!salesData) return notFound;
   // [#3c096c]
-  console.log(salesData);
+  // console.log(salesData);
   return (
     <section className="mx-1">
       <div className="bg-gradient-to-r from-emerald-950 to-emerald-800 py-7 px-3 pl-7 font-semibold text-background text-xl rounded-md">
