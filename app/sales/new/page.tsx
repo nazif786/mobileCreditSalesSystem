@@ -5,32 +5,47 @@ import { db } from "../../db/connection";
 import { customers, SelectCustomer } from "@/drizzle/schema";
 import { Button, Input } from "@nextui-org/react";
 import { eq, or } from "drizzle-orm";
-import { notFound } from "next/navigation";
-import { useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 const page = () => {
-  const id = useRef<HTMLInputElement>(null);
-  const custId = id.current?.value;
-  // if (!custId) return notFound();
-  // const custData: SelectCustomer[] = await db
-  //   .select()
-  //   .from(customers)
-  //   .where(
-  //     or(
-  //       eq(customers.custUId, custId),
-  //       eq(customers.custFname, custId),
-  //       eq(customers.custLname, custId),
-  //     ),
-  //   );
-  // console.log(custData);
+  const [customerID, setCustomerID] = useState<string | undefined>(undefined);
+
+  const idRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const getId = (e: FormEvent) => {
+    e.preventDefault();
+    const customerIDValue = idRef.current?.value;
+    setCustomerID(customerIDValue);
+
+    // Clear the input field after submission
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  };
+
+  console.log(customerID);
+
   return (
-    <>
-      <form>
-        <Input ref={id} required />
-        <Button type="submit">Search Customer </Button>
+    <div className="m-auto mt-12 flex max-w-2xl flex-col gap-3 px-3">
+      <div className="font-semibold text-green-800" color="success">
+        Select Customer Sale
+      </div>
+      <form onSubmit={getId} ref={formRef}>
+        <Input
+          ref={idRef}
+          placeholder="enter customer name or id"
+          required
+          color="success"
+          type="text"
+          className="font-semibold"
+        />
+        <Button type="submit" color="success" className="float-right mt-3">
+          Search Customer
+        </Button>
       </form>
-      <div>select Customer Sale</div>
-    </>
+      <div></div>
+    </div>
   );
 };
 export default page;

@@ -15,10 +15,10 @@ const page = async ({ params }: { params: { id: string } }) => {
   if (!employee) notFound();
   return (
     <>
-      <h1 className="prose mb-7 text-zinc-600 text-center">
-        Emplyees Details Page
+      <h1 className="prose mb-7 text-center text-zinc-600">
+        Employees Details Page
       </h1>
-      <div className="bg-white min-h-full rounded-lg shadow-md p-1 md:mx-auto md:p-5 md:w-[85%] lg:w-[65%]">
+      <div className="min-h-full rounded-lg bg-white p-1 shadow-md md:mx-auto md:w-[85%] md:p-5 lg:w-[65%]">
         <EmployeesDetailsPage employee={employee[0]} />
       </div>
     </>
